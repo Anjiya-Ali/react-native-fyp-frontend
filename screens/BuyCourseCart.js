@@ -11,7 +11,7 @@ const BuyCourseCart = () => {
   const context = useContext(CourseContext);
   const { cart, addToCart, removeFromCart } = cartContext;
   const { getSingleCourse, course, user, getUser } = context;
-  const host = 'http://192.168.244.190:3000';
+  const host = 'http://192.168.1.112:3000';
   const [courseDetails, setCourseDetails] = useState(null);
   const [total, setTotal] = useState(0);
   const [instructors, setInstructors] = useState([]);
@@ -83,14 +83,14 @@ const BuyCourseCart = () => {
                 <Text style={[styles.text, styles.textText]}>{total}$</Text>
               </View>
             )}
-            {!courseDetails && (
+            {!cart && (
               <View>
                 <Text style={styles.emptycart}>YOUR CART IS EMPTY!!</Text>
                 <Text style={styles.emptyottom}>Add Courses in the cart from ELearning Page :)</Text>
               </View>
             )}
           </View>
-          {courseDetails && instructors.length !== 0 && courseDetails.map((course, index) => (
+          {cart && courseDetails && instructors.length !== 0 && courseDetails.map((course, index) => (
           <View key={index} style={styles.div2}>
             <View style={styles.div4}>
               <Image
@@ -146,6 +146,10 @@ const BuyCourseCart = () => {
 };
 
 const styles = StyleSheet.create({
+  div2: {
+    width: '100%',
+    flex: 1
+  },
   cancel: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -174,10 +178,10 @@ const styles = StyleSheet.create({
     backgroundColor: Color.colorSlateblue,
   },
   div4: {
+    width: '100%',
     marginTop: '10%',
     paddingTop: '8%',
     flex: 1, 
-    flex: 1
   },
   div3: {
     flex: 1,
@@ -222,7 +226,7 @@ const styles = StyleSheet.create({
   },
   buyChildShadowBox: {
     height: 59,
-    width: 261,
+    width: '100%',
     left: 87,
     borderWidth: 1,
     borderColor: Color.labelColorLightPrimary,

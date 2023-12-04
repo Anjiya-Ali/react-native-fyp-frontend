@@ -26,14 +26,18 @@ function Courses() {
   const screenWidth = Dimensions.get('window').width;
   const [search, setSearch] = useState('');
   const [filteredData, setFilteredData] = useState([]);
-  const host = "http://192.168.244.190:3000"
+  const host = "http://192.168.0.147:3000"
 
   const navigation = useNavigation();
 
   useEffect(() => {
-    getCourses();
-    setFilteredData(allCourses)
-  });
+    const fetchData = async () => {
+      await getCourses();
+      setFilteredData(allCourses);
+    };
+  
+    fetchData();
+  }, [allCourses]);
 
   useEffect(() => {
     let newNumColumns = calculateNumColumns();
@@ -79,7 +83,7 @@ function Courses() {
               source={require('../assets/star-1.png')}
               style={{ width: 22, height: 18, marginTop: 3}}
             />
-            <Text style={styles.ratingText}>{item.rating}</Text>
+            <Text style={styles.ratingText}>{Math.round(item.rating)}</Text>
           </View>
           <View style={styles.feesContainer}>
             <Text style={styles.feesText}>{`$${item.fees}`}</Text>

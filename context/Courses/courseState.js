@@ -2,7 +2,7 @@ import CourseContext from "./courseContext";
 import React, { useState } from "react";
 
 const CourseState = (props) => {
-  const host = "http://192.168.244.190:3000"
+  const host = "http://192.168.0.147:3000"
   const [course, setCourse] = useState(null)
   const [user, setUser] = useState(null)
   const [myCourses, setMyCourses] = useState(null);
@@ -15,7 +15,7 @@ const CourseState = (props) => {
         method: 'GET',
         headers: {
               'Content-Type': 'application/json',
-              "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU2NWY0ZDc5OWI5NjU2OGI5NmVhYTdjIn0sImlhdCI6MTcwMTE4MDYzMX0.z88IOYXsPVSe--noUPvc-L3pj_u5-_6guOsSwbPhntc'
+              "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
             },
         });
         const json = await response.json()
@@ -32,7 +32,7 @@ const CourseState = (props) => {
           method: 'GET',
           headers: {
                 'Content-Type': 'application/json',
-                "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU2NWY0ZDc5OWI5NjU2OGI5NmVhYTdjIn0sImlhdCI6MTcwMTE4MDYzMX0.z88IOYXsPVSe--noUPvc-L3pj_u5-_6guOsSwbPhntc'
+                "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
               },
           });
           const json = await response.json()
@@ -48,7 +48,7 @@ const CourseState = (props) => {
           method: 'GET',
           headers: {
                 'Content-Type': 'application/json',
-                "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU2NWY0ZDc5OWI5NjU2OGI5NmVhYTdjIn0sImlhdCI6MTcwMTE4MDYzMX0.z88IOYXsPVSe--noUPvc-L3pj_u5-_6guOsSwbPhntc'
+                "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
               },
           });
           const json = await response.json()
@@ -65,12 +65,12 @@ const CourseState = (props) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU2NWY0ZDc5OWI5NjU2OGI5NmVhYTdjIn0sImlhdCI6MTcwMTE4MDYzMX0.z88IOYXsPVSe--noUPvc-L3pj_u5-_6guOsSwbPhntc'
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
       },
     });
     const json = await response.json()
     if(json.success)
-        setCourse(json.courseWithLearningPost)
+      setCourse(json.courseWithLearningPost)
   }
 
   // will copy this in insha user
@@ -81,7 +81,7 @@ const CourseState = (props) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU2NWY0ZDc5OWI5NjU2OGI5NmVhYTdjIn0sImlhdCI6MTcwMTE4MDYzMX0.z88IOYXsPVSe--noUPvc-L3pj_u5-_6guOsSwbPhntc'
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
       },
     });
     const json = await response.json()

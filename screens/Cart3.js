@@ -12,7 +12,7 @@ const BuyCourseCart = () => {
   const context = useContext(CourseContext);
   const { cart, addToCart, removeFromCart } = cartContext;
   const { getSingleCourse, course, user, getUser } = context;
-  const host = 'http://192.168.244.190:3000';
+  const host = 'http://192.168.0.147:3000';
   const [courseDetails, setCourseDetails] = useState(null);
   const [total, setTotal] = useState(0);
   const [instructors, setInstructors] = useState([]);

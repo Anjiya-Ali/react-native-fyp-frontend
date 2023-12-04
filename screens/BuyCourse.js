@@ -12,8 +12,9 @@ const BuyCourse = (props) => {
   const context = useContext(CourseContext);
   const cartContext = useContext(CartContext);
   const { getSingleCourse, course, user, getUser } = context;
+  const [singlecourse, setSingleCourse] = useState(null);
   const { addToCart } = cartContext;
-  const host = 'http://192.168.244.190:3000';
+  const host = 'http://192.168.0.147:3000';
   const [formattedDate, setDate] = useState('')
   const [instructor, setInstructor] = useState('')
   const { course_id } = props.route.params;
@@ -24,6 +25,7 @@ const BuyCourse = (props) => {
 
   useEffect(() => {
     if(course){
+      setSingleCourse(course)
       const originalTimestamp = course.post_date;
       const dateObject = new Date(originalTimestamp);
   
@@ -34,11 +36,14 @@ const BuyCourse = (props) => {
       datee = `${day}/${month}/${year}`;
       setDate(datee);
       getUser(course.author_user_id)
-      if(user){
-        setInstructor(user.first_name + ' ' + user.last_name);
-      }
     }
   }, [course]);
+
+  useEffect(() => {
+    if(user){
+      setInstructor(user.first_name + ' ' + user.last_name);
+    }
+  }, [user]);
 
   const handleAddToCart = () => {
     addToCart(course._id);
@@ -51,19 +56,19 @@ const BuyCourse = (props) => {
         heading="ENROLL NOW!"
         navigate="CoursesE1"
       />
-      {course && instructor && (
+      {singlecourse && instructor && (
         <>
           <View style={styles.imageContainer}>
             <Image
               style={styles.image}
-              source={{ uri: `${host}/${course.featured_image}` }}
+              source={{ uri: `${host}/${singlecourse.featured_image}` }}
               resizeMode="cover"
             />
           </View>
           <View style={styles.upperContainer}>
             <View style={[styles.courseContentChild, styles.headerChildPosition]} />
             <Text style={[styles.excelInAgile, styles.headerLayout]}>
-              {course.title}
+              {singlecourse.title}
             </Text>
           </View>
           <View style={[styles.courseDetailsChild, styles.courseLayout1]}>
@@ -71,17 +76,17 @@ const BuyCourse = (props) => {
               COURSE DETAILS
             </Text>
             <Text style={styles.duration12hInstructor}>
-              Duration: {course.duration}   |   Instructor: {instructor}   |   Released: {formattedDate}
+              Duration: {singlecourse.duration}   |   Instructor: {instructor}   |   Released: {formattedDate}
             </Text>
           </View>
           <View style={[styles.textContainer, styles.excel]}>
             <Text style={[styles.learnToExcel, styles.enrollNowTypo]}>
-              {course.content}
+              {singlecourse.content}
             </Text>
           </View>
-          <StarRating rating={course.rating} starSize={25}/>
+          <StarRating rating={singlecourse.rating} starSize={25}/>
           <View style={styles.cart}>
-            <Text style={[styles.text, styles.textTypo]}>${course.fees}</Text>
+            <Text style={[styles.text, styles.textTypo]}>${singlecourse.fees}</Text>
             <Pressable
               style={[styles.addLayout]}
               onPress={handleAddToCart}
@@ -127,7 +132,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   headerChildPosition: {
-    width: 360,
+    width: '100%',
     left: 0,
     top: 0,
   },
@@ -203,13 +208,12 @@ const styles = StyleSheet.create({
   },
   excelInAgile: {
     top: 6,
-    left: 24,
     fontSize: FontSize.size_5xl,
     fontWeight: "800",
     fontFamily: FontFamily.interExtraBold,
     color: Color.colorSlateblue,
     width: '100%',
-    textAlign: "left",
+    textAlign: "center",
   },
   learnToExcel: {
     textAlign: "center",
