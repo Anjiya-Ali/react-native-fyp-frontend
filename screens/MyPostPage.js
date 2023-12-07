@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SectionPosts from "../components/SectionPosts";
 import DateCard from "../components/DateCard";
@@ -21,7 +21,7 @@ const MyPostPage = () => {
           source={require("../assets/hamburger.png")}
         />
       </View>
-      <Pressable
+      <TouchableOpacity
         style={[styles.icons8Arrow241, styles.icons8Arrow241Position]}
         onPress={() => navigation.navigate("HomePage2")}
       >
@@ -30,7 +30,7 @@ const MyPostPage = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={[styles.inshasamnani2Icon, styles.icons8Arrow241Position]}
         resizeMode="cover"
@@ -60,7 +60,7 @@ const MyPostPage = () => {
         resizeMode="cover"
         source={require("../assets/rectangle-47811.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={[styles.rectangleGroup, styles.groupLayout]}
         onPress={() => navigation.navigate("Proposals")}
       >
@@ -68,7 +68,7 @@ const MyPostPage = () => {
         <Text style={[styles.viewProposals, styles.textTypo]}>
           View Proposals
         </Text>
-      </Pressable>
+      </TouchableOpacity>
       <Text style={[styles.sept2022, styles.octTypo]}>8 Sept 2022</Text>
       <Text style={[styles.inshaSamnani1, styles.inshaTypo]}>
         Insha Samnani

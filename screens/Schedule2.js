@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -73,8 +73,8 @@ const Schedule2 = () => {
       />
       <Text style={[styles.organizer, styles.timeTypo]}>Organizer</Text>
       <Text style={[styles.time, styles.timeTypo]}>Time</Text>
-      <Pressable
-        style={[styles.rectanglePressable, styles.schedule2ChildBg]}
+      <TouchableOpacity
+        style={[styles.rectangleTouchableOpacity, styles.schedule2ChildBg]}
         onPress={() => navigation.navigate("Schedule3")}
       />
       <Text style={[styles.add, styles.addTypo]}>Add</Text>
@@ -83,7 +83,7 @@ const Schedule2 = () => {
       </Text>
       <Text style={[styles.inshaSamnani, styles.amTypo]}>Insha Samnani</Text>
       <Text style={[styles.am, styles.amTypo]}>10:00 am</Text>
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.navigate("HomePage2")}
       >
@@ -92,7 +92,7 @@ const Schedule2 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-11.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -399,7 +399,7 @@ const styles = StyleSheet.create({
   time: {
     top: 511,
   },
-  rectanglePressable: {
+  rectangleTouchableOpacity: {
     top: 582,
     left: 101,
     width: 148,

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import Header from "../components/Header";
 import StarRating from "../components/StarRating";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color, Border, FontSize } from "../GlobalStyles";
 import CourseContext from "../context/Courses/courseContext";
 import CartContext from "../context/Cart/cartContext";
@@ -11,24 +11,30 @@ const BuyCourse = (props) => {
   const navigation = useNavigation();
   const context = useContext(CourseContext);
   const cartContext = useContext(CartContext);
-  const { getSingleCourse, course, user, getUser } = context;
+  const { getSingleCourse, course, user, getUser, getOrderCourseStatus, orderCourseStatus } = context;
   const [singlecourse, setSingleCourse] = useState(null);
   const { addToCart } = cartContext;
   const host = 'http://192.168.0.147:3000';
   const [formattedDate, setDate] = useState('')
   const [instructor, setInstructor] = useState('')
+  const [cartText, setCartText] = useState('')
   const { course_id } = props.route.params;
 
   useEffect(() => {
     getSingleCourse(course_id);
-  },[course_id] );
+    getOrderCourseStatus(course_id);
+  }, [course_id]);
 
   useEffect(() => {
-    if(course){
+    if (course) {
       setSingleCourse(course)
+      setCartText(orderCourseStatus)
+      if(orderCourseStatus == 'paid'){
+        setCartText('enrolled')
+      }
       const originalTimestamp = course.post_date;
       const dateObject = new Date(originalTimestamp);
-  
+
       const day = dateObject.getDate().toString().padStart(2, '0');
       const month = (dateObject.getMonth() + 1).toString().padStart(2, '0');
       const year = dateObject.getFullYear();
@@ -37,10 +43,10 @@ const BuyCourse = (props) => {
       setDate(datee);
       getUser(course.author_user_id)
     }
-  }, [course]);
+  }, [course, orderCourseStatus]);
 
   useEffect(() => {
-    if(user){
+    if (user) {
       setInstructor(user.first_name + ' ' + user.last_name);
     }
   }, [user]);
@@ -49,7 +55,7 @@ const BuyCourse = (props) => {
     addToCart(course._id);
     navigation.navigate("BuyCourseCart");
   };
-
+  
   return (
     <View style={styles.container}>
       <Header
@@ -84,17 +90,19 @@ const BuyCourse = (props) => {
               {singlecourse.content}
             </Text>
           </View>
-          <StarRating rating={singlecourse.rating} starSize={25}/>
+          <StarRating rating={singlecourse.rating} starSize={25} />
           <View style={styles.cart}>
             <Text style={[styles.text, styles.textTypo]}>${singlecourse.fees}</Text>
-            <Pressable
-              style={[styles.addLayout]}
-              onPress={handleAddToCart}
+            <TouchableOpacity
+              style={[
+                styles.addLayout,
+                { backgroundColor: cartText === 'pending' ? 'grey' : cartText === 'enrolled' ? 'darkgreen' : Color.colorSlateblue },
+              ]}
+              onPress={cartText === 'ADD TO CART' ? handleAddToCart : null}
+              disabled={cartText !== 'ADD TO CART'}
             >
-              <Text style={[styles.addToCartChild]}>
-                ADD TO CART
-              </Text>
-            </Pressable>
+              <Text style={styles.addToCartChild}>{cartText}</Text>
+            </TouchableOpacity>
           </View>
         </>
       )}
@@ -178,7 +186,8 @@ const styles = StyleSheet.create({
   addToCartChild: {
     top: 11,
     color: 'white',
-    textAlign: 'center'
+    textAlign: 'center',
+    textTransform: 'uppercase'
   },
   addToCart1: {
     textAlign: 'left',

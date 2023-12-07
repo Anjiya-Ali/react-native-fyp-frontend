@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -153,7 +153,7 @@ Are you available?`}</Text>
       <Text style={[styles.viewProfile, styles.pm3Clr]}>View Profile</Text>
       <Text style={[styles.proposals, styles.pm3Clr]}>Proposals</Text>
       <Text style={[styles.more, styles.pm3Clr]}>More</Text>
-      <Pressable
+      <TouchableOpacity
         style={styles.hamburger}
         onPress={() => navigation.navigate("Proposal13")}
       >
@@ -162,7 +162,7 @@ Are you available?`}</Text>
           resizeMode="cover"
           source={require("../assets/hamburger.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

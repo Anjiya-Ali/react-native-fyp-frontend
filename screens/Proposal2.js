@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable, Image } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, FontFamily, Color, FontSize } from "../GlobalStyles";
 
@@ -30,12 +30,12 @@ const Proposal2 = () => {
       <View style={[styles.proposal2Child3, styles.proposal2ChildLayout1]} />
       <Text style={[styles.closed, styles.requestedTypo]}>Closed</Text>
       <View style={[styles.proposal2Child4, styles.proposal2ChildLayout]} />
-      <Pressable
+      <TouchableOpacity
         style={[styles.viewProposal, styles.viewPosition]}
         onPress={() => navigation.navigate("Proposal3")}
       >
         <Text style={styles.viewTypo}>View Proposal</Text>
-      </Pressable>
+      </TouchableOpacity>
       <View style={[styles.proposal2Child5, styles.proposal2ChildLayout]} />
       <Text style={[styles.viewProposal2, styles.viewPosition]}>
         View Proposal
@@ -59,7 +59,7 @@ const Proposal2 = () => {
         resizeMode="cover"
         source={require("../assets/line-12.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.goBack()}
       >
@@ -68,7 +68,7 @@ const Proposal2 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-12.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

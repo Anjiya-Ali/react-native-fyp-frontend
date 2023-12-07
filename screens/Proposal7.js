@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable, Image } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, FontFamily, Color, FontSize } from "../GlobalStyles";
 
@@ -31,8 +31,8 @@ const Proposal7 = () => {
       <Text style={[styles.closed, styles.closedTypo]}>Closed</Text>
       <View style={[styles.proposal7Child4, styles.proposal7ChildLayout]} />
       <Text style={[styles.viewProposal, styles.viewTypo]}>View Proposal</Text>
-      <Pressable
-        style={[styles.rectanglePressable, styles.proposal7ChildLayout]}
+      <TouchableOpacity
+        style={[styles.rectangleTouchableOpacity, styles.proposal7ChildLayout]}
         onPress={() => navigation.navigate("TeacherProfile4")}
       />
       <Text style={[styles.endContract, styles.activeTypo]}>End Contract</Text>
@@ -60,7 +60,7 @@ const Proposal7 = () => {
         resizeMode="cover"
         source={require("../assets/line-12.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.navigate("HomePage1")}
       >
@@ -69,7 +69,7 @@ const Proposal7 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-12.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
   viewProposal: {
     top: 185,
   },
-  rectanglePressable: {
+  rectangleTouchableOpacity: {
     left: 249,
     top: 179,
   },

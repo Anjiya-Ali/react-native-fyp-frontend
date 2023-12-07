@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable } from "react-native";
+import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
@@ -47,17 +47,17 @@ const PrivacyPolicy = () => {
           user-generated content. Specify the rights users grant
         </Text>
       </Text>
-      <Pressable
+      <TouchableOpacity
         style={[styles.privacyPolicyInner, styles.privacyBg]}
         onPress={() => navigation.navigate("AreYouAStudentOrTeacher")}
       />
       <Text style={[styles.accept, styles.acceptPosition]}>Accept</Text>
-      <Pressable
+      <TouchableOpacity
         style={[styles.decline, styles.acceptPosition]}
         onPress={() => navigation.navigate("SecondFrontPage")}
       >
         <Text style={[styles.decline1, styles.decline1Clr]}>Decline</Text>
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={styles.lineIcon}
         resizeMode="cover"

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Pressable, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -9,7 +9,7 @@ const Chat3 = () => {
   return (
     <View style={styles.chat3}>
       <View style={[styles.chat3Child, styles.chat3Bg]} />
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.navigate("Chat1")}
       >
@@ -18,7 +18,7 @@ const Chat3 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-11.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <View style={[styles.chat3Item, styles.chat3Border]} />
       <View style={[styles.chat3Inner, styles.chat3ChildLayout]} />
       <View style={[styles.rectangleView, styles.chat3ChildBorder]} />
@@ -37,7 +37,7 @@ const Chat3 = () => {
       <View style={[styles.chat3Child7, styles.chat3ChildShadowBox]} />
       <Text style={styles.drMuhummadRafi}>Dr. Muhummad Rafi</Text>
       <Text style={[styles.online, styles.onlineTypo]}>Online</Text>
-      <Pressable
+      <TouchableOpacity
         style={[styles.picture1111, styles.pictureLayout]}
         onPress={() => navigation.navigate("AudioCall")}
       >
@@ -46,8 +46,8 @@ const Chat3 = () => {
           resizeMode="cover"
           source={require("../assets/picture111-1.png")}
         />
-      </Pressable>
-      <Pressable
+      </TouchableOpacity>
+      <TouchableOpacity
         style={[styles.picture1112, styles.pictureLayout]}
         onPress={() => navigation.navigate("VideoCall")}
       >
@@ -56,7 +56,7 @@ const Chat3 = () => {
           resizeMode="cover"
           source={require("../assets/picture111-2.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={[styles.ellipseIcon, styles.chat3ItemPosition]}
         resizeMode="cover"

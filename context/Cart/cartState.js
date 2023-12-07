@@ -14,8 +14,12 @@ const CartState = (props) => {
     setCart(cart.filter((id) => id !== courseId));
   };
 
+  const emptyCart = () => {
+    setCart([]);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, emptyCart }}>
       {props.children}
     </CartContext.Provider>
   );

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable } from "react-native";
+import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontSize, Color, FontFamily, Border } from "../GlobalStyles";
 
@@ -19,12 +19,12 @@ const AreYouAStudentOrTeacher = () => {
         resizeMode="cover"
         source={require("../assets/rectangle-11.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={styles.loginToYourContainer}
         onPress={() => navigation.navigate("Login")}
       >
         <Text style={styles.loginToYourAccount}>Login to your Account</Text>
-      </Pressable>
+      </TouchableOpacity>
       <Text style={styles.whichProfessionDefines}>
         Which Profession Defines You?
       </Text>
@@ -35,7 +35,7 @@ const AreYouAStudentOrTeacher = () => {
         resizeMode="cover"
         source={require("../assets/line-1.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={styles.imageIzlyy1zfiTransformed1}
         onPress={() => navigation.navigate("SignUp")}
       >
@@ -44,7 +44,7 @@ const AreYouAStudentOrTeacher = () => {
           resizeMode="cover"
           source={require("../assets/imageizlyy1zfitransformed-12.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.teacher0041} />
       <Image
         style={styles.pngtreeLecturerSuitGirlIllIcon}

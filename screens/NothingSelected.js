@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import MonthContainer3 from "../components/MonthContainer3";
 import ContainerFrame from "../components/ContainerFrame";
@@ -254,12 +254,12 @@ const NothingSelected = () => {
         propColor="#8e8e93"
         onFramePress={() => navigation.navigate("UpcomingSesions")}
       />
-      <Pressable
+      <TouchableOpacity
         style={[styles.button, styles.iconPosition]}
         onPress={() => navigation.navigate("UpcomingSesions")}
       >
         <Text style={[styles.day122, styles.dayTypo]}>Save</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable } from "react-native";
+import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -59,12 +59,12 @@ const PrivacyPolicy2 = () => {
         resizeMode="cover"
         source={require("../assets/wer-10.png")}
       />
-      <Pressable
-        style={styles.pressable}
+      <TouchableOpacity
+        style={styles.TouchableOpacity}
         onPress={() => navigation.navigate("HomePage2")}
       >
         <Text style={styles.text}>􀅾</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontSize: FontSize.bodyBold_size,
   },
-  pressable: {
+  TouchableOpacity: {
     left: 16,
     top: 10,
     position: "absolute",

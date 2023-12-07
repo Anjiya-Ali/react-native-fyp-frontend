@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable } from "react-native";
+import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -13,7 +13,7 @@ const StudentProfile1 = () => {
         resizeMode="cover"
         source={require("../assets/ellipse-17.png")}
       />
-      <View style={[styles.studentProfile1Item, styles.rectanglePressableBg]} />
+      <View style={[styles.studentProfile1Item, styles.rectangleTouchableOpacityBg]} />
       <Image
         style={styles.studentProfile1Inner}
         resizeMode="cover"
@@ -22,8 +22,8 @@ const StudentProfile1 = () => {
       <Text style={[styles.languages, styles.bioTypo]}>Languages</Text>
       <Text style={[styles.education, styles.educationTypo]}>Education</Text>
       <Text style={[styles.interests, styles.educationTypo]}>Interests</Text>
-      <Pressable
-        style={[styles.rectanglePressable, styles.rectanglePressableBg]}
+      <TouchableOpacity
+        style={[styles.rectangleTouchableOpacity, styles.rectangleTouchableOpacityBg]}
         onPress={() => navigation.navigate("HomePage1")}
       />
       <Text style={[styles.saveProfile, styles.saveProfileTypo]}>
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     left: 120,
     position: "absolute",
   },
-  rectanglePressableBg: {
+  rectangleTouchableOpacityBg: {
     backgroundColor: Color.colorSlateblue,
     borderRadius: Border.br_21xl,
     position: "absolute",
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   interests: {
     top: 417,
   },
-  rectanglePressable: {
+  rectangleTouchableOpacity: {
     top: 572,
     left: 64,
     width: 230,

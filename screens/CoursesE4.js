@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -208,8 +208,8 @@ const CoursesE4 = () => {
       <Text style={[styles.removeFilter, styles.topic1Typo]}>
         Remove filter
       </Text>
-      <Pressable
-        style={[styles.rectanglePressable, styles.communitiesPosition]}
+      <TouchableOpacity
+        style={[styles.rectangleTouchableOpacity, styles.communitiesPosition]}
         onPress={() => navigation.navigate("CoursesE5")}
       />
       <Text style={[styles.apply, styles.applyTypo]}>Apply</Text>
@@ -245,7 +245,7 @@ const CoursesE4 = () => {
         source={require("../assets/picture33-8.png")}
       />
       <Text style={[styles.ir1, styles.ir1Typo]}>IR</Text>
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow242}
         onPress={() => navigation.navigate("ELearningPage")}
       >
@@ -254,7 +254,7 @@ const CoursesE4 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-11.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -953,7 +953,7 @@ const styles = StyleSheet.create({
     left: 19,
     color: Color.colorSlateblue,
   },
-  rectanglePressable: {
+  rectangleTouchableOpacity: {
     top: 538,
     width: 123,
     height: 41,

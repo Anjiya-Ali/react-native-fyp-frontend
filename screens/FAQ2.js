@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Pressable, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -10,7 +10,7 @@ const FAQ2 = () => {
     <View style={styles.faq2}>
       <View style={[styles.faq2Child, styles.faq2ChildShadowBox]} />
       <View style={styles.faq2Item} />
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.navigate("HomePage2")}
       >
@@ -19,7 +19,7 @@ const FAQ2 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-11.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={styles.faq2Inner}
         resizeMode="cover"

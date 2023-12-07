@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Pressable, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SchoolSection from "../components/SchoolSection";
 import StartDateSection from "../components/StartDateSection";
@@ -13,7 +13,7 @@ const EditEducation2 = () => {
       <View style={[styles.editEducation2Inner, styles.groupChildLayout]}>
         <View style={[styles.groupChild, styles.groupPosition]} />
       </View>
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Cross501}
         onPress={() => navigation.goBack()}
       >
@@ -22,7 +22,7 @@ const EditEducation2 = () => {
           resizeMode="cover"
           source={require("../assets/icons8cross50-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Text style={[styles.editEducation, styles.saveTypo]}>
         Edit Education
       </Text>

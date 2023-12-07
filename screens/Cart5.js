@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 
@@ -136,9 +136,9 @@ You have sucessfully purchased`}</Text>
         resizeMode="cover"
         source={require("../assets/picture-5-1.png")}
       />
-      <Pressable style={styles.pressable} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.TouchableOpacity} onPress={() => navigation.goBack()}>
         <Text style={styles.text6}>􀅾</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.bodyBold_size,
     textAlign: "left",
   },
-  pressable: {
+  TouchableOpacity: {
     left: 5,
     top: 0,
     position: "absolute",

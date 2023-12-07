@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Image, FlatList, Pressable, Dimensions, TextInput } from "react-native";
+import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, Dimensions, TextInput } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
@@ -20,10 +20,9 @@ const IndicatorBall = () => (
 const { height, width } = Dimensions.get('window');
 
 function Courses() {
-  const { getCourses, allCourses } = useContext(CourseContext);
+  const { getCourses, allCourses, setCourse } = useContext(CourseContext);
   const [numColumns, setNumColumns] = useState(2);
   const [flatListKey, setFlatListKey] = useState('initialKey');
-  const screenWidth = Dimensions.get('window').width;
   const [search, setSearch] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const host = "http://192.168.0.147:3000"
@@ -36,6 +35,7 @@ function Courses() {
       setFilteredData(allCourses);
     };
   
+    setCourse(null);
     fetchData();
   }, [allCourses]);
 
@@ -65,7 +65,7 @@ function Courses() {
   };
 
   const renderItem = ({ item }) => (
-    <Pressable
+    <TouchableOpacity
       onPress={() => navigation.navigate("BuyCourse", { course_id: item._id })}
     >
       <View style={[styles.itemContainer, { width: calculateItemWidth() }]}>
@@ -90,7 +90,7 @@ function Courses() {
           </View>
         </View>
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 
   return (
@@ -103,7 +103,7 @@ function Courses() {
           source={require("../assets/hamburger1.png")}
         />
         <Text style={styles.myCourses1}>COURSES</Text>
-        <Pressable
+        <TouchableOpacity
           style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
           onPress={() => navigation.navigate("ELearningPage")}
         >
@@ -111,7 +111,7 @@ function Courses() {
             resizeMode="cover"
             source={require("../assets/icons8arrow24-1.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.searchBarContainer}>
@@ -134,6 +134,7 @@ function Courses() {
         keyExtractor={(item) => item._id}
         horizontal={false}
         numColumns={numColumns}
+        style={styles.flatList}
       />
     </View>
   );
@@ -177,6 +178,10 @@ const CoursesE1 = () => {
 };
 
 const styles = StyleSheet.create({
+  flatList: {
+    marginRight: '2%',
+    flex: 1,
+  },
   ratingText: {
     color: '#8e8e93',
     fontWeight: 'bold'
@@ -230,15 +235,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   itemContainer: {
-    flex: 0.5,
+    flex: 1,
     margin: 8,
     borderRadius: 8,
-    overflow: 'hidden',
   },
   imageContainer: {
-    aspectRatio: 2, // Maintain aspect ratio for the image
-    overflow: 'hidden',
-    borderRadius: 8,
+    aspectRatio: 2,
   },
   image: {
     flex: 1,

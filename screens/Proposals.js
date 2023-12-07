@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SectionCard2 from "../components/SectionCard2";
 import SectionCard1 from "../components/SectionCard1";
@@ -14,7 +14,7 @@ const Proposals = () => {
         <View style={[styles.groupChild, styles.groupPosition]} />
         <Text style={[styles.proposals1, styles.hrFlexBox]}>PROPOSALS</Text>
       </View>
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.goBack()}
       >
@@ -23,7 +23,7 @@ const Proposals = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <SectionCard2 />
       <View style={[styles.rectangleGroup, styles.groupPosition1]}>
         <View style={[styles.groupItem, styles.groupPosition1]} />

@@ -7,6 +7,8 @@ const CourseState = (props) => {
   const [user, setUser] = useState(null)
   const [myCourses, setMyCourses] = useState(null);
   const [allCourses, setAllCourses] = useState(null);
+  const [lessonsOfCourse, setLessonsOfCourse] = useState(null);
+  const [orderCourseStatus, setOrderCourseStatus] = useState(null);
   const [percentage, setPercentage] = useState(0);
 
   const getMyCourses = async () => {
@@ -73,6 +75,106 @@ const CourseState = (props) => {
       setCourse(json.courseWithLearningPost)
   }
 
+  const payCourse = async (total, courseids) => {
+    const response = await fetch(`${host}/api/CourseEnrollment/PayCourse`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+      },
+      body: JSON.stringify({
+        'amount': total,
+        'courseIds': courseids
+      })
+    });
+    await response.json();
+  }
+
+  const markTopicCompleted = async (id) => {
+    const response = await fetch(`${host}/api/CourseProgression/MarkTopicCompleted/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+      },
+    });
+    await response.json();
+  }
+
+  const addTopicInProgress = async (id) => {
+    const response = await fetch(`${host}/api/CourseProgression/AddTopicInProgress/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+      },
+    });
+    await response.json();
+  }
+
+  const addQuizInProgress = async (id) => {
+    const response = await fetch(`${host}/api/CourseProgression/AddQuizInProgress/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+      },
+    });
+    await response.json();
+  }
+
+  const getOrderCourseStatus = async (id) => {
+    
+    const response = await fetch(`${host}/api/CourseEnrollment/GetOrderCourseStatus/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+      },
+    });
+    const json = await response.json()
+    if(json.success)
+      setOrderCourseStatus(json.payment_status)
+  }
+
+  const getLessonsOfCourse = async (id) => {
+    
+    const response = await fetch(`${host}/api/CourseProgression/GetLessonsOfCourse/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+      },
+    });
+    const json = await response.json()
+    if(json.success)
+      setLessonsOfCourse(json.lessons)
+  }
+
+  const getLessonItems = async (id) => {
+    
+    const response = await fetch(`${host}/api/CourseProgression/GetLessonItems/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+      },
+    });
+    return await response.json();
+  }
+
+  const getQuizQuestions = async (id) => {
+    
+    const response = await fetch(`${host}/api/CourseProgression/GetQuestions/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+      },
+    });
+    return await response.json();
+  }
+
   // will copy this in insha user
 
   const getUser = async (id) => {
@@ -90,7 +192,7 @@ const CourseState = (props) => {
   }
 
   return (
-    <CourseContext.Provider value={{ myCourses, getMyCourses, getCourseCompletion, percentage, allCourses, getCourses, course, getSingleCourse, getUser, user }}>
+    <CourseContext.Provider value={{ myCourses, payCourse, getMyCourses, getCourseCompletion, percentage, allCourses, getCourses, course, getSingleCourse, getUser, user, addTopicInProgress, addQuizInProgress, getOrderCourseStatus, orderCourseStatus, setCourse, getLessonsOfCourse, lessonsOfCourse, getLessonItems, markTopicCompleted, getQuizQuestions }}>
       {props.children}
     </CourseContext.Provider>
   )

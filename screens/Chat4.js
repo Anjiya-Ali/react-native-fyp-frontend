@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
@@ -17,7 +17,7 @@ const Chat4 = () => {
       <Text style={[styles.spartansFastProgrammers, styles.messageTypo]}>
         Spartans FAST Programmers
       </Text>
-      <Pressable
+      <TouchableOpacity
         style={[styles.picture1111, styles.pictureLayout]}
         onPress={() => navigation.navigate("GroupAudioCall")}
       >
@@ -26,8 +26,8 @@ const Chat4 = () => {
           resizeMode="cover"
           source={require("../assets/picture111-1.png")}
         />
-      </Pressable>
-      <Pressable
+      </TouchableOpacity>
+      <TouchableOpacity
         style={[styles.picture1112, styles.pictureLayout]}
         onPress={() => navigation.navigate("GroupVideoCall")}
       >
@@ -36,7 +36,7 @@ const Chat4 = () => {
           resizeMode="cover"
           source={require("../assets/picture111-2.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={styles.ellipseIcon}
         resizeMode="cover"
@@ -134,7 +134,7 @@ Whatsupppppp`}</Text>
       <Text style={[styles.drMuhummadRafi1, styles.muhummadTypo]}>
         Dr. Muhummad Rafi
       </Text>
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.navigate("Chat1")}
       >
@@ -143,7 +143,7 @@ Whatsupppppp`}</Text>
           resizeMode="cover"
           source={require("../assets/icons8arrow24-11.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={[styles.image1Icon, styles.iconLayout]}
         resizeMode="cover"

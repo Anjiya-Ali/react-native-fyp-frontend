@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable, Image } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 
@@ -8,27 +8,27 @@ const UpcomingSesions = () => {
 
   return (
     <View style={styles.upcomingSesions}>
-      <Pressable
+      <TouchableOpacity
         style={[styles.rectangleParent, styles.groupChildLayout]}
         onPress={() => navigation.navigate("NothingSelected")}
       >
         <View style={[styles.groupChild, styles.groupChildPosition]} />
         <Text style={[styles.byDate, styles.byDateTypo]}>By Date</Text>
-      </Pressable>
-      <Pressable
+      </TouchableOpacity>
+      <TouchableOpacity
         style={[styles.rectangleGroup, styles.rectanglePosition]}
         onPress={() => navigation.navigate("TimeFilter")}
       >
         <View style={[styles.groupChild, styles.groupChildPosition]} />
         <Text style={[styles.byTime, styles.byDateTypo]}>By Time</Text>
-      </Pressable>
-      <Pressable
+      </TouchableOpacity>
+      <TouchableOpacity
         style={[styles.rectangleContainer, styles.rectanglePosition]}
         onPress={() => navigation.navigate("TopicFilter")}
       >
         <View style={[styles.groupChild, styles.groupChildPosition]} />
         <Text style={[styles.byTopic, styles.byDateTypo]}>By Topic</Text>
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.headerPosition}>
         <View style={[styles.headerChild, styles.headerPosition]} />
         <Image
@@ -36,7 +36,7 @@ const UpcomingSesions = () => {
           resizeMode="cover"
           source={require("../assets/hamburger1.png")}
         />
-        <Pressable
+        <TouchableOpacity
           style={styles.icons8Arrow242}
           onPress={() => navigation.navigate("HomePage1")}
         >
@@ -45,7 +45,7 @@ const UpcomingSesions = () => {
             resizeMode="cover"
             source={require("../assets/icons8arrow24-12.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.upcomingSessions}>UPCOMING SESSIONS</Text>
       </View>
       <View style={[styles.robotics, styles.machineLayout]}>

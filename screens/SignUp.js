@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable } from "react-native";
+import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -51,13 +51,13 @@ const SignUp = () => {
         </Text>
         <View style={[styles.rectangleView, styles.groupChild3Layout]} />
         <Text style={[styles.email, styles.emailTypo]}>Email</Text>
-        <Pressable
+        <TouchableOpacity
           style={[styles.rectangleGroup, styles.groupLayout]}
           onPress={() => navigation.navigate("StudentProfile1")}
         >
           <View style={[styles.groupChild1, styles.groupLayout]} />
           <Text style={[styles.signup1, styles.signup1Typo]}>SignUp</Text>
-        </Pressable>
+        </TouchableOpacity>
         <View style={[styles.groupChild2, styles.groupChildShadowBox]} />
         <Text style={[styles.firstName, styles.passwordTypo]}>First Name</Text>
         <Image

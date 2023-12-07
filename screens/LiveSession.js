@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 
@@ -94,7 +94,7 @@ const LiveSession = () => {
           resizeMode="cover"
           source={require("../assets/icons8menuvertical50-1.png")}
         />
-        <Pressable
+        <TouchableOpacity
           style={[styles.icons8EndCall241, styles.speakingIconLayout]}
           onPress={() => navigation.navigate("HomePage1")}
         >
@@ -103,7 +103,7 @@ const LiveSession = () => {
             resizeMode="cover"
             source={require("../assets/icons8endcall24-1.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
         <Image
           style={[styles.icons8ConferenceForegroundS, styles.icons8Layout]}
           resizeMode="cover"

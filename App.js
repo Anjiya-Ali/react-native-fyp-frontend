@@ -93,404 +93,404 @@ const App = () => {
   return (
     <>
       <CourseState>
-      <CartState>
-      <NavigationContainer>
-        {hideSplashScreen ? (
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-              name="ELearningPage"
-              component={ELearningPage}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="BuyCourse"
-              component={BuyCourse}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CreatePost"
-              component={CreatePost}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CreateTopicRequest2"
-              component={CreateTopicRequest2}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CreateTopicRequest"
-              component={CreateTopicRequest}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Proposals"
-              component={Proposals}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="MyPostPage"
-              component={MyPostPage}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CommunitiesE2"
-              component={CommunitiesE2}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="BuyCourseCart"
-              component={BuyCourseCart}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CoursesE6"
-              component={CoursesE6}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CoursesE5"
-              component={CoursesE5}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CoursesE4"
-              component={CoursesE4}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CoursesE3"
-              component={CoursesE3}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CoursesE2"
-              component={CoursesE2}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CoursesE1"
-              component={CoursesE1}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="TeachersE1"
-              component={TeachersE1}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EndDateSelected"
-              component={EndDateSelected}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="StartDateSelected"
-              component={StartDateSelected}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="NothingSelected"
-              component={NothingSelected}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="TimeFilter"
-              component={TimeFilter}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="TopicFilter"
-              component={TopicFilter}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="UpcomingSesions"
-              component={UpcomingSesions}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Cart4"
-              component={Cart4}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Cart3"
-              component={Cart3}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Cart2"
-              component={Cart2}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Cart1"
-              component={Cart1}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Schedule3"
-              component={Schedule3}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Schedule2"
-              component={Schedule2}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Schedule1"
-              component={Schedule1}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="People2"
-              component={People2}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="AddEducation"
-              component={AddEducation}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EditEducation2"
-              component={EditEducation2}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EditEducation"
-              component={EditEducation}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="StudentProfilePage"
-              component={StudentProfilePage}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="PrivacyPolicy2"
-              component={PrivacyPolicy2}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Proposal13"
-              component={Proposal13}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Proposal12"
-              component={Proposal12}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Proposal5"
-              component={Proposal5}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Proposal4"
-              component={Proposal4}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Proposal3"
-              component={Proposal3}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Proposal2"
-              component={Proposal2}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Proposal1"
-              component={Proposal1}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Proposal11"
-              component={Proposal11}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="TeacherProfile4"
-              component={TeacherProfile4}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Proposal7"
-              component={Proposal7}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Proposal6"
-              component={Proposal6}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Cart5"
-              component={Cart5}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Notifications"
-              component={Notifications}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="FAQ2"
-              component={FAQ2}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="FAQ1"
-              component={FAQ1}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="InviteMembers"
-              component={InviteMembers}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="GroupAudioCall"
-              component={GroupAudioCall}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="GroupVideoCall"
-              component={GroupVideoCall}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Chat4"
-              component={Chat4}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Chat1"
-              component={Chat1}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="AudioCall"
-              component={AudioCall}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="VideoCall"
-              component={VideoCall}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Chat3"
-              component={Chat3}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="UnlockedCommunity"
-              component={UnlockedCommunity}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="LockedCommunity2"
-              component={LockedCommunity2}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="LockedCommunity"
-              component={LockedCommunity}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CreateCommunity"
-              component={CreateCommunity}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="MyCommunities"
-              component={MyCommunities}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="LiveSession"
-              component={LiveSession}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Certificate"
-              component={Certificate}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Feedback"
-              component={Feedback}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Quiz"
-              component={Quiz}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="SingleCourse"
-              component={SingleCourse}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="MyCourses"
-              component={MyCourses}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="HomePage1"
-              component={HomePage1}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="StudentProfile1"
-              component={StudentProfile1}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="SignUp"
-              component={SignUp}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="AreYouAStudentOrTeacher"
-              component={AreYouAStudentOrTeacher}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="PrivacyPolicy"
-              component={PrivacyPolicy}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="SecondFrontPage"
-              component={SecondFrontPage}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="FrontPage"
-              component={FrontPage}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="HomePage2"
-              component={HomePage2}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        ) : null}
-      </NavigationContainer>
-      </CartState>
+        <CartState>
+          <NavigationContainer>
+            {hideSplashScreen ? (
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen
+                  name="MyCourses"
+                  component={MyCourses}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="SingleCourse"
+                  component={SingleCourse}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="ELearningPage"
+                  component={ELearningPage}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="BuyCourse"
+                  component={BuyCourse}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CreatePost"
+                  component={CreatePost}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CreateTopicRequest2"
+                  component={CreateTopicRequest2}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CreateTopicRequest"
+                  component={CreateTopicRequest}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Proposals"
+                  component={Proposals}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="MyPostPage"
+                  component={MyPostPage}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CommunitiesE2"
+                  component={CommunitiesE2}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="BuyCourseCart"
+                  component={BuyCourseCart}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CoursesE6"
+                  component={CoursesE6}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CoursesE5"
+                  component={CoursesE5}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CoursesE4"
+                  component={CoursesE4}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CoursesE3"
+                  component={CoursesE3}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CoursesE2"
+                  component={CoursesE2}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CoursesE1"
+                  component={CoursesE1}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="TeachersE1"
+                  component={TeachersE1}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="EndDateSelected"
+                  component={EndDateSelected}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="StartDateSelected"
+                  component={StartDateSelected}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="NothingSelected"
+                  component={NothingSelected}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="TimeFilter"
+                  component={TimeFilter}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="TopicFilter"
+                  component={TopicFilter}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="UpcomingSesions"
+                  component={UpcomingSesions}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Cart4"
+                  component={Cart4}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Cart3"
+                  component={Cart3}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Cart2"
+                  component={Cart2}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Cart1"
+                  component={Cart1}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Schedule3"
+                  component={Schedule3}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Schedule2"
+                  component={Schedule2}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Schedule1"
+                  component={Schedule1}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="People2"
+                  component={People2}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="AddEducation"
+                  component={AddEducation}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="EditEducation2"
+                  component={EditEducation2}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="EditEducation"
+                  component={EditEducation}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="StudentProfilePage"
+                  component={StudentProfilePage}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="PrivacyPolicy2"
+                  component={PrivacyPolicy2}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Proposal13"
+                  component={Proposal13}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Proposal12"
+                  component={Proposal12}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Proposal5"
+                  component={Proposal5}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Proposal4"
+                  component={Proposal4}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Proposal3"
+                  component={Proposal3}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Proposal2"
+                  component={Proposal2}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Proposal1"
+                  component={Proposal1}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Proposal11"
+                  component={Proposal11}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="TeacherProfile4"
+                  component={TeacherProfile4}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Proposal7"
+                  component={Proposal7}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Proposal6"
+                  component={Proposal6}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Cart5"
+                  component={Cart5}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Notifications"
+                  component={Notifications}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="FAQ2"
+                  component={FAQ2}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="FAQ1"
+                  component={FAQ1}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Login"
+                  component={Login}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="InviteMembers"
+                  component={InviteMembers}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="GroupAudioCall"
+                  component={GroupAudioCall}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="GroupVideoCall"
+                  component={GroupVideoCall}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Chat4"
+                  component={Chat4}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Chat1"
+                  component={Chat1}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="AudioCall"
+                  component={AudioCall}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="VideoCall"
+                  component={VideoCall}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Chat3"
+                  component={Chat3}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="UnlockedCommunity"
+                  component={UnlockedCommunity}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="LockedCommunity2"
+                  component={LockedCommunity2}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="LockedCommunity"
+                  component={LockedCommunity}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CreateCommunity"
+                  component={CreateCommunity}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="MyCommunities"
+                  component={MyCommunities}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="LiveSession"
+                  component={LiveSession}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Certificate"
+                  component={Certificate}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Feedback"
+                  component={Feedback}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Quiz"
+                  component={Quiz}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="HomePage1"
+                  component={HomePage1}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="StudentProfile1"
+                  component={StudentProfile1}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="SignUp"
+                  component={SignUp}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="AreYouAStudentOrTeacher"
+                  component={AreYouAStudentOrTeacher}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="PrivacyPolicy"
+                  component={PrivacyPolicy}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="SecondFrontPage"
+                  component={SecondFrontPage}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="FrontPage"
+                  component={FrontPage}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="HomePage2"
+                  component={HomePage2}
+                  options={{ headerShown: false }}
+                />
+              </Stack.Navigator>
+            ) : null}
+          </NavigationContainer>
+        </CartState>
       </CourseState>
     </>
   );

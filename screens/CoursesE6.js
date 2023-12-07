@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -53,12 +53,12 @@ const CoursesE6 = () => {
       <View style={[styles.coursesE6Child11, styles.coursesChildLayout1]} />
       <View style={[styles.coursesE6Child12, styles.coursesChildLayout1]} />
       <Text style={[styles.topic, styles.buy1Typo]}>Topic</Text>
-      <Pressable
+      <TouchableOpacity
         style={styles.buy}
         onPress={() => navigation.navigate("BuyCourse")}
       >
         <Text style={[styles.buy1, styles.buy1Typo]}>Buy</Text>
-      </Pressable>
+      </TouchableOpacity>
       <Text style={[styles.search, styles.textTypo]}>Search</Text>
       <Image
         style={styles.ask1Icon}
@@ -116,7 +116,7 @@ const CoursesE6 = () => {
         source={require("../assets/star-16.png")}
       />
       <Text style={[styles.text, styles.textTypo]}>300$</Text>
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow242}
         onPress={() => navigation.goBack()}
       >
@@ -125,7 +125,7 @@ const CoursesE6 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-11.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

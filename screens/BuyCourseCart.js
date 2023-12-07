@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 import CourseContext from "../context/Courses/courseContext";
@@ -57,7 +57,7 @@ const BuyCourseCart = () => {
 
   return (
     <View style={[styles.buyCourseCart, styles.buyChildShadowBox1]}>
-      <Pressable
+      <TouchableOpacity
         style={[styles.icons8Back481, styles.icons8Back481Position]}
         onPress={() => navigation.navigate("CoursesE1")}
       >
@@ -66,7 +66,7 @@ const BuyCourseCart = () => {
           resizeMode="cover"
           source={require("../assets/icons8back48-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
         <View style={styles.container}>
           <View style={styles.rectangleView}>
             <Image
@@ -77,13 +77,13 @@ const BuyCourseCart = () => {
               style={styles.bottomRightLogo}
               source={require("../assets/picture4-2.png")}
             />
-            {courseDetails && (
+            {courseDetails && total != 0 && (
               <View>
                 <Text style={styles.yourTotalIs}>Your Total is :</Text>
                 <Text style={[styles.text, styles.textText]}>{total}$</Text>
               </View>
             )}
-            {!cart && (
+            {!cart && !courseDetails && (
               <View>
                 <Text style={styles.emptycart}>YOUR CART IS EMPTY!!</Text>
                 <Text style={styles.emptyottom}>Add Courses in the cart from ELearning Page :)</Text>
@@ -93,26 +93,28 @@ const BuyCourseCart = () => {
           {cart && courseDetails && instructors.length !== 0 && courseDetails.map((course, index) => (
           <View key={index} style={styles.div2}>
             <View style={styles.div4}>
-              <Image
-                style={styles.iconLayout}
-                resizeMode="cover"
-                source={{ uri: `${host}/${course.featured_image}` }}
-              />
+              <View>
+                <Image
+                  style={styles.iconLayout}
+                  resizeMode="cover"
+                  source={{ uri: `${host}/${course.featured_image}` }}
+                />
+              </View>
               <View style={styles.buyChildShadowBox}>
                 <View style={styles.cancel}>
                   <Text></Text>
                   <Text style={[styles.excelInAgile, styles.checkOutTypo]}>
                     {course.title}
                   </Text>
-                  <Pressable onPress={() => handleRemoveFromCart(course._id)}>
+                  <TouchableOpacity onPress={() => handleRemoveFromCart(course._id)}>
                     <Text style={styles.cross}>X</Text>
-                  </Pressable>                
+                  </TouchableOpacity>                
                 </View>
                 <Text style={styles.muhummadTypo}>{instructors[index]}</Text>
                 <View style={styles.div3}>
                   <View style={styles.div3}>
                     <Text style={[styles.text1, styles.textTypo]}>
-                      {course.rating}
+                      {Math.round(course.rating)}
                     </Text>
                     <Image
                       style={styles.starIcon}
@@ -130,14 +132,14 @@ const BuyCourseCart = () => {
         ))}
         {courseDetails && (
           <View style={styles.checkout}>
-            <Pressable
+            <TouchableOpacity
               onPress={() => navigation.navigate("Cart3")}
               style={[styles.addLayout]}
             >
               <Text style={[styles.checkoutchild]}>
                 CHECK OUT
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         )}
         </View>
@@ -178,10 +180,11 @@ const styles = StyleSheet.create({
     backgroundColor: Color.colorSlateblue,
   },
   div4: {
+    flexDirection: 'row', // Set flexDirection to 'row' for horizontal layout
+    alignItems: 'center',
     width: '100%',
     marginTop: '10%',
     paddingTop: '8%',
-    flex: 1, 
   },
   div3: {
     flex: 1,
@@ -225,15 +228,15 @@ const styles = StyleSheet.create({
     left: 0,
   },
   buyChildShadowBox: {
+    flex: 1,
     height: 59,
     width: '100%',
-    left: 87,
+    marginRight: '2%',
     borderWidth: 1,
     borderColor: Color.labelColorLightPrimary,
     borderStyle: "solid",
     borderRadius: Border.br_8xs,
     backgroundColor: Color.colorSlateblue,
-    position: "absolute",
     shadowOpacity: 1,
     elevation: 4,
     shadowRadius: 4,
@@ -291,14 +294,12 @@ const styles = StyleSheet.create({
   iconLayout1: {
     height: 56,
     width: 50,
-    position: "absolute",
   },
   iconLayout: {
     height: 60,
     width: 70,
     borderWidth: 1,
     borderColor: 'black',
-    position: 'absolute',
     marginLeft: '2%',
     borderRadius: 10,
   },

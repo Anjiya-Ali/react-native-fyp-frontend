@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Pressable, Image, Text } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -10,12 +10,12 @@ const Chat1 = () => {
     <View style={styles.chat1}>
       <View style={[styles.chat1Child, styles.chat1ShadowBox]} />
       <View style={[styles.chat1Item, styles.chat1ShadowBox]} />
-      <Pressable
+      <TouchableOpacity
         style={[styles.chat1Inner, styles.chat1ShadowBox]}
         onPress={() => navigation.navigate("Chat3")}
       />
       <View style={[styles.rectangleView, styles.chat1Child4Bg]} />
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.navigate("HomePage2")}
       >
@@ -24,7 +24,7 @@ const Chat1 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-11.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={styles.hamburgerIcon}
         resizeMode="cover"
@@ -121,8 +121,8 @@ const Chat1 = () => {
         resizeMode="cover"
         source={require("../assets/line-12.png")}
       />
-      <Pressable
-        style={[styles.rectanglePressable, styles.chat1ShadowBox]}
+      <TouchableOpacity
+        style={[styles.rectangleTouchableOpacity, styles.chat1ShadowBox]}
         onPress={() => navigation.navigate("Chat4")}
       />
       <Text style={[styles.spartansFastProgrammers, styles.drUmerSaifTypo]}>
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     left: 58,
     fontSize: FontSize.size_11xl,
   },
-  rectanglePressable: {
+  rectangleTouchableOpacity: {
     top: 382,
   },
   spartansFastProgrammers: {

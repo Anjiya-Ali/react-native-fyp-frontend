@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SectionCard from "../components/SectionCard";
 import PMContainer from "../components/PMContainer";
@@ -42,12 +42,12 @@ const TimeFilter = () => {
         />
         <PMContainer />
       </View>
-      <Pressable
+      <TouchableOpacity
         style={[styles.button, styles.iconPosition]}
         onPress={() => navigation.navigate("UpcomingSesions")}
       >
         <Text style={[styles.day, styles.dayTypo]}>Save</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

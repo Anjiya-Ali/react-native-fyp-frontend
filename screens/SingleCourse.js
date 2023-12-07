@@ -1,453 +1,349 @@
-import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import VideoPlayer from 'react-native-video-controls';
+import Orientation from 'react-native-orientation-locker';
 import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
+import Header from "../components/Header";
+import { FontSize, FontFamily, Border, Color } from "../GlobalStyles";
+import CourseContext from "../context/Courses/courseContext";
 
-const SingleCourse = () => {
+const SingleCourse = (props) => {
   const navigation = useNavigation();
+  const context = useContext(CourseContext);
+  const { getSingleCourse, course, user, getUser, getLessonsOfCourse, addQuizInProgress, markTopicCompleted, lessonsOfCourse, addTopicInProgress, getLessonItems } = context;
+  const { courseId } = props.route.params;
+  const [singlecourse, setSingleCourse] = useState(null);
+  const [formattedDate, setDate] = useState('')
+  const [instructor, setInstructor] = useState('')
+  const [lessons, setLessons] = useState(null);
+  const [fullScreen, setFullScreen] = useState(false);
+  const host = 'http://192.168.0.147:3000';
+  const playerRef = useRef(null);
+  const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
+  const [currentTopicIndex, setCurrentTopicIndex] = useState(0);
+  const [uri, setUri] = useState(null);
+  const lessonIndexRef = useRef(currentLessonIndex);
+  const topicIndexRef = useRef(currentTopicIndex);
+
+  useEffect(() => {
+    lessonIndexRef.current = currentLessonIndex;
+    topicIndexRef.current = currentTopicIndex;
+  }, [currentLessonIndex, currentTopicIndex]);
+
+  useEffect(() => {
+    getSingleCourse(courseId);
+    getLessonsOfCourse(courseId);
+  }, [courseId]);
+
+  useEffect(() => {
+    if (course) {
+      setSingleCourse(course)
+      const originalTimestamp = course.post_date;
+      const dateObject = new Date(originalTimestamp);
+
+      const day = dateObject.getDate().toString().padStart(2, '0');
+      const month = (dateObject.getMonth() + 1).toString().padStart(2, '0');
+      const year = dateObject.getFullYear();
+
+      datee = `${day}/${month}/${year}`;
+      setDate(datee);
+      getUser(course.author_user_id)
+    }
+  }, [course]);
+
+
+  useEffect(() => {
+    if (lessonsOfCourse) {
+      const fetchLessonItems = async () => {
+        const updatedLessons = [];
+
+        for (const lesson of lessonsOfCourse) {
+          const lessonItemsResponse = await getLessonItems(lesson._id);
+
+          if (lessonItemsResponse.success) {
+            lesson.topics = lessonItemsResponse.topicsWithLearningPosts;
+            updatedLessons.push(lesson);
+          }
+        }
+
+        setLessons(updatedLessons);
+      };
+
+      fetchLessonItems();
+    }
+  }, [lessonsOfCourse]);
+
+  useEffect(() => {
+    if (lessons) {
+      if (lessons[currentLessonIndex].topics) {
+        const video = lessons[currentLessonIndex].topics[currentTopicIndex].content;
+        setUri(`${host}/${video}`);
+      }
+    }
+  }, [lessons]);
+
+  useEffect(() => {
+    if (user) {
+      setInstructor(user.first_name + ' ' + user.last_name);
+    }
+  }, [user]);
+
+  const videoError = (error) => {
+    console.error('Video Error:', error);
+  };
+
+  const FullScreen = () => {
+    setFullScreen(true)
+    Orientation.lockToLandscape();
+  };
+
+  const ExitFullScreen = () => {
+    setFullScreen(false)
+    Orientation.lockToPortrait();
+  };
+
+  const handleVideoEnd = () => {
+    const id = lessons[lessonIndexRef.current].topics[topicIndexRef.current].post_id;
+
+    if (lessons[lessonIndexRef.current].topics[topicIndexRef.current + 1]) {
+      const nextId = lessons[lessonIndexRef.current].topics[topicIndexRef.current + 1].post_id;
+      addTopicInProgress(nextId);
+    } 
+
+    else if (lessons[lessonIndexRef.current + 1] && lessons[lessonIndexRef.current + 1].topics[0]) {
+      const nextId = lessons[lessonIndexRef.current + 1].topics[0].post_id;
+
+      if (lessons[lessonIndexRef.current + 1].topics[0].post_type === 'quiz') {
+        addQuizInProgress(nextId);
+      } 
+      else {
+        addTopicInProgress(nextId);
+      
+      }
+    }
+    markTopicCompleted(id);
+    getLessonsOfCourse(courseId);
+  };
+
+  const playTopic = (lessonIndex, topicIndex) => {
+    const video = lessons[lessonIndex].topics[topicIndex].content;
+    setUri(`${host}/${video}`);
+    setCurrentLessonIndex(lessonIndex);
+    setCurrentTopicIndex(topicIndex);
+  };
 
   return (
-    <View style={styles.singleCourse}>
-      <View style={[styles.courseDetails, styles.courseLayout]}>
-        <View style={[styles.courseDetailsChild, styles.courseLayout]} />
-        <Text style={styles.duration12hInstructor}>
-          Duration: 12h Instructor: Dr. Noman Released: 2/01/2023
-        </Text>
-        <Text style={[styles.courseDetails1, styles.excelInAgileFlexBox]}>
-          COURSE DETAILS
-        </Text>
-      </View>
-      <Image
-        style={styles.thumbnailIcon}
-        resizeMode="cover"
-        source={require("../assets/thumbnail.png")}
-      />
-      <View style={styles.steps}>
-        <Pressable
-          style={styles.stepsChild}
-          onPress={() => navigation.navigate("MyCourses")}
+    <View style={fullScreen ? styles.fullscreenVideo : styles.container}>
+      {!fullScreen && singlecourse && (
+        <Header
+          heading={singlecourse.title}
+          navigate="MyCourses"
         />
-        <View style={[styles.stepsItem, styles.stepsLayout]} />
-        <View style={[styles.stepsInner, styles.stepsLayout]} />
-        <View style={[styles.lineView, styles.stepsLayout]} />
-        <View style={[styles.stepsChild1, styles.stepsLayout]} />
-        <Image
-          style={[styles.icons8PlayButton481, styles.icons8Position]}
-          resizeMode="cover"
-          source={require("../assets/icons8playbutton48-1.png")}
-        />
-        <Image
-          style={[styles.icons8PlayButton482, styles.icons8Position]}
-          resizeMode="cover"
-          source={require("../assets/icons8playbutton48-1.png")}
-        />
-        <Image
-          style={[styles.icons8PlayButton483, styles.icons8Position]}
-          resizeMode="cover"
-          source={require("../assets/icons8playbutton48-1.png")}
-        />
-        <Image
-          style={[styles.icons8Download5011, styles.icons8Position]}
-          resizeMode="cover"
-          source={require("../assets/icons8download50-1-1.png")}
-        />
-        <View style={styles.rectangleView} />
-        <Image
-          style={[styles.icons8PlayButton484, styles.icons8Position]}
-          resizeMode="cover"
-          source={require("../assets/icons8playbutton48-1.png")}
-        />
-        <View style={[styles.header, styles.headerLayout]}>
-          <View style={[styles.headerChild, styles.headerLayout]} />
-          <Text style={[styles.excelInAgile, styles.excelInAgileFlexBox]}>
-            Excel In Agile Methodology
-          </Text>
+      )}
+      {uri && (
+        <View style={fullScreen ? styles.fullvideobox : styles.videobox}>
+          <VideoPlayer
+            showOnStart='false'
+            onEnd={handleVideoEnd}
+            fullscreen={fullScreen}
+            source={{ uri }}
+            ref={playerRef}
+            onError={videoError}
+            toggleResizeModeOnFullscreen='true'
+            style={styles.video}
+            onEnterFullscreen={FullScreen}
+            onExitFullscreen={ExitFullScreen}
+            onBack={ExitFullScreen}
+            tapAnywhereToPause='true'
+          />
         </View>
-        <Text
-          style={[styles.lesson1Welcome, styles.quizTypo]}
-        >{`Lesson 1. Welcome & Introduction                                             1hr 20m`}</Text>
-        <Text
-          style={[styles.lectureNotes, styles.quizTypo]}
-        >{`Lecture Notes                               `}</Text>
-        <Pressable
-          style={[styles.quiz20m, styles.quiz20mPosition]}
-          onPress={() => navigation.navigate("Quiz")}
-        >
-          <Text style={[styles.quiz, styles.quizTypo]}>Quiz 20m</Text>
-        </Pressable>
-        <Text
-          style={[styles.lesson2Fundamentals, styles.quizTypo]}
-        >{`Lesson 2. Fundamentals of Agile Methodology                   10h 20m `}</Text>
-        <Text
-          style={[styles.welcomeIntroduction, styles.agileInSmallFlexBox]}
-        >{`Welcome & Introduction`}</Text>
-        <View style={[styles.stepsChild2, styles.stepsChildLayout]} />
-        <View style={[styles.stepsChild3, styles.stepsChildLayout]} />
-        <Text style={[styles.agileInSmall, styles.agileTypo]}>
-          Agile in Small Scale Projects
-        </Text>
-        <Text style={[styles.agileInLarge, styles.agileTypo]}>
-          Agile in Large Scale Projects
-        </Text>
-        <View style={[styles.welcome, styles.welcomeLayout]}>
-          <Text style={[styles.scrumAndSprint, styles.welcomeLayout]}>
-            Scrum and Sprint Meetings
-          </Text>
+      )}
+      {!fullScreen && singlecourse && instructor && lessons && (
+        <View style={[styles.outerlayout]}>
+          <View style={[styles.courseDetailsChild, styles.courseLayout1]}>
+            <Text style={[styles.courseDetails1, styles.textTypo]}>
+              COURSE DETAILS
+            </Text>
+            <Text style={styles.duration12hInstructor}>
+              Duration: {singlecourse.duration}   |   Instructor: {instructor}   |   Released: {formattedDate}
+            </Text>
+          </View>
+          <FlatList
+            data={lessons}
+            keyExtractor={(item, index) => `${index}`}
+            renderItem={({ item, index }) => (
+              <View style={styles.lessonContainer}>
+                <View style={styles.lessonHeading}>
+                  {index === lessons.length - 1 && (
+                    <Text style={styles.lessonTitle}>{`${item.title}`}</Text>
+                  )}
+                  {index !== lessons.length - 1 && (
+                    <Text style={styles.lessonTitle}>{`Lesson ${index + 1}: ${item.title}`}</Text>
+                  )}
+                </View>
+                <FlatList
+                  data={item.topics}
+                  keyExtractor={(topic, topicIndex) => `${topicIndex}`}
+                  renderItem={({ item: topic, index: topicIndex }) => (
+                    <TouchableOpacity
+                      style={[
+                        topicIndex === item.topics.length - 1 ? styles.lastTopicContainer : styles.topicContainer,
+                        { backgroundColor: topicIndex === currentTopicIndex && index === currentLessonIndex ? '#dddddd' : 'transparent' },
+                      ]}
+                      onPress={() => playTopic(index, topicIndex)}
+                      disabled={topic.status === 'locked' || topic.post_type == 'quiz'}
+                    >
+                      {topic.status === 'completed' && (
+                        <View style={styles.completedIcon}>
+                          <Text style={{ color: 'green', fontSize: 18, fontWeight: 'bold' }}>✓</Text>
+                        </View>
+                      )}
+                      <Text style={styles.topicTitle}> {`${topic.title}`}</Text>
+                      {topic.status !== 'locked' && topic.post_type == 'topic' && (
+                        <TouchableOpacity onPress={() => playTopic(index, topicIndex)}>
+                          <Image
+                            style={styles.hamburgerIcon}
+                            resizeMode="cover"
+                            source={require("../assets/icons8-play-64.png")}
+                          />
+                        </TouchableOpacity>
+                      )}
+                      {topic.status !== 'locked' && topic.post_type == 'quiz' && (
+                        <TouchableOpacity onPress={() => navigation.navigate("Quiz", { quizId: topic.post_id })}>
+                          <Image
+                            style={styles.hamburgerIcon}
+                            resizeMode="cover"
+                            source={require("../assets/icons8-arrow-50.png")}
+                          />
+                        </TouchableOpacity>
+                      )}
+                      {topic.status === 'locked' && (
+                        <Image
+                          style={styles.hamburgerIcon}
+                          resizeMode="cover"
+                          source={require("../assets/icons8-lock-30.png")}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+            )}
+          />
         </View>
-        <Image
-          style={[styles.icons8Done321, styles.icons8Layout]}
-          resizeMode="cover"
-          source={require("../assets/icons8done32-1.png")}
-        />
-        <Image
-          style={[styles.icons8Done323, styles.icons8Layout]}
-          resizeMode="cover"
-          source={require("../assets/icons8done32-1.png")}
-        />
-        <Image
-          style={[styles.icons8Done322, styles.icons8Layout]}
-          resizeMode="cover"
-          source={require("../assets/icons8done32-1.png")}
-        />
-        <Image
-          style={[styles.icons8Done324, styles.icons8Layout]}
-          resizeMode="cover"
-          source={require("../assets/icons8done32-1.png")}
-        />
-      </View>
-      <Pressable
-        style={styles.icons8Arrow241}
-        onPress={() => navigation.goBack()}
-      >
-        <Image
-          style={styles.icon}
-          resizeMode="cover"
-          source={require("../assets/icons8arrow24-1.png")}
-        />
-      </Pressable>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  courseLayout: {
-    height: 38,
-    width: 363,
-    position: "absolute",
+  videobox: {
+    marginTop: 15,
+    flex: 0.5,
   },
-  excelInAgileFlexBox: {
-    textAlign: "left",
-    color: Color.colorWhite,
-    position: "absolute",
+  fullvideobox: {
+    flex: 1,
   },
-  stepsLayout: {
-    height: 2,
-    width: 371,
-    borderTopWidth: 1.5,
-    borderColor: Color.colorGainsboro_200,
-    borderStyle: "solid",
-    position: "absolute",
+  outerlayout: {
+    marginTop: 10,
+    marginBottom: 20,
+    flex: 1
   },
-  icons8Position: {
-    height: 22,
-    left: 339,
-    position: "absolute",
-  },
-  headerLayout: {
-    height: 81,
-    width: 360,
-    top: 0,
-    position: "absolute",
-  },
-  quizTypo: {
-    height: 64,
-    color: Color.colorDimgray_200,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_2xs,
-    textAlign: "left",
-  },
-  quiz20mPosition: {
-    left: 17,
-    position: "absolute",
-  },
-  agileInSmallFlexBox: {
-    alignItems: "center",
-    display: "flex",
-  },
-  stepsChildLayout: {
-    height: 1,
-    width: 343,
-    borderTopWidth: 1,
-    left: 27,
-    borderColor: Color.colorGainsboro_200,
-    borderStyle: "solid",
-    position: "absolute",
-  },
-  agileTypo: {
-    height: 17,
-    width: 213,
+  courseDetails1: {
+    top: 3,
+    paddingBottom: '2%',
+    fontSize: FontSize.size_3xs,
+    textAlign: "center",
     color: Color.labelColorLightPrimary,
-    fontSize: FontSize.size_smi,
-    left: 24,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    textAlign: "left",
-    position: "absolute",
   },
-  welcomeLayout: {
-    width: 200,
-    height: 17,
-    position: "absolute",
+  textTypo: {
+    color: 'white',
+    fontFamily: FontFamily.interBold,
+    fontWeight: "700",
   },
-  icons8Layout: {
-    height: 8,
-    width: 11,
-    left: 11,
-    position: "absolute",
+  duration12hInstructor: {
+    color: 'white',
+    fontSize: FontSize.size_4xs,
+    fontFamily: FontFamily.interRegular,
+    textAlign: "center",
   },
   courseDetailsChild: {
     backgroundColor: Color.colorSlateblue,
     left: 0,
     top: 0,
   },
-  duration12hInstructor: {
-    top: 19,
-    left: 37,
-    fontSize: FontSize.size_4xs,
-    fontFamily: FontFamily.interRegular,
-    textAlign: "center",
-    width: 290,
-    color: Color.colorWhite,
-    position: "absolute",
+  courseLayout1: {
+    height: 40,
+    width: '100%',
   },
-  courseDetails1: {
-    top: 3,
-    left: 135,
-    fontSize: FontSize.size_3xs,
-    fontWeight: "700",
-    fontFamily: FontFamily.interBold,
-    width: 97,
+  video: {
+    height: 20,
   },
-  courseDetails: {
-    top: 265,
-    left: -3,
-  },
-  thumbnailIcon: {
-    top: 91,
-    left: 22,
-    width: 321,
-    height: 164,
-    position: "absolute",
-  },
-  stepsChild: {
-    top: 22,
-    width: 51,
-    height: 27,
-    left: 9,
-    backgroundColor: Color.colorSlateblue,
-    position: "absolute",
-  },
-  stepsItem: {
-    top: 373,
-    left: 5,
-    width: 371,
-    borderTopWidth: 1.5,
-    borderColor: Color.colorGainsboro_200,
-    borderStyle: "solid",
-  },
-  stepsInner: {
-    top: 518,
-    left: -1,
-  },
-  lineView: {
-    top: 601,
-    left: 8,
-  },
-  stepsChild1: {
-    top: 564,
-    left: 5,
-    width: 371,
-    borderTopWidth: 1.5,
-    borderColor: Color.colorGainsboro_200,
-    borderStyle: "solid",
-  },
-  icons8PlayButton481: {
-    top: 343,
-    width: 25,
-    height: 22,
-    left: 339,
-  },
-  icons8PlayButton482: {
-    top: 410,
-    width: 25,
-    height: 22,
-    left: 339,
-  },
-  icons8PlayButton483: {
-    top: 450,
-    width: 25,
-    height: 22,
-    left: 339,
-  },
-  icons8Download5011: {
-    top: 527,
+  hamburgerIcon: {
     width: 22,
-    height: 22,
-    left: 339,
+    height: 22
   },
-  rectangleView: {
-    top: 478,
-    backgroundColor: "#e2dede",
-    height: 41,
-    width: 360,
-    left: 9,
-    position: "absolute",
+  lastTopicContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingVertical: 8,
+    border: 'none'
   },
-  icons8PlayButton484: {
-    top: 489,
-    width: 25,
-    height: 22,
-    left: 339,
-  },
-  headerChild: {
-    borderBottomRightRadius: Border.br_11xl,
-    borderBottomLeftRadius: Border.br_11xl,
-    backgroundColor: Color.colorSlateblue,
-    left: 0,
-  },
-  excelInAgile: {
-    top: 27,
-    left: 63,
-    fontSize: FontSize.size_lg,
-    fontWeight: "500",
-    fontFamily: FontFamily.interMedium,
-    width: 292,
-    height: 19,
-  },
-  header: {
-    left: 9,
-  },
-  lesson1Welcome: {
-    top: 322,
-    width: 352,
-    height: 64,
-    color: Color.colorDimgray_200,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_2xs,
-    left: 17,
-    position: "absolute",
-  },
-  lectureNotes: {
-    top: 535,
-    width: 309,
-    height: 64,
-    color: Color.colorDimgray_200,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_2xs,
-    left: 17,
-    position: "absolute",
-  },
-  quiz: {
-    width: 352,
-    height: 64,
-    color: Color.colorDimgray_200,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_2xs,
-  },
-  quiz20m: {
-    top: 575,
-  },
-  lesson2Fundamentals: {
-    top: 389,
-    width: 358,
-    height: 64,
-    color: Color.colorDimgray_200,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_2xs,
-    left: 17,
-    position: "absolute",
-  },
-  welcomeIntroduction: {
-    top: 346,
-    width: 168,
-    height: 16,
-    color: Color.labelColorLightPrimary,
-    fontSize: FontSize.size_smi,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    textAlign: "left",
-    left: 24,
-    position: "absolute",
-  },
-  stepsChild2: {
-    top: 446,
-  },
-  stepsChild3: {
-    top: 480,
-  },
-  agileInSmall: {
-    top: 416,
-    alignItems: "center",
-    display: "flex",
-  },
-  agileInLarge: {
-    top: 455,
-  },
-  scrumAndSprint: {
-    color: Color.labelColorLightPrimary,
-    fontSize: FontSize.size_smi,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    textAlign: "left",
-    left: 0,
-    top: 0,
-  },
-  welcome: {
-    top: 492,
-    left: 24,
-  },
-  icons8Done321: {
-    top: 351,
-  },
-  icons8Done323: {
-    top: 460,
-  },
-  icons8Done322: {
-    top: 421,
-  },
-  icons8Done324: {
-    top: 496,
-  },
-  steps: {
-    left: -9,
-    width: 378,
-    height: 639,
-    top: 0,
-    position: "absolute",
-  },
-  icon: {
-    height: "100%",
-    width: "100%",
-  },
-  icons8Arrow241: {
-    left: 18,
-    top: 28,
-    width: 26,
-    height: 24,
-    position: "absolute",
-  },
-  singleCourse: {
-    backgroundColor: Color.colorWhite,
+  lessonHeading: {
+    paddingLeft: 16,
+    paddingRight: 16,
     flex: 1,
-    height: 651,
-    overflow: "hidden",
-    width: "100%",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+  },
+  lessonContainer: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#cccccc',
+    paddingTop: 16,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: 0,
+  },
+  lessonTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  topicContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#cccccc',
+  },
+  topicTitle: {
+    color: 'black',
+    fontWeight: '500',
+    flex: 1,
+  },
+  playButton: {
+    backgroundColor: Color.colorSlateblue,
+    color: 'white',
+    padding: 8,
+    borderRadius: 5,
+  },
+  fullscreenVideo: {
+    backgroundColor: 'black',
+    ...StyleSheet.absoluteFill,
+    elevation: 1,
+  },
+
 });
 
 export default SingleCourse;

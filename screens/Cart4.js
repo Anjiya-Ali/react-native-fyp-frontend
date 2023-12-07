@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, View, Image, TextInput, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, TextInput, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 import CourseContext from "../context/Courses/courseContext";
@@ -10,7 +10,7 @@ const BuyCourseCart = () => {
   const navigation = useNavigation();
   const cartContext = useContext(CartContext);
   const context = useContext(CourseContext);
-  const { cart, addToCart, removeFromCart } = cartContext;
+  const { cart, emptyCart } = cartContext;
   const { getSingleCourse, course, user, getUser } = context;
   const host = 'http://192.168.0.147:3000';
   const [courseDetails, setCourseDetails] = useState(null);
@@ -51,23 +51,23 @@ const BuyCourseCart = () => {
     }
   }, [cart]);
 
-
-  const handleRemoveFromCart = (courseId) => {
-    removeFromCart(courseId);
+  const handleEmptyCart = () => {
+    emptyCart();
+    navigation.navigate("CoursesE1")
   };
 
   return (
     <View style={[styles.buyCourseCart, styles.buyChildShadowBox1]}>
-      <Pressable
+      <TouchableOpacity
         style={[styles.icons8Back481, styles.icons8Back481Position]}
-        onPress={() => navigation.navigate("CoursesE1")}
+        onPress={() => handleEmptyCart(course._id)}
       >
         <Image
           style={styles.icon}
           resizeMode="cover"
           source={require("../assets/icons8back48-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.container}>
         <View style={styles.rectangleView}>
           <Image
@@ -78,22 +78,14 @@ const BuyCourseCart = () => {
             style={styles.bottomRightLogo}
             source={require("../assets/picture4-2.png")}
           />
-          {courseDetails && (
-            <View>
-              <Image
-                style={styles.hourglass}
-                source={require("../assets/hourglass-1.png")}
-              />
-              <Text style={[styles.text, styles.textText]}>Your Order is Under Confirmation</Text>
-              <Text style={styles.yourTotalIs}>Please hang tight, while we review your payment.</Text>
-            </View>
-          )}
-          {!courseDetails && (
-            <View>
-              <Text style={styles.emptycart}>YOUR CART IS EMPTY!!</Text>
-              <Text style={styles.emptyottom}>Add Courses in the cart from ELearning Page :)</Text>
-            </View>
-          )}
+          <View>
+            <Image
+              style={styles.hourglass}
+              source={require("../assets/hourglass-1.png")}
+            />
+            <Text style={[styles.text, styles.textText]}>Your Order is Under Confirmation</Text>
+            <Text style={styles.yourTotalIs}>Please hang tight, while we review your payment.</Text>
+          </View>
         </View>
         <View style={styles.checkout}>
           <View style={styles.paybox2}>
@@ -102,28 +94,28 @@ const BuyCourseCart = () => {
             </Text>
             <View style={styles.paybox}>
               {courseDetails && instructors.length !== 0 && courseDetails.map((course, index) => (
-                <View key={index}>
+                <View key={index} style={styles.div2}>
                   <View style={styles.div4}>
-                    <Image
-                      style={styles.iconLayout}
-                      resizeMode="cover"
-                      source={{ uri: `${host}/${course.featured_image}` }}
-                    />
+                    <View>
+                      <Image
+                        style={styles.iconLayout}
+                        resizeMode="cover"
+                        source={{ uri: `${host}/${course.featured_image}` }}
+                      />
+                    </View>
                     <View style={styles.buyChildShadowBox}>
                       <View style={styles.cancel}>
                         <Text></Text>
                         <Text style={[styles.excelInAgile, styles.checkOutTypo]}>
                           {course.title}
                         </Text>
-                        <Text style={[styles.text4, styles.textTypo]}>
-                          {course.fees}$
-                        </Text>
+                        <Text></Text>
                       </View>
                       <Text style={styles.muhummadTypo}>{instructors[index]}</Text>
                       <View style={styles.div3}>
                         <View style={styles.div3}>
                           <Text style={[styles.text1, styles.textTypo]}>
-                            {course.rating}
+                            {Math.round(course.rating)}
                           </Text>
                           <Image
                             style={styles.starIcon}
@@ -132,12 +124,12 @@ const BuyCourseCart = () => {
                           />
                         </View>
                         <View style={styles.pending}>
-                        <Image
+                          <Image
                             style={styles.clock}
                             resizeMode="cover"
                             source={require('../assets/clock-1.png')}
-                        />
-                        <Text style={{ color: 'black', fontSize: 12 }}> Pending </Text>
+                          />
+                          <Text style={{ color: 'black', fontSize: 12 }}> Pending </Text>
                         </View>
                       </View>
                     </View>
@@ -162,8 +154,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: Color.colorGainsboro_100,
     padding: '1.5%',
-    width: '33%',
-    marginBottom: '2%',
     borderRadius: 100,
   },
   button: {
@@ -252,9 +242,11 @@ const styles = StyleSheet.create({
     backgroundColor: Color.colorSlateblue,
   },
   div4: {
+    flexDirection: 'row', // Set flexDirection to 'row' for horizontal layout
+    alignItems: 'center',
+    width: '100%',
     marginTop: '12%',
     paddingTop: '8%',
-    flex: 1,
   },
   div3: {
     flex: 1,
@@ -298,15 +290,15 @@ const styles = StyleSheet.create({
     left: 0,
   },
   buyChildShadowBox: {
-    height: 63,
-    width: 240,
-    left: 87,
+    flex: 1,
+    height: 59,
+    width: '100%',
+    marginRight: '2%',
     borderWidth: 1,
     borderColor: Color.labelColorLightPrimary,
     borderStyle: "solid",
     borderRadius: Border.br_8xs,
     backgroundColor: Color.colorSlateblue,
-    position: "absolute",
     shadowOpacity: 1,
     elevation: 4,
     shadowRadius: 4,
@@ -405,7 +397,6 @@ const styles = StyleSheet.create({
     width: 70,
     borderWidth: 1,
     borderColor: 'black',
-    position: 'absolute',
     marginLeft: '2%',
     borderRadius: 10,
   },

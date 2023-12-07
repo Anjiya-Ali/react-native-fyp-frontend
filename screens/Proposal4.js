@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontSize, FontFamily } from "../GlobalStyles";
 
@@ -50,8 +50,8 @@ const Proposal4 = () => {
       <Text style={[styles.pk001234567890, styles.bankAlHabibTypo]}>
         PK00-1234567890
       </Text>
-      <Pressable
-        style={[styles.rectanglePressable, styles.rectangleBg]}
+      <TouchableOpacity
+        style={[styles.rectangleTouchableOpacity, styles.rectangleBg]}
         onPress={() => navigation.navigate("Proposal5")}
       />
       <Text style={[styles.pay, styles.payTypo]}>Pay</Text>
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     left: 41,
     fontFamily: FontFamily.interRegular,
   },
-  rectanglePressable: {
+  rectangleTouchableOpacity: {
     top: 567,
     left: 96,
     width: 166,

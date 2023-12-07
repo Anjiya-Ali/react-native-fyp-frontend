@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Pressable, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -9,7 +9,7 @@ const Proposal1 = () => {
   return (
     <View style={styles.proposal1}>
       <View style={[styles.proposal1Child, styles.proposal1Bg]} />
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.navigate("Chat1")}
       >
@@ -18,7 +18,7 @@ const Proposal1 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-11.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <View style={[styles.proposal1Item, styles.proposal1Border]} />
       <View style={[styles.proposal1Inner, styles.proposal1ChildLayout]} />
       <View style={[styles.rectangleView, styles.proposal1ChildBorder]} />
@@ -152,12 +152,12 @@ Are you available?`}</Text>
       />
       <View style={styles.proposal1Child9} />
       <Text style={[styles.viewProfile, styles.pm3Clr]}>View Profile</Text>
-      <Pressable
+      <TouchableOpacity
         style={styles.proposals}
         onPress={() => navigation.navigate("Proposal2")}
       >
         <Text style={[styles.proposals1, styles.pm3Clr]}>Proposals</Text>
-      </Pressable>
+      </TouchableOpacity>
       <Text style={[styles.more, styles.pm3Clr]}>More</Text>
       <Image
         style={styles.hamburgerIcon}

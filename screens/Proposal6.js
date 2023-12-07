@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import OrderSummaryCard from "../components/OrderSummaryCard";
 import { Color, FontSize, FontFamily, Border } from "../GlobalStyles";
@@ -92,12 +92,12 @@ const Proposal6 = () => {
         resizeMode="cover"
         source={require("../assets/picture4-7.png")}
       />
-      <Pressable
-        style={styles.pressable}
+      <TouchableOpacity
+        style={styles.TouchableOpacity}
         onPress={() => navigation.navigate("Proposal7")}
       >
         <Text style={[styles.text, styles.textTypo]}>􀅾</Text>
-      </Pressable>
+      </TouchableOpacity>
       <OrderSummaryCard propTop={512} propLeft={50} />
     </View>
   );
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.sFProDisplay,
     color: Color.blue500,
   },
-  pressable: {
+  TouchableOpacity: {
     left: 10,
     top: 5,
     position: "absolute",

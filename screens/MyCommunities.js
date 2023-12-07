@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -11,7 +11,7 @@ const MyCommunities = () => {
       <View style={[styles.rectangleParent, styles.groupChildLayout]}>
         <View style={[styles.groupChild, styles.groupChildPosition]} />
         <Text style={styles.communities}>COMMUNITIES</Text>
-        <Pressable
+        <TouchableOpacity
           style={styles.icons8Arrow241}
           onPress={() => navigation.navigate("HomePage2")}
         >
@@ -20,14 +20,14 @@ const MyCommunities = () => {
             resizeMode="cover"
             source={require("../assets/icons8arrow24-1.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
         <Image
           style={styles.hamburgerIcon}
           resizeMode="cover"
           source={require("../assets/hamburger.png")}
         />
       </View>
-      <Pressable
+      <TouchableOpacity
         style={[styles.rmytdftzkkSlwefqlbefw2Parent, styles.rmytdftzkkLayout]}
         onPress={() => navigation.navigate("UnlockedCommunity")}
       >
@@ -42,12 +42,12 @@ const MyCommunities = () => {
             Data Science Enthusiasts
           </Text>
         </View>
-      </Pressable>
+      </TouchableOpacity>
       <View style={[styles.machineLearning21Parent, styles.coverPage31Layout]}>
         <View
           style={[styles.machineLearning21, styles.machineLearning21Layout]}
         />
-        <Pressable
+        <TouchableOpacity
           style={[styles.coverPage31, styles.coverPage31Layout]}
           onPress={() => navigation.navigate("LockedCommunity")}
         >
@@ -56,7 +56,7 @@ const MyCommunities = () => {
             resizeMode="cover"
             source={require("../assets/cover-page3-1.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
         <View style={[styles.groupWrapper, styles.groupLayout1]}>
           <View style={[styles.rectangleContainer, styles.groupLayout1]}>
             <View style={[styles.groupInner, styles.groupLayout1]} />
@@ -109,8 +109,8 @@ const MyCommunities = () => {
           </View>
         </View>
       </View>
-      <Pressable
-        style={[styles.groupPressable, styles.groupLayout]}
+      <TouchableOpacity
+        style={[styles.groupTouchableOpacity, styles.groupLayout]}
         onPress={() => navigation.navigate("CreateCommunity")}
       >
         <View style={[styles.groupChild2, styles.groupLayout]} />
@@ -120,7 +120,7 @@ const MyCommunities = () => {
           resizeMode="cover"
           source={require("../assets/icons8community50-2.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     left: 11,
     width: 20,
   },
-  groupPressable: {
+  groupTouchableOpacity: {
     top: 625,
     left: 109,
   },

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontSize, FontFamily, Border } from "../GlobalStyles";
 
@@ -12,7 +12,7 @@ const CreatePost = () => {
         <View style={[styles.groupChild, styles.groupPosition]} />
         <Text style={styles.createPost1}>CREATE POST</Text>
       </View>
-      <Pressable
+      <TouchableOpacity
         style={[styles.icons8Arrow241, styles.icons8Arrow241Position]}
         onPress={() => navigation.goBack()}
       >
@@ -21,7 +21,7 @@ const CreatePost = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Text style={styles.inshaSamnani}>Insha Samnani</Text>
       <Image
         style={[styles.createPostChild, styles.icons8Arrow241Position]}

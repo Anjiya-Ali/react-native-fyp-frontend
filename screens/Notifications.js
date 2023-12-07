@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Pressable, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -36,7 +36,7 @@ const Notifications = () => {
       />
       <View style={styles.notificationsChild2} />
       <View style={styles.notificationsChild3} />
-      <Pressable
+      <TouchableOpacity
         style={styles.hamburger}
         onPress={() => navigation.navigate("HomePage2")}
       >
@@ -45,8 +45,8 @@ const Notifications = () => {
           resizeMode="cover"
           source={require("../assets/hamburger1.png")}
         />
-      </Pressable>
-      <Pressable
+      </TouchableOpacity>
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.navigate("HomePage2")}
       >
@@ -55,7 +55,7 @@ const Notifications = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.teacher0041} />
       <Text style={[styles.drMuhummadRafi, styles.drMuhummadRafiTypo]}>
         Dr. Muhummad Rafi
@@ -144,7 +144,7 @@ const Notifications = () => {
         resizeMode="cover"
         source={require("../assets/profdr-1.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={[styles.yourPaymentForContainer, styles.yourContainerPosition]}
         onPress={() => navigation.navigate("Proposal6")}
       >
@@ -152,8 +152,8 @@ const Notifications = () => {
           Your payment for “Java Tutoring” topic request to Dr. Muhammad Rafi
           has been accepted.
         </Text>
-      </Pressable>
-      <Pressable
+      </TouchableOpacity>
+      <TouchableOpacity
         style={[styles.yourPaymentForContainer1, styles.yourContainerPosition]}
         onPress={() => navigation.navigate("Cart5")}
       >
@@ -161,7 +161,7 @@ const Notifications = () => {
           Your payment for “Java Tutoring”, “Probabilistic Model”, “Information
           Retrieval” courses has been accepted.
         </Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

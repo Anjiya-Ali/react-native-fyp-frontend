@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
@@ -12,7 +12,7 @@ const CreateTopicRequest = () => {
         <View style={[styles.groupChild, styles.groupPosition]} />
         <Text style={styles.createTopicRequest1}>CREATE TOPIC REQUEST</Text>
       </View>
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.goBack()}
       >
@@ -21,7 +21,7 @@ const CreateTopicRequest = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Text style={styles.inshaSamnani}>Insha Samnani</Text>
       <Image
         style={[styles.createTopicRequestChild, styles.rectangleIconLayout]}
@@ -43,7 +43,7 @@ const CreateTopicRequest = () => {
         resizeMode="cover"
         source={require("../assets/rectangle-47801.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8DropDown301}
         onPress={() => navigation.navigate("CreateTopicRequest2")}
       >
@@ -52,7 +52,7 @@ const CreateTopicRequest = () => {
           resizeMode="cover"
           source={require("../assets/icons8dropdown30-11.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={styles.createTopicRequestChild1}
         resizeMode="cover"

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, StyleSheet, Pressable, View, Image } from "react-native";
+import { Text, StyleSheet, TouchableOpacity, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import PopularCommunitiesContainer from "../components/PopularCommunitiesContainer";
 import PopularCoursesContainer from "../components/PopularCoursesContainer";
@@ -14,12 +14,12 @@ const HomePage1 = () => {
     <View style={styles.homePage1}>
       <View style={[styles.liveHeading, styles.livePosition]}>
         <Text style={styles.liveSessionsTypo}>POPULAR COMMUNITIES</Text>
-        <Pressable
+        <TouchableOpacity
           style={styles.viewAll}
           onPress={() => navigation.navigate("MyCommunities")}
         >
           <Text style={styles.viewAll1}>View All</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
       <PopularCommunitiesContainer />
       <PopularCoursesContainer />
@@ -29,16 +29,16 @@ const HomePage1 = () => {
       </View>
       <View style={[styles.liveHeading2, styles.livePosition]}>
         <Text style={styles.liveSessionsTypo}>COURSES FOR YOU</Text>
-        <Pressable
+        <TouchableOpacity
           style={styles.viewAll2}
           onPress={() => navigation.navigate("MyCourses")}
         >
           <Text style={styles.viewAll1}>View All</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
       <View style={styles.headerPosition}>
         <View style={[styles.headerChild, styles.headerPosition]} />
-        <Pressable
+        <TouchableOpacity
           style={styles.hamburger}
           onPress={() => navigation.navigate("HomePage2")}
         >
@@ -47,7 +47,7 @@ const HomePage1 = () => {
             resizeMode="cover"
             source={require("../assets/hamburger1.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
         <SearchForm />
       </View>
       <Image

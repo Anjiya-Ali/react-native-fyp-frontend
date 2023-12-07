@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -62,8 +62,8 @@ const Cart1 = () => {
       <Text style={[styles.text4, styles.textTypo]}>300$</Text>
       <Text style={[styles.text5, styles.textTypo]}>100$</Text>
       <Text style={[styles.text6, styles.textTypo]}>99$</Text>
-      <Pressable
-        style={[styles.rectanglePressable, styles.cart1ChildBg]}
+      <TouchableOpacity
+        style={[styles.rectangleTouchableOpacity, styles.cart1ChildBg]}
         onPress={() => navigation.navigate("Cart2")}
       />
       <Text style={[styles.checkOut, styles.checkOutTypo]}>Check Out</Text>
@@ -141,7 +141,7 @@ const Cart1 = () => {
         resizeMode="cover"
         source={require("../assets/line-31.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={[styles.icons8Back481, styles.cart1ItemPosition]}
         onPress={() => navigation.navigate("HomePage2")}
       >
@@ -150,7 +150,7 @@ const Cart1 = () => {
           resizeMode="cover"
           source={require("../assets/icons8back48-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -448,7 +448,7 @@ const styles = StyleSheet.create({
     },
     textShadowColor: "rgba(0, 0, 0, 0.25)",
   },
-  rectanglePressable: {
+  rectangleTouchableOpacity: {
     top: 554,
     left: 65,
     width: 230,

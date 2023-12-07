@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
@@ -51,14 +51,14 @@ Dr. Muhammad Rafi
 +923471678725`}</Text>
       </Text>
       <Text style={styles.muhummadRafisProposal}>Muhummad Rafi’s Proposal</Text>
-      <Pressable
+      <TouchableOpacity
         style={[styles.proposal3Inner, styles.proposal3Bg]}
         onPress={() => navigation.navigate("Proposal4")}
       />
       <Text style={[styles.accept, styles.acceptTypo]}>Accept</Text>
-      <Pressable style={styles.decline} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.decline} onPress={() => navigation.goBack()}>
         <Text style={styles.decline1}>Decline</Text>
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={[styles.lineIcon, styles.lineIconPosition]}
         resizeMode="cover"

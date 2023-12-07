@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import MonthContainer from "../components/MonthContainer";
 import MonthContainer1 from "../components/MonthContainer1";
@@ -143,12 +143,12 @@ const EndDateSelected = () => {
       <ContainerFrame
         onFramePress={() => navigation.navigate("UpcomingSesions")}
       />
-      <Pressable
+      <TouchableOpacity
         style={[styles.button, styles.iconPosition]}
         onPress={() => navigation.navigate("UpcomingSesions")}
       >
         <Text style={[styles.day60, styles.dayTypo]}>Save</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

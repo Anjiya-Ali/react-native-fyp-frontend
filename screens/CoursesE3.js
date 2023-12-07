@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -177,7 +177,7 @@ const CoursesE3 = () => {
         resizeMode="cover"
         source={require("../assets/black-17.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={[styles.black32, styles.iconPosition]}
         onPress={() => navigation.navigate("CoursesE4")}
       >
@@ -186,7 +186,7 @@ const CoursesE3 = () => {
           resizeMode="cover"
           source={require("../assets/black-17.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <View style={[styles.coursesE3Child26, styles.coursesChildLayout1]} />
       <Text style={styles.rs}>RS</Text>
       <Image
@@ -237,7 +237,7 @@ const CoursesE3 = () => {
         source={require("../assets/picture33-8.png")}
       />
       <Text style={styles.nlp1}>NLP</Text>
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow242}
         onPress={() => navigation.goBack()}
       >
@@ -246,7 +246,7 @@ const CoursesE3 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-11.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SectionCard3 from "../components/SectionCard3";
 import { FontFamily, FontSize, Border, Color } from "../GlobalStyles";
@@ -9,13 +9,13 @@ const InviteMembers = () => {
 
   return (
     <View style={styles.inviteMembers}>
-      <Pressable
+      <TouchableOpacity
         style={styles.rectangleParent}
         onPress={() => navigation.navigate("UnlockedCommunity")}
       >
         <View style={styles.groupChild} />
         <Text style={styles.inviteYourFriends}>INVITE YOUR FRIENDS</Text>
-        <Pressable
+        <TouchableOpacity
           style={styles.icons8Arrow241}
           onPress={() => navigation.navigate("UnlockedCommunity")}
         >
@@ -24,8 +24,8 @@ const InviteMembers = () => {
             resizeMode="cover"
             source={require("../assets/icons8arrow24-1.png")}
           />
-        </Pressable>
-      </Pressable>
+        </TouchableOpacity>
+      </TouchableOpacity>
       <View style={styles.inviteMembersChild} />
       <View style={[styles.rectangleGroup, styles.groupLayout]}>
         <View style={[styles.groupItem, styles.groupLayout]} />

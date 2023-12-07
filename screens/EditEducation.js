@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Pressable, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SectionFilter from "../components/SectionFilter";
 import { Color, FontSize, FontFamily } from "../GlobalStyles";
@@ -12,7 +12,7 @@ const EditEducation = () => {
       <View style={styles.groupChildPosition}>
         <View style={[styles.groupChild, styles.groupChildPosition]} />
       </View>
-      <Pressable
+      <TouchableOpacity
         style={[styles.icons8Cross501, styles.educationPosition]}
         onPress={() => navigation.goBack()}
       >
@@ -21,7 +21,7 @@ const EditEducation = () => {
           resizeMode="cover"
           source={require("../assets/icons8cross50-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Text style={[styles.education, styles.educationPosition]}>
         Education
       </Text>

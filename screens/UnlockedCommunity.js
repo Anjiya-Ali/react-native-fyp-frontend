@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable, Image } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import DataScienceSection from "../components/DataScienceSection";
 import SectionForm from "../components/SectionForm";
@@ -30,13 +30,13 @@ const UnlockedCommunity = () => {
       </View>
       <View style={styles.kMembersParent}>
         <Text style={[styles.kMembers, styles.inviteTypo]}>4.7K Members</Text>
-        <Pressable
+        <TouchableOpacity
           style={[styles.rectangleGroup, styles.groupLayout1]}
           onPress={() => navigation.navigate("InviteMembers")}
         >
           <View style={[styles.groupItem, styles.groupLayout1]} />
           <Text style={[styles.invite, styles.textPosition]}>Invite</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
       <Image
         style={[styles.icons8Plus501, styles.icons8Layout]}

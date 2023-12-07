@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Pressable, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SuccessCompletionForm from "../components/SuccessCompletionForm";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
@@ -11,7 +11,7 @@ const Feedback = () => {
     <View style={styles.feedback}>
       <View style={[styles.header, styles.headerLayout]}>
         <View style={[styles.headerChild, styles.childPosition]} />
-        <Pressable
+        <TouchableOpacity
           style={styles.icons8Arrow241}
           onPress={() => navigation.goBack()}
         >
@@ -20,7 +20,7 @@ const Feedback = () => {
             resizeMode="cover"
             source={require("../assets/icons8arrow24-1.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={[styles.quiz, styles.quizTypo]}>
           Claim Your Certificate!
         </Text>
@@ -42,7 +42,7 @@ const Feedback = () => {
           source={require("../assets/stars1.png")}
         />
         <View style={[styles.rectangleParent, styles.groupChildLayout]}>
-          <Pressable
+          <TouchableOpacity
             style={[styles.groupChild, styles.groupChildLayout]}
             onPress={() => navigation.navigate("Certificate")}
           />

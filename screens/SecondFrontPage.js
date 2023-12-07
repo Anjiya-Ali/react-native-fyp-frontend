@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize } from "../GlobalStyles";
 
@@ -27,8 +27,8 @@ const SecondFrontPage = () => {
         Streamlined platform for teachers to upload courses and students to
         enroll, fostering accessible education.
       </Text>
-      <Pressable
-        style={styles.rectanglePressable}
+      <TouchableOpacity
+        style={styles.rectangleTouchableOpacity}
         onPress={() => navigation.navigate("PrivacyPolicy")}
       />
       <Text style={[styles.getStarted, styles.getStartedTypo]}>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     height: 83,
     fontSize: FontSize.size_base,
   },
-  rectanglePressable: {
+  rectangleTouchableOpacity: {
     top: 531,
     left: 32,
     borderRadius: Border.br_31xl,

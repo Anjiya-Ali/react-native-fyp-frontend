@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -55,7 +55,7 @@ const Proposal11 = () => {
         resizeMode="cover"
         source={require("../assets/line-12.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.navigate("Proposal1")}
       >
@@ -64,7 +64,7 @@ const Proposal11 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-12.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

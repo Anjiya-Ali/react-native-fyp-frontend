@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontSize, FontFamily } from "../GlobalStyles";
 
@@ -98,7 +98,7 @@ const GroupAudioCall = () => {
         resizeMode="cover"
         source={require("../assets/icons8speaker30-1.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8EndCall601}
         onPress={() => navigation.navigate("Chat4")}
       >
@@ -107,7 +107,7 @@ const GroupAudioCall = () => {
           resizeMode="cover"
           source={require("../assets/icons8endcall60-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={[styles.icons8MuteUnmute502, styles.icons8Layout]}
         resizeMode="cover"

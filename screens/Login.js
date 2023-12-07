@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable } from "react-native";
+import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -42,14 +42,14 @@ const Login = () => {
       <Text style={[styles.loginToYour, styles.passwordClr]}>
         Login to your Account
       </Text>
-      <Pressable
+      <TouchableOpacity
         style={styles.createANewContainer}
         onPress={() => navigation.navigate("AreYouAStudentOrTeacher")}
       >
         <Text style={[styles.createANewAccount, styles.loginTypo]}>
           Create a New Account
         </Text>
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={[styles.picture101Icon, styles.iconLayout]}
         resizeMode="cover"

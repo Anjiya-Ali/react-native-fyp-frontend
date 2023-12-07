@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, Pressable, View, Text } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontSize, FontFamily, Border } from "../GlobalStyles";
 
@@ -10,7 +10,7 @@ const ELearningPage = () => {
     <View style={[styles.eLearningPage, styles.learningShadowBox]}>
        <View style={[styles.inner]}>
            <View>
-               <Pressable
+               <TouchableOpacity
                   style={[styles.picture226]}
                   onPress={() => navigation.navigate("CoursesE1")}
                 >
@@ -19,7 +19,7 @@ const ELearningPage = () => {
                     resizeMode="cover"
                     source={require("../assets/picture22-6.png")}
                   />
-              </Pressable>
+              </TouchableOpacity>
           </View>
           <View>
             <Text style={[styles.courses, styles.coursesTypo]}>Courses</Text>
@@ -28,7 +28,7 @@ const ELearningPage = () => {
 
       <View style={[styles.innerr]}>
           <View>
-              <Pressable
+              <TouchableOpacity
                 style={[
                   styles.b78cf961d8624e3f25c98f65bf620,
                 ]}
@@ -39,12 +39,12 @@ const ELearningPage = () => {
                   resizeMode="cover"
                   source={require("../assets/800b78cf961d8624e3f25c98f65bf620-1.png")}
                 />
-              </Pressable>
+              </TouchableOpacity>
               <Text style={[styles.coursesTypo]}>Communities</Text>
           </View>
 
           <View>
-            <Pressable
+            <TouchableOpacity
               style={[
                 styles.b78cf961d8624e3f25c98f65bf620,
                 styles.teachers,
@@ -56,7 +56,7 @@ const ELearningPage = () => {
                 resizeMode="cover"
                 source={require("../assets/professorteachingintheclassroomconceptfreevector-1.png")}
               />
-            </Pressable>
+            </TouchableOpacity>
             <Text style={[styles.teachers,styles.coursesTypo]}>Teachers</Text>
           </View>
       </View>
@@ -72,7 +72,7 @@ const ELearningPage = () => {
           </View>
       </View>
 
-      <Pressable
+      <TouchableOpacity
         style={[styles.icons8Back481, styles.picture226Position]}
         onPress={() => navigation.navigate("HomePage2")}
       >
@@ -81,7 +81,7 @@ const ELearningPage = () => {
           resizeMode="cover"
           source={require("../assets/icons8back48-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

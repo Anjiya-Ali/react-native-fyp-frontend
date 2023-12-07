@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 
@@ -30,8 +30,8 @@ const CreateCommunity = () => {
           resizeMode="cover"
           source={require("../assets/icons8uploadtocloud50-1.png")}
         />
-        <Pressable
-          style={styles.rectanglePressable}
+        <TouchableOpacity
+          style={styles.rectangleTouchableOpacity}
           onPress={() => navigation.navigate("MyCommunities")}
         />
         <Text style={[styles.createCommunity1, styles.createTypo]}>
@@ -40,7 +40,7 @@ const CreateCommunity = () => {
       </View>
       <View style={styles.headerPosition}>
         <View style={[styles.headerChild, styles.headerPosition]} />
-        <Pressable
+        <TouchableOpacity
           style={styles.icons8Arrow242}
           onPress={() => navigation.navigate("MyCommunities")}
         >
@@ -49,7 +49,7 @@ const CreateCommunity = () => {
             resizeMode="cover"
             source={require("../assets/icons8arrow24-1.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={[styles.createCommunity2, styles.createTypo]}>
           CREATE COMMUNITY
         </Text>
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     left: 156,
     width: 60,
   },
-  rectanglePressable: {
+  rectangleTouchableOpacity: {
     top: 508,
     height: 48,
     backgroundColor: Color.colorSlateblue,

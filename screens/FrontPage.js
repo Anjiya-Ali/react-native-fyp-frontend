@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Pressable } from "react-native";
+import { Image, StyleSheet, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color } from "../GlobalStyles";
 
@@ -7,7 +7,7 @@ const FrontPage = () => {
   const navigation = useNavigation();
 
   return (
-    <Pressable
+    <TouchableOpacity
       style={styles.frontPage}
       onPress={() => navigation.navigate("SecondFrontPage")}
     >
@@ -16,7 +16,7 @@ const FrontPage = () => {
         resizeMode="cover"
         source={require("../assets/imageizlyy1zfitransformed-13.png")}
       />
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

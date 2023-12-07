@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import PopularCoursesContainer1 from "../components/PopularCoursesContainer1";
 import LiveSessionsContainer from "../components/LiveSessionsContainer";
 import PopularCommunitiesContainer1 from "../components/PopularCommunitiesContainer1";
@@ -45,24 +45,24 @@ const HomePage2 = () => {
       </View>
       <View style={[styles.menu, styles.menuPosition1]}>
         <View style={[styles.menuChild, styles.menuPosition]} />
-        <Pressable
+        <TouchableOpacity
           style={[styles.myCourses, styles.myPostsPosition]}
           onPress={() => navigation.navigate("MyCourses")}
         >
           <Text style={styles.myCourses1}>My Courses</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.myPosts, styles.myPostsPosition]}
           onPress={() => navigation.navigate("MyPostPage")}
         >
           <Text style={styles.myCourses1}>My Posts</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.elearningPage, styles.myPostsPosition]}
           onPress={() => navigation.navigate("ELearningPage")}
         >
           <Text style={styles.myCourses1}>eLearning Page</Text>
-        </Pressable>
+        </TouchableOpacity>
         <Image
           style={styles.icons8Cart241}
           resizeMode="cover"
@@ -79,24 +79,24 @@ const HomePage2 = () => {
           resizeMode="cover"
           source={require("../assets/icons8sessions32-11.png")}
         />
-        <Pressable
+        <TouchableOpacity
           style={[styles.upcomingSessions, styles.myPostsPosition]}
           onPress={() => navigation.navigate("UpcomingSesions")}
         >
           <Text style={styles.myCourses1}>Upcoming Sessions</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           style={styles.cart}
           onPress={() => navigation.navigate("Cart1")}
         >
           <Text style={styles.myCourses1}>Cart</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.scheduledMeetings, styles.myPostsPosition]}
           onPress={() => navigation.navigate("Schedule1")}
         >
           <Text style={styles.myCourses1}>Scheduled Meetings</Text>
-        </Pressable>
+        </TouchableOpacity>
         <Image
           style={styles.icons8Schedule501}
           resizeMode="cover"
@@ -127,26 +127,26 @@ const HomePage2 = () => {
           resizeMode="cover"
           source={require("../assets/icons8elearning64-11.png")}
         />
-        <Pressable
+        <TouchableOpacity
           style={[styles.myChats, styles.myPostsPosition]}
           onPress={() => navigation.navigate("Chat1")}
         >
           <Text style={styles.myCourses1}>My Chats</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.myConnections, styles.myPostsPosition]}
           onPress={() => navigation.navigate("People2")}
         >
           <Text style={styles.myCourses1}>My Connections</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.myCommunities, styles.myPostsPosition]}
           onPress={() => navigation.navigate("MyCommunities")}
         >
           <Text style={styles.myCourses1}>My Communities</Text>
-        </Pressable>
+        </TouchableOpacity>
         <View style={[styles.menuItem, styles.menuPosition]} />
-        <Pressable
+        <TouchableOpacity
           style={styles.mine21}
           onPress={() => navigation.navigate("StudentProfilePage")}
         >
@@ -155,9 +155,9 @@ const HomePage2 = () => {
             resizeMode="cover"
             source={require("../assets/mine2-11.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={[styles.anjiyaAli, styles.anjiyaAliTypo]}>ANJIYA ALI</Text>
-        <Pressable
+        <TouchableOpacity
           style={styles.icons8Cross3011}
           onPress={() => navigation.navigate("HomePage1")}
         >
@@ -166,7 +166,7 @@ const HomePage2 = () => {
             resizeMode="cover"
             source={require("../assets/icons8cross30-1-11.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
       </View>
       <PrivacyPolicyContainer1 />
     </View>

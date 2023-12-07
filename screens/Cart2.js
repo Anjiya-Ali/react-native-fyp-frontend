@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -51,18 +51,18 @@ const Cart2 = () => {
       </Text>
       <View style={[styles.rectangleView, styles.cart2InnerBg]} />
       <Text style={[styles.pay, styles.payTypo]}>Pay</Text>
-      <Pressable
+      <TouchableOpacity
         style={styles.viewOrder}
         onPress={() => navigation.navigate("Cart3")}
       >
         <Text style={styles.viewOrder1}>View Order</Text>
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={styles.wer10Icon}
         resizeMode="cover"
         source={require("../assets/wer-10.png")}
       />
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Back481}
         onPress={() => navigation.goBack()}
       >
@@ -71,7 +71,7 @@ const Cart2 = () => {
           resizeMode="cover"
           source={require("../assets/icons8back48-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

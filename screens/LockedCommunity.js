@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable } from "react-native";
+import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import DataScienceSection from "../components/DataScienceSection";
 import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
@@ -30,7 +30,7 @@ const LockedCommunity = () => {
       </View>
       <View style={styles.kMembersParent}>
         <Text style={styles.kMembers}>5.2K Members</Text>
-        <Pressable
+        <TouchableOpacity
           style={[styles.rectangleGroup, styles.groupLayout]}
           onPress={() => navigation.navigate("LockedCommunity2")}
         >
@@ -41,7 +41,7 @@ const LockedCommunity = () => {
             resizeMode="cover"
             source={require("../assets/icons8join64-2.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
       </View>
       <View style={[styles.lockedParent, styles.lockedParentLayout]}>
         <Text style={[styles.locked, styles.joinTypo]}>LOCKED</Text>

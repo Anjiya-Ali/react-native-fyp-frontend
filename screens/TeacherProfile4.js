@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -9,7 +9,7 @@ const TeacherProfile4 = () => {
   return (
     <View style={styles.teacherProfile4}>
       <View
-        style={[styles.teacherProfile4Child, styles.rectanglePressableBg]}
+        style={[styles.teacherProfile4Child, styles.rectangleTouchableOpacityBg]}
       />
       <Image
         style={styles.teacherProfile4Item}
@@ -32,8 +32,8 @@ const TeacherProfile4 = () => {
       <Text style={[styles.whatDoYou, styles.whatDoYouTypo]}>
         What do you wanna say about Teacher ?
       </Text>
-      <Pressable
-        style={[styles.rectanglePressable, styles.rectanglePressableBg]}
+      <TouchableOpacity
+        style={[styles.rectangleTouchableOpacity, styles.rectangleTouchableOpacityBg]}
         onPress={() => navigation.navigate("Proposal11")}
       />
       <Text style={[styles.giveFeedback, styles.giveFeedbackTypo]}>
@@ -83,7 +83,7 @@ const TeacherProfile4 = () => {
 };
 
 const styles = StyleSheet.create({
-  rectanglePressableBg: {
+  rectangleTouchableOpacityBg: {
     backgroundColor: Color.colorSlateblue,
     borderRadius: Border.br_21xl,
     position: "absolute",
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.interExtraBold,
     fontWeight: "800",
   },
-  rectanglePressable: {
+  rectangleTouchableOpacity: {
     top: 573,
     left: 64,
     width: 230,

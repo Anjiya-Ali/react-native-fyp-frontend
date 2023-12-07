@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import EducationSection from "../components/EducationSection";
 import CertificationsSection from "../components/CertificationsSection";
@@ -14,7 +14,7 @@ const StudentProfilePage = () => {
       <View style={styles.groupChildPosition}>
         <View style={[styles.groupChild, styles.groupChildPosition]} />
         <Text style={styles.myProfile}>MY PROFILE</Text>
-        <Pressable
+        <TouchableOpacity
           style={styles.hamburger}
           onPress={() => navigation.navigate("HomePage2")}
         >
@@ -23,9 +23,9 @@ const StudentProfilePage = () => {
             resizeMode="cover"
             source={require("../assets/hamburger1.png")}
           />
-        </Pressable>
+        </TouchableOpacity>
       </View>
-      <Pressable
+      <TouchableOpacity
         style={[styles.icons8Arrow241, styles.icons8Arrow241Position]}
         onPress={() => navigation.navigate("HomePage1")}
       >
@@ -34,7 +34,7 @@ const StudentProfilePage = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-1.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <Image
         style={[styles.inshasamnani2Icon, styles.icons8Arrow241Position]}
         resizeMode="cover"

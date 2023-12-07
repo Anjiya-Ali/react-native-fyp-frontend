@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import OrderSummaryCard from "../components/OrderSummaryCard";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontSize, FontFamily, Border } from "../GlobalStyles";
@@ -42,12 +42,12 @@ while we review your payment`}</Text>
         You Order Summary is:
       </Text>
       <OrderSummaryCard />
-      <Pressable
-        style={styles.pressable}
+      <TouchableOpacity
+        style={styles.TouchableOpacity}
         onPress={() => navigation.navigate("Proposal12")}
       >
         <Text style={[styles.text, styles.orderTypo]}>􀅾</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.sFProDisplay,
     color: Color.blue500,
   },
-  pressable: {
+  TouchableOpacity: {
     left: 5,
     top: 7,
     position: "absolute",

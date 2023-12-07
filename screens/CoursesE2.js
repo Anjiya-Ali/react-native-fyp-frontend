@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
 
@@ -112,7 +112,7 @@ const CoursesE2 = () => {
       />
       <View style={[styles.coursesE2Child15, styles.coursesChildLayout3]} />
       <Text style={[styles.toa, styles.irTypo]}>TOA</Text>
-      <Pressable
+      <TouchableOpacity
         style={[styles.black18, styles.iconLayout1]}
         onPress={() => navigation.navigate("CoursesE3")}
       >
@@ -121,7 +121,7 @@ const CoursesE2 = () => {
           resizeMode="cover"
           source={require("../assets/black-17.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
       <View style={[styles.coursesE2Child16, styles.coursesChildLayout3]} />
       <Text style={[styles.nlp, styles.irTypo]}>NLP</Text>
       <Image
@@ -225,7 +225,7 @@ const CoursesE2 = () => {
       </Text>
       <View style={[styles.coursesE2Child31, styles.communitiesPosition]} />
       <Text style={[styles.apply, styles.applyTypo]}>Apply</Text>
-      <Pressable
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.goBack()}
       >
@@ -234,8 +234,8 @@ const CoursesE2 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-11.png")}
         />
-      </Pressable>
-      <Pressable
+      </TouchableOpacity>
+      <TouchableOpacity
         style={styles.icons8Arrow241}
         onPress={() => navigation.navigate("ELearningPage")}
       >
@@ -244,7 +244,7 @@ const CoursesE2 = () => {
           resizeMode="cover"
           source={require("../assets/icons8arrow24-11.png")}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
