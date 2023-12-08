@@ -103,6 +103,11 @@ const App = () => {
                   options={{ headerShown: false }}
                 />
                 <Stack.Screen
+                  name="Certificate"
+                  component={Certificate}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
                   name="SingleCourse"
                   component={SingleCourse}
                   options={{ headerShown: false }}
@@ -430,11 +435,6 @@ const App = () => {
                 <Stack.Screen
                   name="LiveSession"
                   component={LiveSession}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Certificate"
-                  component={Certificate}
                   options={{ headerShown: false }}
                 />
                 <Stack.Screen

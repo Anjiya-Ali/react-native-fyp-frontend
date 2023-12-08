@@ -209,7 +209,7 @@ const SingleCourse = (props) => {
                         </TouchableOpacity>
                       )}
                       {topic.status !== 'locked' && topic.post_type == 'quiz' && (
-                        <TouchableOpacity onPress={() => navigation.navigate("Quiz", { quizId: topic.post_id })}>
+                        <TouchableOpacity onPress={() => navigation.navigate("Quiz", { quizId: topic.post_id, courseId: courseId })}>
                           <Image
                             style={styles.hamburgerIcon}
                             resizeMode="cover"

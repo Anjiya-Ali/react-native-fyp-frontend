@@ -90,6 +90,22 @@ const CourseState = (props) => {
     await response.json();
   }
 
+  const updateQuizGraduation = async (quizId, courseId, graduation) => {
+    const response = await fetch(`${host}/api/CourseProgression/UpdateQuizGraduation`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+      },
+      body: JSON.stringify({
+        'quiz_id': quizId,
+        'course_id': courseId,
+        'graduation': graduation
+      })
+    });
+    await response.json();
+  }
+
   const markTopicCompleted = async (id) => {
     const response = await fetch(`${host}/api/CourseProgression/MarkTopicCompleted/${id}`, {
       method: 'PUT',
@@ -151,6 +167,18 @@ const CourseState = (props) => {
       setLessonsOfCourse(json.lessons)
   }
 
+  const getCerificateDetails = async (id) => {
+    
+    const response = await fetch(`${host}/api/CourseProgression/GetCerificateDetails/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+      },
+    });
+    return await response.json();
+  }
+
   const getLessonItems = async (id) => {
     
     const response = await fetch(`${host}/api/CourseProgression/GetLessonItems/${id}`, {
@@ -192,7 +220,7 @@ const CourseState = (props) => {
   }
 
   return (
-    <CourseContext.Provider value={{ myCourses, payCourse, getMyCourses, getCourseCompletion, percentage, allCourses, getCourses, course, getSingleCourse, getUser, user, addTopicInProgress, addQuizInProgress, getOrderCourseStatus, orderCourseStatus, setCourse, getLessonsOfCourse, lessonsOfCourse, getLessonItems, markTopicCompleted, getQuizQuestions }}>
+    <CourseContext.Provider value={{ myCourses, payCourse, getMyCourses, getCourseCompletion, percentage, allCourses, getCourses, course, getSingleCourse, getUser, user, addTopicInProgress, updateQuizGraduation, addQuizInProgress, getOrderCourseStatus, orderCourseStatus, setCourse, getLessonsOfCourse, lessonsOfCourse, getLessonItems, markTopicCompleted, getQuizQuestions, getCerificateDetails }}>
       {props.children}
     </CourseContext.Provider>
   )

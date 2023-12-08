@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Text, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import ContainerSection from "../components/ContainerSection";
 import { Color, FontFamily, Border, FontSize } from "../GlobalStyles";
 import CourseContext from "../context/Courses/courseContext";
 import Header from "../components/Header";
@@ -9,11 +8,12 @@ import Header from "../components/Header";
 const Quiz = (props) => {
   const navigation = useNavigation();
   const { quizId } = props.route.params;
+  const { courseId } = props.route.params;
   const [questions, setQuestions] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState(null);
   const context = useContext(CourseContext);
-  const { getQuizQuestions } = context;
+  const { getQuizQuestions, updateQuizGraduation } = context;
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -48,6 +48,25 @@ const Quiz = (props) => {
     }
   };
 
+  const handleFinish = () => {
+    if (isQuizPassed) {
+      updateQuizGraduation(quizId, courseId, 'pass');
+      Alert.alert(
+        'Congratulations!',
+        'You passed the quiz!',
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('Certificate', { courseId: courseId }),
+          },
+        ],
+      );
+    } else {
+      updateQuizGraduation(quizId, courseId, 'fail');
+      alert(`Quiz Failed, You need to try again :('`);
+    }
+  };
+
   const calculateScore = () => {
     if (questions && answers) {
       const correctAnswers = questions.reduce((acc, question, index) => {
@@ -64,7 +83,9 @@ const Quiz = (props) => {
         0
       );
 
-      return (correctAnswers / totalMarks) * 100;
+      const percent = (correctAnswers / totalMarks) * 100;
+
+      return percent;
     }
   };
 
@@ -73,11 +94,12 @@ const Quiz = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <Header
-        heading='Last Step To Certificate!'
+        heading='Certification Awaits!'
         navigate="MyCourses"
       />
       {questions && answers && (
         <View style={{ flex: 1, marginTop: 20 }}>
+          <Text style={[styles.note]}>You need to score 80% to pass this quiz and to get your certificate!</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             {questions.map((_, index) => (
               <View
@@ -123,7 +145,7 @@ const Quiz = (props) => {
                 <Text style={{
                   color: answers[currentQuestionIndex] === index ? 'white' : 'black',
                   fontWeight: '600'
-                }}>{answer.title}</Text>
+                }}>{String.fromCharCode(65 + index)}. {answer.title}</Text>
               </TouchableOpacity>
             ))}
 
@@ -141,7 +163,7 @@ const Quiz = (props) => {
                 </TouchableOpacity>
               )}
 
-              <TouchableOpacity onPress={currentQuestionIndex === questions.length - 1 ? () => alert(`Quiz ${isQuizPassed ? 'Passed' : 'Failed, You need to try again :('}`) : handleNext}>
+              <TouchableOpacity onPress={currentQuestionIndex === questions.length - 1 ? handleFinish : handleNext}>
                 <Text style={[styles.button]}>
                   {currentQuestionIndex === questions.length - 1 ? 'Finish' : 'Next'}
                 </Text>
@@ -155,6 +177,12 @@ const Quiz = (props) => {
 };
 
 const styles = StyleSheet.create({
+  note: {
+    marginBottom: 20,
+    color: 'green',
+    fontSize: 10,
+    textAlign: 'center'
+  },
   button: {
     color: 'white',
     backgroundColor: Color.colorSlateblue,

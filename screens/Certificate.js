@@ -1,117 +1,309 @@
-import * as React from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Platform , Modal,TouchableWithoutFeedback,} from 'react-native';
+import generateCertificatePDF from './CertificateGenerator';
+import { PermissionsAndroid } from 'react-native';
+import RNFS from 'react-native-fs';
 import { useNavigation } from "@react-navigation/native";
-import SuccessCompletionForm from "../components/SuccessCompletionForm";
-import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
+import { useWindowDimensions } from 'react-native';
+import RenderHtml from 'react-native-render-html';
+import FileViewer from "react-native-file-viewer";
+import { format } from 'date-fns';
+import { Color, FontSize, FontFamily } from "../GlobalStyles";
+import CourseContext from "../context/Courses/courseContext";
+import Header from "../components/Header";
+import { BlurView } from 'react-native-blur';
 
-const Certificate = () => {
-  const navigation = useNavigation();
+const currentDate = new Date();
+const formattedDateStr = format(currentDate, "do MMMM yyyy");
+
+const FeedbackPopup = ({ onClose, onSubmit }) => {
+  const [selectedStars, setSelectedStars] = useState(0);
+  const [isDoneDisabled, setIsDoneDisabled] = useState(true);
+
+  const handleStarClick = (stars) => {
+    setSelectedStars(stars);
+    setIsDoneDisabled(false);
+  };
+
+  const handleSubmit = () => {
+    onSubmit(selectedStars);
+    onClose();
+  };
 
   return (
-    <View style={styles.certificate}>
-      <View style={[styles.header, styles.headerLayout]}>
-        <View style={[styles.headerChild, styles.childPosition]} />
-        <Text style={[styles.quiz, styles.quizClr]}>
-          Claim Your Certificate!
-        </Text>
-        <TouchableOpacity
-          style={styles.icons8Cross501}
-          onPress={() => navigation.navigate("MyCourses")}
-        >
-          <Image
-            style={styles.icon}
-            resizeMode="cover"
-            source={require("../assets/icons8cross50-1.png")}
+    <BlurView
+    style={styles.blurView}
+    blurType="dark"
+    blurAmount={10}
+    reducedTransparencyFallbackColor="white"
+  >
+    <View style={styles.modalContent}>
+      <Text style={styles.popupTitle}>Please rate this course. Your opinion matters.</Text>
+      <View style={styles.starContainer}>
+        {[1, 2, 3, 4, 5].map((stars) => (
+          <TouchableOpacity
+            key={stars}
+            onPress={() => handleStarClick(stars)}
+            style={[styles.star, { color: selectedStars >= stars ? 'blue' : 'black' }]}
+          >
+            {'\u2605'}
+          </TouchableOpacity>
+        ))}
+      </View>
+      <TouchableOpacity
+        onPress={handleSubmit}
+        style={[styles.button, { opacity: isDoneDisabled ? 0.5 : 1 }]}
+        disabled={isDoneDisabled}
+      >
+        <Text>Done</Text>
+      </TouchableOpacity>
+    </View>
+  </BlurView>
+  );
+};
+
+const Certificate = (props) => {
+  const navigation = useNavigation();
+  const { courseId } = props.route.params;
+  const context = useContext(CourseContext);
+  const { getCerificateDetails } = context;
+  const { width } = useWindowDimensions();
+  const [certificatePath, setCertificatePath] = useState(null);
+  const [name, setName] = useState(null);
+  const [instructorName, setInstructorName] = useState(null);
+  const [title, setTitle] = useState(null);
+
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(true);
+
+  const handleCloseFeedback = () => {
+    setIsFeedbackOpen(false);
+  };
+
+  const handleFeedbackSubmit = (stars) => {
+    // Call your API to submit feedback with the selected stars
+    console.log('Feedback submitted with stars:', stars);
+  };
+
+  const renderersProps = {
+    img: {
+      enableExperimentalPercentWidth: true
+    }
+  };
+
+  useEffect(() => {
+    const generateAndShowCertificate = async () => {
+      try {
+        const data = await getCerificateDetails(courseId);
+        if(data.data.details){
+          setName(data.data.details.name)
+          setInstructorName(data.data.details.instructor_name)
+          setTitle(data.data.details.course_title)
+        }
+        const filePath = await generateCertificatePDF(name, instructorName, title, formattedDateStr);
+        setCertificatePath(filePath);
+      } catch (error) {
+        console.error('Error generating certificate:', error);
+      }
+    };
+    
+    generateAndShowCertificate();
+  }, [courseId]);
+
+  const openDocument = async (filePath, fileName) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const localFile = `${RNFS.DownloadDirectoryPath}/${fileName}`;
+        console.log("localFile ===>", localFile);
+        const options = {
+          displayName: `${title}_${name}`,
+          mimeType: 'application/pdf',
+        };
+
+        RNFS.copyFile(filePath, localFile, options)
+          .then(() => FileViewer.open(localFile))
+          .then((res) => {
+            // Success
+            console.log('res', res);
+            resolve(res);
+          })
+          .catch((error) => {
+            // Error
+            console.log('error', error);
+            reject(error);
+          });
+      } catch (error) {
+        console.log(error);
+        reject(error);
+        toastAndroid('File Not Available');
+      }
+    });
+  };
+
+  const requestStoragePermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'Storage Permission',
+          message: 'App needs access to your storage to save the certificate.',
+          buttonPositive: 'OK',
+        },
+      );
+
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Storage permission granted');
+      } else {
+        console.log('Storage permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const handleDownloadCertificate = async () => {
+    if (certificatePath) {
+      try {
+        if (Platform.OS === 'android') {
+          await requestStoragePermission();
+        }
+        openDocument(certificatePath, `${title}_${name}`,);
+      } catch (error) {
+        console.error('Error downloading certificate:', error);
+      }
+    }
+  };
+  const source = {
+    html: `
+    <div class="certificate" style="border: 20px solid #0C5280; background-color: white; padding: 25px; text-align: center; width: 100%; height: 100%">
+      <h1 style="font-weight: 400; font-size: 23px; color: #0C5280;">Certificate of Completion</h1>
+      <p class="student-name" style="font-size: 24px; color: black;">${name}</p>
+      <div class="certificate-content">
+          <p style="text-align: center; color: black;">
+              has successfully completed a course</br></br><span style="font-size: 14px; font-weight: bold">'${title}' by '${instructorName}'</span></br></br><span>on ${formattedDateStr}</span>
+          </p>
+          <img src="https://i.imgur.com/ZVF91Zf.png" class="logo" alt="" style="width: 100px; height: 100px;">
+      </div>
+    </div>`
+  };
+
+  return (
+    <View style={styles.container}>
+      {certificatePath && (
+       <View style={styles.container}>
+          <Header
+            heading='YOU DID IT!!'
+            navigate="MyCourses"
           />
-        </TouchableOpacity>
-      </View>
-      <SuccessCompletionForm />
-      <View style={[styles.next, styles.nextLayout]}>
-        <View style={[styles.nextChild, styles.nextLayout]} />
-        <Text style={[styles.downloadCerificate, styles.quizClr]}>
-          Download Cerificate
-        </Text>
-      </View>
+          {isFeedbackOpen && (
+            <FeedbackPopup
+              onClose={handleCloseFeedback}
+              onSubmit={handleFeedbackSubmit}
+            />
+          )}
+          <View style={styles.congrats}>
+            <Text style={[styles.congratulations]}>
+              CONGRATULATIONS
+            </Text>
+            <Text style={[styles.youHaveSuccessfully]}>
+              YOU HAVE SUCCESSFULLY COMPLETED YOUR TEST
+            </Text>
+          </View>
+
+          <View style={styles.certificate}>
+            <RenderHtml
+              contentWidth={width}
+              source={source}
+              renderersProps={renderersProps}
+            />
+          </View>
+          <View>
+            <TouchableOpacity onPress={handleDownloadCertificate} style={styles.button}>
+              <Text style={styles.buttonText}>Download Certificate</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  headerLayout: {
-    width: 360,
-    position: "absolute",
+  congrats: {
+    flex: 0.3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Color.colorGainsboro_200,
+    width: '90%',
+    marginTop: 20,
   },
-  childPosition: {
-    backgroundColor: Color.colorSlateblue,
-    left: 0,
-    top: 0,
+  congratulations: {
+    textAlign: 'center',
+    fontSize: FontSize.size_sm,
+    fontWeight: "600",
+    fontFamily: FontFamily.interSemiBold,
+    color: Color.colorDimgray_100,
   },
-  quizClr: {
-    color: Color.colorWhite,
-    position: "absolute",
-  },
-  nextLayout: {
-    height: 28,
-    width: 223,
-    position: "absolute",
-  },
-  headerChild: {
-    borderBottomRightRadius: Border.br_11xl,
-    borderBottomLeftRadius: Border.br_11xl,
-    height: 81,
-    width: 360,
-    position: "absolute",
-  },
-  quiz: {
-    top: 28,
-    left: 31,
-    fontSize: FontSize.size_lg,
-    fontWeight: "500",
-    fontFamily: FontFamily.interMedium,
-    textAlign: "center",
-    width: 292,
-    height: 114,
-  },
-  icon: {
-    height: "100%",
-    width: "100%",
-  },
-  icons8Cross501: {
-    left: 18,
-    top: 29,
-    width: 26,
-    height: 26,
-    position: "absolute",
-  },
-  header: {
-    height: 142,
-    left: 0,
-    top: 0,
-    width: 360,
-  },
-  nextChild: {
-    backgroundColor: Color.colorSlateblue,
-    left: 0,
-    top: 0,
-  },
-  downloadCerificate: {
-    top: 3,
-    left: 33,
-    fontSize: FontSize.bodyBold_size,
+  youHaveSuccessfully: {
+    textAlign: 'center',
+    fontSize: 15,
+    padding: 20,
     fontWeight: "700",
     fontFamily: FontFamily.interBold,
-    textAlign: "left",
+    color: Color.labelColorLightPrimary,
   },
-  next: {
-    top: 560,
-    left: 68,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  odalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'white',
+    padding: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  starContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  star: {
+    fontSize: 24,
+  },
+  button: {
+    marginTop: 20,
+    backgroundColor: '#373eb2',
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
   },
   certificate: {
-    backgroundColor: Color.colorWhite,
+    marginTop: 20,
     flex: 1,
-    height: 651,
-    overflow: "hidden",
-    width: "100%",
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  button: {
+    margin: 20,
+    backgroundColor: '#373eb2',
+    padding: 10,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: '#FFFFFF',
   },
 });
 
