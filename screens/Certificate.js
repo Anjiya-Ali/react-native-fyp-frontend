@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Platform , Modal,TouchableWithoutFeedback,} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Platform, Modal, TouchableWithoutFeedback, } from 'react-native';
 import generateCertificatePDF from './CertificateGenerator';
 import { PermissionsAndroid } from 'react-native';
 import RNFS from 'react-native-fs';
@@ -11,7 +11,6 @@ import { format } from 'date-fns';
 import { Color, FontSize, FontFamily } from "../GlobalStyles";
 import CourseContext from "../context/Courses/courseContext";
 import Header from "../components/Header";
-import { BlurView } from 'react-native-blur';
 
 const currentDate = new Date();
 const formattedDateStr = format(currentDate, "do MMMM yyyy");
@@ -31,34 +30,31 @@ const FeedbackPopup = ({ onClose, onSubmit }) => {
   };
 
   return (
-    <BlurView
-    style={styles.blurView}
-    blurType="dark"
-    blurAmount={10}
-    reducedTransparencyFallbackColor="white"
-  >
-    <View style={styles.modalContent}>
-      <Text style={styles.popupTitle}>Please rate this course. Your opinion matters.</Text>
-      <View style={styles.starContainer}>
-        {[1, 2, 3, 4, 5].map((stars) => (
-          <TouchableOpacity
-            key={stars}
-            onPress={() => handleStarClick(stars)}
-            style={[styles.star, { color: selectedStars >= stars ? 'blue' : 'black' }]}
-          >
-            {'\u2605'}
-          </TouchableOpacity>
-        ))}
+    <Modal transparent animationType="slide">
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View />
+      </TouchableWithoutFeedback>
+      <View style={styles.modalContent}>
+        <Text style={styles.text}>Please rate this course. Your opinion matters.</Text>
+        <View style={styles.starContainer}>
+          {[1, 2, 3, 4, 5].map((stars) => (
+            <TouchableOpacity
+              key={stars}
+              onPress={() => handleStarClick(stars)}
+            >
+              <Text style={[styles.startext, { color: stars <= selectedStars ? Color.colorSlateblue : 'black' }]}>{'\u2605'}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <TouchableOpacity
+          onPress={handleSubmit}
+          style={[styles.button, { opacity: isDoneDisabled ? 0.5 : 1 }]}
+          disabled={isDoneDisabled}
+        >
+          <Text style={styles.done}>Done</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        onPress={handleSubmit}
-        style={[styles.button, { opacity: isDoneDisabled ? 0.5 : 1 }]}
-        disabled={isDoneDisabled}
-      >
-        <Text>Done</Text>
-      </TouchableOpacity>
-    </View>
-  </BlurView>
+    </Modal>
   );
 };
 
@@ -66,7 +62,7 @@ const Certificate = (props) => {
   const navigation = useNavigation();
   const { courseId } = props.route.params;
   const context = useContext(CourseContext);
-  const { getCerificateDetails } = context;
+  const { getCerificateDetails, addCourseRating } = context;
   const { width } = useWindowDimensions();
   const [certificatePath, setCertificatePath] = useState(null);
   const [name, setName] = useState(null);
@@ -80,8 +76,7 @@ const Certificate = (props) => {
   };
 
   const handleFeedbackSubmit = (stars) => {
-    // Call your API to submit feedback with the selected stars
-    console.log('Feedback submitted with stars:', stars);
+    addCourseRating(courseId, stars);
   };
 
   const renderersProps = {
@@ -94,7 +89,7 @@ const Certificate = (props) => {
     const generateAndShowCertificate = async () => {
       try {
         const data = await getCerificateDetails(courseId);
-        if(data.data.details){
+        if (data.data.details) {
           setName(data.data.details.name)
           setInstructorName(data.data.details.instructor_name)
           setTitle(data.data.details.course_title)
@@ -105,7 +100,7 @@ const Certificate = (props) => {
         console.error('Error generating certificate:', error);
       }
     };
-    
+
     generateAndShowCertificate();
   }, [courseId]);
 
@@ -189,39 +184,41 @@ const Certificate = (props) => {
   return (
     <View style={styles.container}>
       {certificatePath && (
-       <View style={styles.container}>
+        <>
           <Header
             heading='YOU DID IT!!'
             navigate="MyCourses"
           />
-          {isFeedbackOpen && (
-            <FeedbackPopup
-              onClose={handleCloseFeedback}
-              onSubmit={handleFeedbackSubmit}
-            />
-          )}
-          <View style={styles.congrats}>
-            <Text style={[styles.congratulations]}>
-              CONGRATULATIONS
-            </Text>
-            <Text style={[styles.youHaveSuccessfully]}>
-              YOU HAVE SUCCESSFULLY COMPLETED YOUR TEST
-            </Text>
-          </View>
+          <View style={styles.container}>
+            {isFeedbackOpen && (
+              <FeedbackPopup
+                onClose={handleCloseFeedback}
+                onSubmit={handleFeedbackSubmit}
+              />
+            )}
+            <View style={styles.congrats}>
+              <Text style={[styles.congratulations]}>
+                CONGRATULATIONS
+              </Text>
+              <Text style={[styles.youHaveSuccessfully]}>
+                YOU HAVE SUCCESSFULLY COMPLETED YOUR TEST
+              </Text>
+            </View>
 
-          <View style={styles.certificate}>
-            <RenderHtml
-              contentWidth={width}
-              source={source}
-              renderersProps={renderersProps}
-            />
+            <View style={styles.certificate}>
+              <RenderHtml
+                contentWidth={width}
+                source={source}
+                renderersProps={renderersProps}
+              />
+            </View>
+            <View>
+              <TouchableOpacity onPress={handleDownloadCertificate} style={styles.button}>
+                <Text style={styles.buttonText}>Download Certificate</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View>
-            <TouchableOpacity onPress={handleDownloadCertificate} style={styles.button}>
-              <Text style={styles.buttonText}>Download Certificate</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        </>
       )}
     </View>
   );
@@ -252,6 +249,7 @@ const styles = StyleSheet.create({
     color: Color.labelColorLightPrimary,
   },
   container: {
+    marginBottom: 10,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -261,11 +259,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
+    justifyContent: 'center',
+    height: 250,
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'white',
+    backgroundColor: Color.colorGainsboro_200,
     padding: 20,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -275,11 +275,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
   },
-  star: {
-    fontSize: 24,
+  text: {
+    textAlign: 'center',
+    color: 'black',
+    fontSize: 15,
+    marginBottom: 15,
+    fontWeight: 'bold'
+  },
+  startext: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 23
+  },
+  done: {
+    textAlign: 'center',
+    color: 'white',
   },
   button: {
-    marginTop: 20,
+    marginTop: 25,
     backgroundColor: '#373eb2',
     padding: 10,
     borderRadius: 10,
@@ -297,8 +310,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    margin: 20,
-    backgroundColor: '#373eb2',
+    marginTop: 25,
+    backgroundColor: Color.colorSlateblue,
     padding: 10,
     borderRadius: 10,
   },

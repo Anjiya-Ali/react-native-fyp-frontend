@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, View, ScrollView, Image, Text, TouchableOpacity, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ProgressCircle from 'react-native-progress-circle'
@@ -155,7 +154,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   progressIcon: {
-    top: width < 600 ? 98 : 227,
+    top: width < 600 ? 95 : 227,
     right: 0,
     position: "absolute",
   },

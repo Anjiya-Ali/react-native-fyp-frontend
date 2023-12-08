@@ -139,6 +139,20 @@ const CourseState = (props) => {
     await response.json();
   }
 
+  const addCourseRating = async (id, stars) => {
+    const response = await fetch(`${host}/api/CourseProgression/AddCourseRating/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+      },
+      body: JSON.stringify({
+        'rating': stars,
+      })
+    });
+    await response.json();
+  }
+
   const getOrderCourseStatus = async (id) => {
     
     const response = await fetch(`${host}/api/CourseEnrollment/GetOrderCourseStatus/${id}`, {
@@ -220,7 +234,7 @@ const CourseState = (props) => {
   }
 
   return (
-    <CourseContext.Provider value={{ myCourses, payCourse, getMyCourses, getCourseCompletion, percentage, allCourses, getCourses, course, getSingleCourse, getUser, user, addTopicInProgress, updateQuizGraduation, addQuizInProgress, getOrderCourseStatus, orderCourseStatus, setCourse, getLessonsOfCourse, lessonsOfCourse, getLessonItems, markTopicCompleted, getQuizQuestions, getCerificateDetails }}>
+    <CourseContext.Provider value={{ myCourses, payCourse, getMyCourses, getCourseCompletion, percentage, allCourses, getCourses, course, getSingleCourse, getUser, user, addCourseRating, addTopicInProgress, updateQuizGraduation, addQuizInProgress, getOrderCourseStatus, orderCourseStatus, setCourse, getLessonsOfCourse, lessonsOfCourse, getLessonItems, markTopicCompleted, getQuizQuestions, getCerificateDetails }}>
       {props.children}
     </CourseContext.Provider>
   )
