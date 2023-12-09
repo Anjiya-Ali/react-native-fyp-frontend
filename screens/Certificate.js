@@ -93,9 +93,10 @@ const Certificate = (props) => {
           setName(data.data.details.name)
           setInstructorName(data.data.details.instructor_name)
           setTitle(data.data.details.course_title)
+
+          const filePath = await generateCertificatePDF(data.data.details.name, data.data.details.instructor_name, data.data.details.course_title, formattedDateStr);
+          setCertificatePath(filePath);
         }
-        const filePath = await generateCertificatePDF(name, instructorName, title, formattedDateStr);
-        setCertificatePath(filePath);
       } catch (error) {
         console.error('Error generating certificate:', error);
       }
@@ -110,7 +111,7 @@ const Certificate = (props) => {
         const localFile = `${RNFS.DownloadDirectoryPath}/${fileName}`;
         console.log("localFile ===>", localFile);
         const options = {
-          displayName: `${title}_${name}`,
+          displayName: `${title}_${name}.pdf`,
           mimeType: 'application/pdf',
         };
 
@@ -161,7 +162,7 @@ const Certificate = (props) => {
         if (Platform.OS === 'android') {
           await requestStoragePermission();
         }
-        openDocument(certificatePath, `${title}_${name}`,);
+        openDocument(certificatePath, `${title}_${name}.pdf`,);
       } catch (error) {
         console.error('Error downloading certificate:', error);
       }
