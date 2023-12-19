@@ -10,6 +10,9 @@ import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 import com.christopherdro.htmltopdf.RNHTMLtoPDFPackage;
 import java.util.List;
+import live.videosdk.rnfgservice.ForegroundServicePackage;
+import live.videosdk.rnincallmanager.InCallManagerPackage;
+import live.videosdk.rnwebrtc.WebRTCModulePackage;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -26,6 +29,11 @@ public class MainApplication extends Application implements ReactApplication {
         //  packages.add(new RNHTMLtoPDFPackage());  // Add this line
     // Packages that cannot be autolinked yet can be added manually here, for example:
     // packages.add(new MyReactNativePackage());
+
+    
+    packages.add(new ForegroundServicePackage());
+    packages.add(new InCallManagerPackage());
+    packages.add(new WebRTCModulePackage());
 
     return packages;
         }

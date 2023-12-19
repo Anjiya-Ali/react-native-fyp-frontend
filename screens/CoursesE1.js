@@ -5,8 +5,6 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TeachersE1 from "./TeachersE1";
-import CommunitiesE2 from "./CommunitiesE2";
 import CourseContext from "../context/Courses/courseContext";
 
 const windowWidth = Dimensions.get('window').width;
@@ -165,8 +163,8 @@ function MyTabs() {
       })}
     >
       <Tab.Screen name="Courses" component={Courses} />
-      <Tab.Screen name="Teachers" component={TeachersE1} />
-      <Tab.Screen name="Communities" component={CommunitiesE2} />
+      <Tab.Screen name="Teachers" component={Courses} />
+      <Tab.Screen name="Communities" component={Courses} />
     </Tab.Navigator>
   );
 }
