@@ -12,16 +12,22 @@ const ProfileInfoScreen = (props) => {
     const [profilePicture, setProfilePicture] = useState(null);
     const [isAddEducationModalVisible, setAddEducationModalVisible] = useState(false);
     const [educationList, setEducationList] = useState([]);
+    const [educationArray, setEducationArray] = useState([]);
     const [isAddLanguageModalVisible, setAddLanguageModalVisible] = useState(false);
     const [languageList, setLanguageList] = useState([]);
+    const [languageArray, setLanguageArray] = useState([]);
     const [isAddExperienceModalVisible, setAddExperienceModalVisible] = useState(false);
     const [experienceList, setExperienceList] = useState([]);
+    const [experienceArray, setExperienceArray] = useState([]);
     const [isAddCertificateModalVisible, setAddCertificateModalVisible] = useState(false);
     const [projectList, setProjectList] = useState([]);
+    const [projectArray, setProjectArray] = useState([]);
     const [isAddProjectModalVisible, setAddProjectModalVisible] = useState(false);
     const [certificateList, setCertificateList] = useState([]);
+    const [certificateArray, setCertificateArray] = useState([]);
     const [isAddHonorsModalVisible, setAddHonorsModalVisible] = useState(false);
     const [honorsList, setHonorsList] = useState([]);
+    const [honorsArray, setHonorsArray] = useState([]);
     const [isAddSkillModalVisible, setAddSkillModalVisible] = useState(false);
     const [skillsList, setSkillsList] = useState([]);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -32,7 +38,7 @@ const ProfileInfoScreen = (props) => {
         { label: 'Skill 2', value: 'Skill 2' },
         { label: 'Skill 3', value: 'Skill 3' },
     ]);
-    const { getSkill, skills, addSkill } = context;
+    const { getSkill, skills, addSkill, addEducation, addExperience, addProfilePic, addCertification, addHaw, addLanguage, addProject, addBio } = context;
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -129,6 +135,9 @@ const ProfileInfoScreen = (props) => {
         const newHonors = `${honorsForm.title} - ${honorsForm.description}, Date: ${honorsForm.date}`;
         setHonorsList([...honorsList, newHonors]);
 
+        const honor = `${honorsForm.title}, ${honorsForm.description}, ${honorsForm.date}`;
+        setHonorsArray([...honorsArray, honor]);
+
         // Clear the honors form
         setHonorsForm({
             title: '',
@@ -174,6 +183,9 @@ const ProfileInfoScreen = (props) => {
 
         const newProject = `${projectForm.title} - ${projectForm.description}, ${projectForm.startYear} - ${projectForm.endYear}, Link: ${projectForm.link}`;
         setProjectList([...projectList, newProject]);
+
+        const project = `${projectForm.title}, ${projectForm.description}, ${projectForm.startYear}, ${projectForm.endYear}, ${projectForm.link}`;
+        setProjectArray([...projectArray, project]);
 
         // Clear the project form
         setProjectForm({
@@ -223,6 +235,9 @@ const ProfileInfoScreen = (props) => {
         const newCertificate = `${certificateForm.title} from ${certificateForm.issuer}, Link: ${certificateForm.link}`;
         setCertificateList([...certificateList, newCertificate]);
 
+        const certif = `${certificateForm.title}, ${certificateForm.issuer}, ${certificateForm.link}`;
+        setCertificateArray([...certificateArray, certif]);
+
         // Clear the certificate form
         setCertificateForm({
             title: '',
@@ -260,6 +275,9 @@ const ProfileInfoScreen = (props) => {
 
         const newExperience = `${experienceForm.title} at ${experienceForm.company}, ${experienceForm.startDate} - ${experienceForm.endDate}, Location: ${experienceForm.location}`;
         setExperienceList([...experienceList, newExperience]);
+
+        const experience = `${experienceForm.title}, ${experienceForm.company}, ${experienceForm.startDate}, ${experienceForm.endDate}, ${experienceForm.location}`;
+        setExperienceArray([...experienceArray, experience]);
 
         // Clear the experience form
         setExperienceForm({
@@ -303,6 +321,9 @@ const ProfileInfoScreen = (props) => {
         const newLanguage = `${languageForm.name} - ${languageForm.level}`;
         setLanguageList([...languageList, newLanguage]);
 
+        const langauge = `${languageForm.name}, ${languageForm.level}`;
+        setLanguageArray([...languageArray, langauge]);
+
         setLanguageForm({
             name: '',
             level: '',
@@ -330,7 +351,10 @@ const ProfileInfoScreen = (props) => {
             return;
         }
         const newEducation = `${educationForm.degree} in ${educationForm.school}, ${educationForm.startDate} - ${educationForm.endDate}, Grade: ${educationForm.grade}`;
+        const education = `${educationForm.school}, ${educationForm.degree}, ${educationForm.startDate}, ${educationForm.endDate}, ${educationForm.grade}`;
+
         setEducationList([...educationList, newEducation]);
+        setEducationArray([...educationArray, education]);
 
         // Clear the education form
         setEducationForm({
@@ -373,13 +397,12 @@ const ProfileInfoScreen = (props) => {
         } else if (response.error) {
             console.log('ImagePicker Error:', response.error);
         } else {
-            setProfilePicture(response.assets[0].uri);
+            setProfilePicture(response.assets[0]);
         }
     };
 
     const generateYearItems = () => {
         const years = [];
-        const currentYear = new Date().getFullYear();
 
         // Generate a list of years from 1980 to 2040
         for (let year = 1980; year <= 2040; year++) {
@@ -452,7 +475,66 @@ const ProfileInfoScreen = (props) => {
         hideendDatePicker();
     };
 
-    const handleSaveProfile = () => {
+    const handleSaveProfile = async () => {
+
+        if (!bio) {
+            Alert.alert('Error', 'Please fill in the bio field!');
+            return;
+        }
+
+        // Check if any of the lists are empty
+        if (educationList.length === 0 || experienceList.length === 0 || projectList.length === 0 || honorsList.length === 0 || skillsList.length === 0 || certificateList.length === 0 || languageList.length === 0) {
+            Alert.alert('Error', 'Please fill in all the details!');
+            return;
+        }
+
+        if (profilePicture) {
+            const formData = new FormData();
+            formData.append('profilePicture', {
+                uri: profilePicture.uri,
+                type: profilePicture.type,
+                name: profilePicture.fileName || 'profilePicture.jpg',
+            });
+
+            await addProfilePic(formData);
+        }
+
+        await addBio(bio)
+
+        for (const educationEntry of educationArray) {
+            const [school, degree, startDate, endDate, grade] = educationEntry.split(', ');
+            await addEducation(school, degree, startDate, endDate, grade);
+        }
+
+        for (const experienceEntry of experienceArray) {
+            const [title, company, startDate, endDate, location] = experienceEntry.split(', ');
+            await addExperience(title, company, startDate, endDate, location);
+        }
+
+        for (const honorsEntry of honorsArray) {
+            const [title, description, date] = honorsEntry.split(', ');
+            await addHaw(title, description, date);
+        }
+
+        for (const certificateEntry of certificateArray) {
+            const [title, issuer, link] = certificateEntry.split(', ');
+            await addCertification(title, issuer, link);
+        }
+
+        for (const projectEntry of projectArray) {
+            const [title, description, startYear, endYear, link] = projectEntry.split(', ');
+            await addProject(title, description, startYear, endYear, link);
+        }
+
+        for (const languageEntry of languageList) {
+            const [name, level] = languageEntry.split(', ');
+            await addLanguage(name, level);
+        }
+
+        for (const skillEntry of skillsList) {
+            await addSkill(skillEntry);
+        }
+
         navigation.navigate('HomePage1');
     };
 
@@ -463,7 +545,7 @@ const ProfileInfoScreen = (props) => {
 
             <View style={styles.pic}>
                 <TouchableOpacity onPress={handleSelectProfilePicture}>
-                    <Image source={profilePicture ? { uri: profilePicture } : require('../assets/profile.png')} style={styles.profilePicture} />
+                    <Image source={profilePicture ? { uri: profilePicture.uri } : require('../assets/profile.png')} style={styles.profilePicture} />
 
                     {profilePicture && (
                         <View style={styles.deleteButtonContainer}>

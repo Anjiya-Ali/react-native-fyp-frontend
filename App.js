@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import CourseState from "./context/Courses/courseState";
 import CartState from "./context/Cart/cartState";
+import UserState from "./context/User/userState";
 import TeacherProfileState from "./context/TeacherProfile/teacherProfileState";
 import * as React from "react";
 
@@ -39,56 +40,58 @@ const App = () => {
 
     return (
         <>
-            <CourseState>
-                <CartState>
-                    <TeacherProfileState>
-                        <NavigationContainer>
-                            {hideSplashScreen ? (
-                                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                                    <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-                                    <Stack.Screen name="HomePage1" component={HomePage1} options={{ headerShown: false }} />
-                                    <Stack.Screen name="StudentProfile" component={StudentProfile} options={{ headerShown: false }} />
-                                    <Stack.Screen name="TeacherProfile" component={TeacherProfile} options={{ headerShown: false }} />
-                                    <Stack.Screen name={SCREEN_NAMES.Home} component={Home} options={{ headerShown: false }} />
-                                    <Stack.Screen name="MyCourses" component={MyCourses} options={{ headerShown: false }} />
-                                    <Stack.Screen name="Certificate" component={Certificate} options={{ headerShown: false }} />
-                                    <Stack.Screen name="ELearningPage" component={ELearningPage} options={{ headerShown: false }} />
-                                    <Stack.Screen name="BuyCourseCart" component={BuyCourseCart} options={{ headerShown: false }} />
-                                    <Stack.Screen name="BuyCourse" component={BuyCourse} options={{ headerShown: false }} />
-                                    <Stack.Screen name="Feedback" component={Feedback} options={{ headerShown: false }} />
-                                    <Stack.Screen name="Cart4" component={Cart4} options={{ headerShown: false }} />
-                                    <Stack.Screen name="Cart3" component={Cart3} options={{ headerShown: false }} />
-                                    <Stack.Screen name="SingleCourse" component={SingleCourse} options={{ headerShown: false }} />
-                                    <Stack.Screen name="Quiz" component={Quiz} options={{ headerShown: false }} />
-                                    <Stack.Screen name="CoursesE1" component={CoursesE1} options={{ headerShown: false }} />
+            <UserState>
+                <CourseState>
+                    <CartState>
+                        <TeacherProfileState>
+                            <NavigationContainer>
+                                {hideSplashScreen ? (
+                                    <Stack.Navigator screenOptions={{ headerShown: false }}>
+                                        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+                                        <Stack.Screen name="HomePage1" component={HomePage1} options={{ headerShown: false }} />
+                                        <Stack.Screen name="StudentProfile" component={StudentProfile} options={{ headerShown: false }} />
+                                        <Stack.Screen name="TeacherProfile" component={TeacherProfile} options={{ headerShown: false }} />
+                                        <Stack.Screen name={SCREEN_NAMES.Home} component={Home} options={{ headerShown: false }} />
+                                        <Stack.Screen name="MyCourses" component={MyCourses} options={{ headerShown: false }} />
+                                        <Stack.Screen name="Certificate" component={Certificate} options={{ headerShown: false }} />
+                                        <Stack.Screen name="ELearningPage" component={ELearningPage} options={{ headerShown: false }} />
+                                        <Stack.Screen name="BuyCourseCart" component={BuyCourseCart} options={{ headerShown: false }} />
+                                        <Stack.Screen name="BuyCourse" component={BuyCourse} options={{ headerShown: false }} />
+                                        <Stack.Screen name="Feedback" component={Feedback} options={{ headerShown: false }} />
+                                        <Stack.Screen name="Cart4" component={Cart4} options={{ headerShown: false }} />
+                                        <Stack.Screen name="Cart3" component={Cart3} options={{ headerShown: false }} />
+                                        <Stack.Screen name="SingleCourse" component={SingleCourse} options={{ headerShown: false }} />
+                                        <Stack.Screen name="Quiz" component={Quiz} options={{ headerShown: false }} />
+                                        <Stack.Screen name="CoursesE1" component={CoursesE1} options={{ headerShown: false }} />
 
-                                    <Stack.Screen name={SCREEN_NAMES.Viewer_Home} component={Viewer_Home} options={{
-                                        headerStyle: {
-                                            backgroundColor: colors.primary['900'],
-                                        },
-                                        headerBackTitle: 'Home',
-                                        headerTintColor: '#fff',
-                                        headerTitleStyle: {
-                                            fontWeight: 'bold',
-                                        },
-                                    }} />
-                                    <Stack.Screen name={SCREEN_NAMES.Speaker_Home} component={Speaker_Home} options={{
-                                        headerStyle: {
-                                            backgroundColor: colors.primary['900'],
-                                        },
-                                        headerBackTitle: 'Home',
-                                        headerTintColor: '#fff',
-                                        headerTitleStyle: {
-                                            fontWeight: 'bold',
-                                        },
-                                    }} />
-                                    <Stack.Screen name={SCREEN_NAMES.Meeting} component={Meeting} options={{ headerShown: false }} />
-                                </Stack.Navigator>
-                            ) : null}
-                        </NavigationContainer>
-                    </TeacherProfileState>
-                </CartState>
-            </CourseState>
+                                        <Stack.Screen name={SCREEN_NAMES.Viewer_Home} component={Viewer_Home} options={{
+                                            headerStyle: {
+                                                backgroundColor: colors.primary['900'],
+                                            },
+                                            headerBackTitle: 'Home',
+                                            headerTintColor: '#fff',
+                                            headerTitleStyle: {
+                                                fontWeight: 'bold',
+                                            },
+                                        }} />
+                                        <Stack.Screen name={SCREEN_NAMES.Speaker_Home} component={Speaker_Home} options={{
+                                            headerStyle: {
+                                                backgroundColor: colors.primary['900'],
+                                            },
+                                            headerBackTitle: 'Home',
+                                            headerTintColor: '#fff',
+                                            headerTitleStyle: {
+                                                fontWeight: 'bold',
+                                            },
+                                        }} />
+                                        <Stack.Screen name={SCREEN_NAMES.Meeting} component={Meeting} options={{ headerShown: false }} />
+                                    </Stack.Navigator>
+                                ) : null}
+                            </NavigationContainer>
+                        </TeacherProfileState>
+                    </CartState>
+                </CourseState>
+            </UserState>
             <Toast />
         </>
     );

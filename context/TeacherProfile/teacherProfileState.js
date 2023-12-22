@@ -2,11 +2,12 @@ import TeacherProfileContext from "./teacherProfileContext";
 import React, { useState } from "react";
 
 const TeacherProfileState = (props) => {
-    const host = "http://192.168.0.107:3000"
+    const host = "http://192.168.0.147:3000"
     const userProfileInitial = []
     const [teacherProfile, setTeacherProfile] = useState(userProfileInitial)
     const [otherUserProfile, setOtherUserProfile] = useState(userProfileInitial)
     const [experience, setExperiences] = useState(userProfileInitial)
+    const [bio, setBio] = useState(userProfileInitial)
     const [languages, setLanguages] = useState(userProfileInitial)
     const [educations, setEducations] = useState(userProfileInitial)
     const [haw, setHaw] = useState(userProfileInitial)
@@ -24,7 +25,7 @@ const TeacherProfileState = (props) => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNTNlZjdhOTFjZGRkMDYyNzFjZDhjIn0sImlhdCI6MTcwMDU3MzUyM30.7gJ7DSpDKXqwg9I909gV_uIgrti1cnd_9gPJwGruEYA"
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzYjA2NWJkODEyMDAxNzI0MzAxZGE1In0sImlhdCI6MTY5ODM2NzA2N30.kQiHaasuJ4MfwJS0DgkrMIk3CzJEL78BjGV11dpFsns"
           },
         });
         if (!response.ok) {
@@ -45,7 +46,7 @@ const TeacherProfileState = (props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNTNlZjdhOTFjZGRkMDYyNzFjZDhjIn0sImlhdCI6MTcwMDU3MzUyM30.7gJ7DSpDKXqwg9I909gV_uIgrti1cnd_9gPJwGruEYA"
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzYjA2NWJkODEyMDAxNzI0MzAxZGE1In0sImlhdCI6MTY5ODM2NzA2N30.kQiHaasuJ4MfwJS0DgkrMIk3CzJEL78BjGV11dpFsns"
           },
           body: JSON.stringify({title, company, start_date, end_date, location})
         });
@@ -61,13 +62,56 @@ const TeacherProfileState = (props) => {
       }
     }
 
+    const addProfilePic = async (formData) => {      
+      try{
+        const response = await fetch(`${host}/api/Teacher/UploadProfilePicture`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzYjA2NWJkODEyMDAxNzI0MzAxZGE1In0sImlhdCI6MTY5ODM2NzA2N30.kQiHaasuJ4MfwJS0DgkrMIk3CzJEL78BjGV11dpFsns"
+          },
+          body:formData
+        });
+        if (!response.ok) {
+          console.error('Error adding profile pic:', response.status);
+          return;
+        }
+        await response.json()
+      }
+      catch (error) {
+        console.error('Error adding profile pic:', error.message);
+      }
+    }
+
+    const addBio = async (bio) => {      
+      try{
+        const response = await fetch(`${host}/api/Teacher/AddBio`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzYjA2NWJkODEyMDAxNzI0MzAxZGE1In0sImlhdCI6MTY5ODM2NzA2N30.kQiHaasuJ4MfwJS0DgkrMIk3CzJEL78BjGV11dpFsns"
+          },
+          body: JSON.stringify({bio})
+        });
+        if (!response.ok) {
+          console.error('Error adding bio:', response.status);
+          return;
+        }
+        const json = await response.json()
+        setBio(json.bio)
+      }
+      catch (error) {
+        console.error('Error adding bio:', error.message);
+      }
+    }
+
     const addEducation = async (school, degree, start_date, end_date, grade) => {      
       try{
         const response = await fetch(`${host}/api/Teacher/AddEducation`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNTNlZjdhOTFjZGRkMDYyNzFjZDhjIn0sImlhdCI6MTcwMDU3MzUyM30.7gJ7DSpDKXqwg9I909gV_uIgrti1cnd_9gPJwGruEYA"
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzYjA2NWJkODEyMDAxNzI0MzAxZGE1In0sImlhdCI6MTY5ODM2NzA2N30.kQiHaasuJ4MfwJS0DgkrMIk3CzJEL78BjGV11dpFsns"
           },
           body: JSON.stringify({school, degree, start_date, end_date, grade})
         });
@@ -89,7 +133,7 @@ const TeacherProfileState = (props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNTNlZjdhOTFjZGRkMDYyNzFjZDhjIn0sImlhdCI6MTcwMDU3MzUyM30.7gJ7DSpDKXqwg9I909gV_uIgrti1cnd_9gPJwGruEYA"
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzYjA2NWJkODEyMDAxNzI0MzAxZGE1In0sImlhdCI6MTY5ODM2NzA2N30.kQiHaasuJ4MfwJS0DgkrMIk3CzJEL78BjGV11dpFsns"
           },
           body: JSON.stringify({title, issuer, link})
         });
@@ -111,7 +155,7 @@ const TeacherProfileState = (props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNTNlZjdhOTFjZGRkMDYyNzFjZDhjIn0sImlhdCI6MTcwMDU3MzUyM30.7gJ7DSpDKXqwg9I909gV_uIgrti1cnd_9gPJwGruEYA"
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzYjA2NWJkODEyMDAxNzI0MzAxZGE1In0sImlhdCI6MTY5ODM2NzA2N30.kQiHaasuJ4MfwJS0DgkrMIk3CzJEL78BjGV11dpFsns"
           },
           body: JSON.stringify({title, description, start_date, end_date, link})
         });
@@ -133,7 +177,7 @@ const TeacherProfileState = (props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNTNlZjdhOTFjZGRkMDYyNzFjZDhjIn0sImlhdCI6MTcwMDU3MzUyM30.7gJ7DSpDKXqwg9I909gV_uIgrti1cnd_9gPJwGruEYA"
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzYjA2NWJkODEyMDAxNzI0MzAxZGE1In0sImlhdCI6MTY5ODM2NzA2N30.kQiHaasuJ4MfwJS0DgkrMIk3CzJEL78BjGV11dpFsns"
           },
           body: JSON.stringify({title, issuer, issue_date})
         });
@@ -155,7 +199,7 @@ const TeacherProfileState = (props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNTNlZjdhOTFjZGRkMDYyNzFjZDhjIn0sImlhdCI6MTcwMDU3MzUyM30.7gJ7DSpDKXqwg9I909gV_uIgrti1cnd_9gPJwGruEYA"
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzYjA2NWJkODEyMDAxNzI0MzAxZGE1In0sImlhdCI6MTY5ODM2NzA2N30.kQiHaasuJ4MfwJS0DgkrMIk3CzJEL78BjGV11dpFsns"
           },
           body: JSON.stringify({name, level})
         });
@@ -177,7 +221,7 @@ const TeacherProfileState = (props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNTNlZjdhOTFjZGRkMDYyNzFjZDhjIn0sImlhdCI6MTcwMDU3MzUyM30.7gJ7DSpDKXqwg9I909gV_uIgrti1cnd_9gPJwGruEYA"
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzYjA2NWJkODEyMDAxNzI0MzAxZGE1In0sImlhdCI6MTY5ODM2NzA2N30.kQiHaasuJ4MfwJS0DgkrMIk3CzJEL78BjGV11dpFsns"
           },
           body: JSON.stringify({name})
         });
@@ -194,7 +238,7 @@ const TeacherProfileState = (props) => {
     }
     
     return (
-    <TeacherProfileContext.Provider value={{ teacherProfile, getTeacher, addExperience, addEducation, addCertification, addProject, addHaw, addLanguage, skills, addSkill }}>
+    <TeacherProfileContext.Provider value={{ teacherProfile, getTeacher, addProfilePic, addExperience, addBio, addEducation, addCertification, addProject, addHaw, addLanguage, skills, addSkill }}>
       {props.children}
     </TeacherProfileContext.Provider>
     )

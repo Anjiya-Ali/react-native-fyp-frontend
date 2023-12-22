@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, ScrollView, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import RNPickerSelect from "react-native-picker-select";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Toast from 'react-native-toast-message';
 import { Color } from "../GlobalStyles";
+import userContext from "../context/User/userContext";
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
@@ -319,33 +320,39 @@ const RegisterScreen = () => {
         "Åland Islands"
     ]
     const [countries, setCountries] = useState(countryList);
+    const context = useContext(userContext);
+    const { registerUser } = context;
 
-    const handleRegister = () => {
 
-        // if (!validateRequiredFields([firstName, lastName, dob, gender, email, location, password, reEnterPassword])) {
-        //     showError('Please fill in all the fields!');
-        //     return;
-        // }
+    const handleRegister = async () => {
 
-        // // Validation checks
-        // if (!validateEmail()) {
-        //     showError('Please enter a valid email address!');
-        //     return;
-        // }
+        if (!validateRequiredFields([firstName, lastName, dob, gender, email, location, password, reEnterPassword])) {
+            showError('Please fill in all the fields!');
+            return;
+        }
 
-        // if (!validatePassword()) {
-        //     showError(
-        //         'Password needs an uppercase letter and a special character!'
-        //     );
-        //     return;
-        // }
+        // Validation checks
+        if (!validateEmail()) {
+            showError('Please enter a valid email address!');
+            return;
+        }
 
-        // if (!validatePasswordMatch()) {
-        //     showError('Passwords do not match!');
-        //     return;
-        // }
+        if (!validatePassword()) {
+            showError(
+                'Password needs an uppercase letter and a special character!'
+            );
+            return;
+        }
 
+        if (!validatePasswordMatch()) {
+            showError('Passwords do not match!');
+            return;
+        }
+
+        await registerUser(firstName, lastName, password, email, gender, location, dob, selectedProfession);
+        //INSHA LOGIN
         showSuccess('Registration successful!');
+
         if(selectedProfession == 'Student')
             navigation.navigate("StudentProfile", { name: firstName + ' ' + lastName, email: email });
         if(selectedProfession == 'Teacher')
