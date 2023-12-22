@@ -52,9 +52,10 @@ const App = () => {
                                     <NavigationContainer>
                                         {hideSplashScreen ? (
                                             <Stack.Navigator screenOptions={{ headerShown: false }}>
-                                                <Stack.Screen name="MySessions" component={MySessions} options={{ headerShown: false }} />
-                                                <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
                                                 <Stack.Screen name="HomePage1" component={HomePage1} options={{ headerShown: false }} />
+                                                <Stack.Screen name="MySessions" component={MySessions} options={{ headerShown: false }} />
+                                                <Stack.Screen name={SCREEN_NAMES.Home} component={Home} />
+                                                <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
                                                 <Stack.Screen name="StudentProfile" component={StudentProfile} options={{ headerShown: false }} />
                                                 <Stack.Screen name="MyCourses" component={MyCourses} options={{ headerShown: false }} />
                                                 <Stack.Screen name="TeacherProfile" component={TeacherProfile} options={{ headerShown: false }} />

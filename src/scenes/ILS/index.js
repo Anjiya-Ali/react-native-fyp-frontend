@@ -22,7 +22,6 @@ export default function Meeting({route}) {
     : false;
   const name = route.params.name ? route.params.name : 'Test User';
   const mode = route.params.mode ? route.params.mode : 'CONFERENCE';
-  const participantId = "xyz"; 
 
   return (
     <SafeAreaView
@@ -38,13 +37,12 @@ export default function Meeting({route}) {
             title: 'Video SDK Meeting',
             message: 'Meeting is running.',
           },
-          participantId
         }}
         token={token}>
         <MeetingConsumer
           {...{
             onMeetingLeft: () => {
-              navigation.navigate(SCREEN_NAMES.Home);
+              navigation.navigate(SCREEN_NAMES.Home, { name: name, token: token, meetingId: meetingId })
             },
           }}>
           {() => {

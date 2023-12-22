@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState, useMemo} from 'react';
+import React, {useEffect, useRef, useContext, useState, useMemo} from 'react';
 import {
   View,
   Text,
@@ -43,8 +43,11 @@ import {useOrientation} from '../../../utils/useOrientation';
 import ChatViewer from '../Components/ChatViewer';
 import {convertRFValue} from '../../../styles/spacing';
 import Blink from '../../../components/Blink';
+import SessionContext from '../../../../context/Sessions/sessionContext';
 
 export default function MeetingViewer({setlocalParticipantMode}) {
+  const context = useContext(SessionContext);
+  const { currentSession, UpdateLiveSessionHls } = context;
   const {
     localParticipant,
     participants,
@@ -157,8 +160,10 @@ export default function MeetingViewer({setlocalParticipantMode}) {
         theme: 'DARK',
         orientation: 'landscape',
       });
+      UpdateLiveSessionHls(currentSession, 'Live');
     } else if (hlsState === 'HLS_PLAYABLE') {
       stopHls();
+      UpdateLiveSessionHls(currentSession, 'Todo');
     }
   };
 

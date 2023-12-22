@@ -19,6 +19,23 @@ const TeacherProfileState = (props) => {
     const [connections, setConnections] = useState(userProfileInitial)
     const [pendingConnections, setPendingConnections] = useState(userProfileInitial)
   
+    const getTeacherProfilePicture = async () => {
+      try {
+        const response = await fetch(`${host}/api/Teacher/GetProfilePicture`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzYjA2NWJkODEyMDAxNzI0MzAxZGE1In0sImlhdCI6MTY5ODM2NzA2N30.kQiHaasuJ4MfwJS0DgkrMIk3CzJEL78BjGV11dpFsns"
+          },
+        });
+        const json = await response.json()
+        return json;
+      }
+      catch (error) {
+        console.error('Error getting profile pic:', error.message);
+      }
+    }
+
     const getTeacher = async () => {      
       try{
         const response = await fetch(`${host}/api/Teacher/GetProfile`, {
@@ -238,7 +255,7 @@ const TeacherProfileState = (props) => {
     }
     
     return (
-    <TeacherProfileContext.Provider value={{ teacherProfile, getTeacher, addProfilePic, addExperience, addBio, addEducation, addCertification, addProject, addHaw, addLanguage, skills, addSkill }}>
+    <TeacherProfileContext.Provider value={{ teacherProfile, getTeacher, addProfilePic, getTeacherProfilePicture, addExperience, addBio, addEducation, addCertification, addProject, addHaw, addLanguage, skills, addSkill }}>
       {props.children}
     </TeacherProfileContext.Provider>
     )

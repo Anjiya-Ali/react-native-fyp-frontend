@@ -23,7 +23,7 @@ const MySessions = () => {
     const [isTimePickerVisible, setTimePickerVisible] = useState(false);
     const [isAddSessionModalVisible, setAddSessionModalVisible] = useState(false);
     const context = useContext(SessionContext);
-    const { createSession, getMySessions } = context;
+    const { createSession, getMySessions, currentSession, setCurrentSession } = context;
     const course_context = useContext(CourseContext);
     const { getUser } = course_context;
     const [sessionsData, setSessionsData] = useState(null);
@@ -87,19 +87,13 @@ const MySessions = () => {
     const handleStartSession = async (meetingId) => {
         const foundSession = sessionsData.find((session) => session.meeting_id === meetingId);
         if (foundSession) {
+            const sessionid = foundSession._id;
             const teacherId = foundSession.teacher_id;
             const json = await getUser(teacherId);
-
+            setCurrentSession(sessionid);
             const userData = json.user_data;
             const name = userData.first_name + ' ' + userData.last_name;
-            navigation.navigate(SCREEN_NAMES.Meeting, {
-                name: name,
-                token: token,
-                meetingId: meetingId,
-                micEnabled: true,
-                webcamEnabled: true,
-                mode: 'CONFERENCE',
-            });
+            navigation.navigate(SCREEN_NAMES.Home , { name: name, token: token, meetingId: meetingId })
         }
     };
 
