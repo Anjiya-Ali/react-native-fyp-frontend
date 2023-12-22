@@ -10,11 +10,16 @@ const Header = ({heading, navigate}) => {
     return (
         <View style={[styles.headerPosition, { position: 'relative' }]}>
             <View style={[styles.headerChild, { flex: 1, width: windowWidth }]} />
-            <Image
-                style={styles.hamburgerIcon}
-                resizeMode="cover"
-                source={require("../assets/hamburger1.png")}
-            />
+            <Pressable
+                style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
+                onPress={() => navigation.toggleDrawer()}
+            >
+                <Image
+                    style={styles.hamburgerIcon}
+                    resizeMode="cover"
+                    source={require("../assets/hamburger1.png")}
+                />
+            </Pressable>
             <Text style={styles.myCourses1}>{heading}</Text>
             <Pressable
                 style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}

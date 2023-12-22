@@ -4,7 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 import CourseContext from "../context/Courses/courseContext";
 import CartContext from "../context/Cart/cartContext";
-import { color } from 'react-native-reanimated';
 
 const BuyCourseCart = () => {
   const navigation = useNavigation();

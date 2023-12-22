@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Text, StyleSheet, TouchableOpacity, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import PopularCommunitiesContainer from "../components/PopularCommunitiesContainer";
-import PopularCoursesContainer from "../components/PopularCoursesContainer";
 import ProjectManagementContainer from "../components/ProjectManagementContainer";
 import SearchForm from "../components/SearchForm";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
@@ -11,30 +9,10 @@ const HomePage1 = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.homePage1}>
-      <View style={[styles.liveHeading, styles.livePosition]}>
-        <Text style={styles.liveSessionsTypo}>POPULAR COMMUNITIES</Text>
-        <TouchableOpacity
-          style={styles.viewAll}
-          onPress={() => navigation.navigate("MyCommunities")}
-        >
-          <Text style={styles.viewAll1}>View All</Text>
-        </TouchableOpacity>
-      </View>
-      <PopularCommunitiesContainer />
-      <PopularCoursesContainer />
+    <View style={styles.homePage1}>   
       <ProjectManagementContainer />
       <View style={[styles.liveHeading1, styles.livePosition]}>
         <Text style={styles.liveSessionsTypo}>LIVE SESSIONS</Text>
-      </View>
-      <View style={[styles.liveHeading2, styles.livePosition]}>
-        <Text style={styles.liveSessionsTypo}>COURSES FOR YOU</Text>
-        <TouchableOpacity
-          style={styles.viewAll2}
-          onPress={() => navigation.navigate("MyCourses")}
-        >
-          <Text style={styles.viewAll1}>View All</Text>
-        </TouchableOpacity>
       </View>
       <View style={styles.headerPosition}>
         <View style={[styles.headerChild, styles.headerPosition]} />
