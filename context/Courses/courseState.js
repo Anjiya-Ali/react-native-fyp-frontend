@@ -231,6 +231,7 @@ const CourseState = (props) => {
     const json = await response.json()
     if(json.success)
       setUser(json.user_data)
+    return json;
   }
 
   return (

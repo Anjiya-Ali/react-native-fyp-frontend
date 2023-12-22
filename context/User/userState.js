@@ -13,11 +13,8 @@ const UserState = (props) => {
                 },
                 body: JSON.stringify({ first_name, last_name, password, email, gender, country, dob, privilege })
             });
-            if (!response.ok) {
-                console.error('Error adding user:', response);
-                return;
-            }
             const json = await response.json()
+            return json;
         }
         catch (error) {
             console.error('Error adding user:', error.message);

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from "react";
 import { View, ScrollView, Text, TextInput, TouchableOpacity, Image, StyleSheet, Modal, Alert } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { Color } from "../GlobalStyles";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
+import StudentProfileContext from '../context/StudentProfile/studentProfileContext';
 
 const ProfileInfoScreen = (props) => {
     const [bio, setBio] = useState('');
@@ -17,6 +18,11 @@ const ProfileInfoScreen = (props) => {
     const [languageList, setLanguageList] = useState([]);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isEndDatePickerVisible, setendDatePickerVisibility] = useState(false);
+    const [educationArray, setEducationArray] = useState([]);
+    const [languageArray, setLanguageArray] = useState([]);
+    const [interestArray, setInterestArray] = useState([]);
+    const context = useContext(StudentProfileContext);
+    const { addEducation, addProfilePic, addLanguage, addBio, addInterest} = context;
 
     const [interestForm, setInterestForm] = useState({
         title: '',
@@ -51,6 +57,9 @@ const ProfileInfoScreen = (props) => {
         const newLanguage = `${languageForm.name} - ${languageForm.level}`;
         setLanguageList([...languageList, newLanguage]);
 
+        const langauge = `${languageForm.name}, ${languageForm.level}`;
+        setLanguageArray([...languageArray, langauge]);
+
         setLanguageForm({
             name: '',
             level: '',
@@ -79,6 +88,9 @@ const ProfileInfoScreen = (props) => {
         }
         const newEducation = `${educationForm.degree} in ${educationForm.school}, ${educationForm.startDate} - ${educationForm.endDate}, Grade: ${educationForm.grade}`;
         setEducationList([...educationList, newEducation]);
+
+        const education = `${educationForm.school}, ${educationForm.degree}, ${educationForm.startDate}, ${educationForm.endDate}, ${educationForm.grade}`;
+        setEducationArray([...educationArray, education]);
 
         // Clear the education form
         setEducationForm({
@@ -117,6 +129,9 @@ const ProfileInfoScreen = (props) => {
         }
         const newInterest = `${interestForm.title} : ${interestForm.description}`;
         setInterestList([...interestList, newInterest]);
+        
+        const interest = `${interestForm.title}, ${interestForm.description}`;
+        setInterestArray([...interestArray, interest]);
 
         setInterestForm({
             title: '',
@@ -151,27 +166,8 @@ const ProfileInfoScreen = (props) => {
         } else if (response.error) {
             console.log('ImagePicker Error:', response.error);
         } else {
-            setProfilePicture(response.assets[0].uri);
+            setProfilePicture(response.assets[0]);
         }
-    };
-
-    const handleDeleteProfilePicture = () => {
-        Alert.alert(
-            'Delete Profile Picture',
-            'Are you sure you want to delete your profile picture?',
-            [
-                {
-                    text: 'Cancel',
-                    style: 'cancel',
-                },
-                {
-                    text: 'Delete',
-                    onPress: () => setProfilePicture(null),
-                    style: 'destructive',
-                },
-            ],
-            { cancelable: false }
-        );
     };
 
     const hideDatePicker = () => {
@@ -204,7 +200,47 @@ const ProfileInfoScreen = (props) => {
         hideendDatePicker();
     };
 
-    const handleSaveProfile = () => {
+    const handleSaveProfile = async () => {
+
+        if (!bio) {
+            Alert.alert('Error', 'Please fill in the bio field!');
+            return;
+        }
+
+        // Check if any of the lists are empty
+        if (!profilePicture || educationList.length === 0 || interestList.length === 0 || languageList.length === 0) {
+            Alert.alert('Error', 'Please fill in all the details!');
+            return;
+        }
+
+        if (profilePicture) {
+            const formData = new FormData();
+            formData.append('profilePicture', {
+                uri: profilePicture.uri,
+                type: profilePicture.type,
+                name: profilePicture.fileName || 'profilePicture.jpg',
+            });
+
+            await addProfilePic(formData);
+        }
+
+        await addBio(bio)
+
+        for (const educationEntry of educationArray) {
+            const [school, degree, startDate, endDate, grade] = educationEntry.split(', ');
+            await addEducation(school, degree, startDate, endDate, grade);
+        }
+
+        for (const languageEntry of languageArray) {
+            const [name, level] = languageEntry.split(', ');
+            await addLanguage(name, level);
+        }
+
+        for (const interestEntry of interestArray) {
+            const [title, description] = interestEntry.split(', ');
+            await addInterest(title, description);
+        }
+
         navigation.navigate('HomePage1');
     };
 
@@ -215,15 +251,7 @@ const ProfileInfoScreen = (props) => {
 
             <View style={styles.pic}>
                 <TouchableOpacity onPress={handleSelectProfilePicture}>
-                    <Image source={profilePicture ? { uri: profilePicture } : require('../assets/profile.png')} style={styles.profilePicture} />
-
-                    {profilePicture && (
-                        <View style={styles.deleteButtonContainer}>
-                            <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteProfilePicture}>
-                                <Image source={require('../assets/bin-1.png')} style={styles.bin} />
-                            </TouchableOpacity>
-                        </View>
-                    )}
+                    <Image source={profilePicture ? { uri: profilePicture.uri } : require('../assets/profile.png')} style={styles.profilePicture} />
                 </TouchableOpacity>
             </View>
             <View style={styles.paybox2}>

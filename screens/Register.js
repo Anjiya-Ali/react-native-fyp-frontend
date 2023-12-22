@@ -349,14 +349,18 @@ const RegisterScreen = () => {
             return;
         }
 
-        await registerUser(firstName, lastName, password, email, gender, location, dob, selectedProfession);
-        //INSHA LOGIN
-        showSuccess('Registration successful!');
+        const response = await registerUser(firstName, lastName, password, email, gender, location, dob, selectedProfession);
+        if(!response.success){
+            showError(response.error);
+        }
+        else{
+            showSuccess('Registration successful!');
 
-        if(selectedProfession == 'Student')
-            navigation.navigate("StudentProfile", { name: firstName + ' ' + lastName, email: email });
-        if(selectedProfession == 'Teacher')
-            navigation.navigate("TeacherProfile", { name: firstName + ' ' + lastName, email: email });
+            if(selectedProfession == 'Student')
+                navigation.navigate("StudentProfile", { name: firstName + ' ' + lastName, email: email });
+            if(selectedProfession == 'Teacher')
+                navigation.navigate("TeacherProfile", { name: firstName + ' ' + lastName, email: email });
+        }
     };
 
     const validateRequiredFields = (fields) => {
@@ -391,7 +395,7 @@ const RegisterScreen = () => {
 
     const validatePassword = () => {
         // Password validation with at least one capital letter, one small letter, one number, and one special character
-        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*.,?])[A-Za-z\d!@#$%^&*.,?]{8,}$/;
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*.,?])[a-zA-Z0-9!@#$%^&*.,?]+$/;
         return passwordRegex.test(password);
     };
 

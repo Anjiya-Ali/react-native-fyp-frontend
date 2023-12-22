@@ -72,7 +72,7 @@ export default function ILSContainer({webcamEnabled}) {
 
   return isJoined ? (
     localParticipantMode === 'CONFERENCE' ? (
-      <MeetingViewer setlocalParticipantMode={setlocalParticipantMode} />
+      <MeetingViewer setlocalParticipantMode={setlocalParticipantMode}/>
     ) : (
       <ViewerContainer
         localParticipantId={localParticipant.id}

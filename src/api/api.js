@@ -15,6 +15,5 @@ export const createMeeting = async ({token}) => {
     .then(response => response.json())
     .catch(error => console.error('error', error));
 
-  console.log('room', roomId);
   return roomId;
 };

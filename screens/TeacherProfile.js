@@ -412,25 +412,6 @@ const ProfileInfoScreen = (props) => {
         return years;
     };
 
-    const handleDeleteProfilePicture = () => {
-        Alert.alert(
-            'Delete Profile Picture',
-            'Are you sure you want to delete your profile picture?',
-            [
-                {
-                    text: 'Cancel',
-                    style: 'cancel',
-                },
-                {
-                    text: 'Delete',
-                    onPress: () => setProfilePicture(null),
-                    style: 'destructive',
-                },
-            ],
-            { cancelable: false }
-        );
-    };
-
     const hideDatePicker = () => {
         setDatePickerVisibility(false);
     };
@@ -483,7 +464,7 @@ const ProfileInfoScreen = (props) => {
         }
 
         // Check if any of the lists are empty
-        if (educationList.length === 0 || experienceList.length === 0 || projectList.length === 0 || honorsList.length === 0 || skillsList.length === 0 || certificateList.length === 0 || languageList.length === 0) {
+        if (!profilePicture || educationList.length === 0 || experienceList.length === 0 || projectList.length === 0 || honorsList.length === 0 || skillsList.length === 0 || certificateList.length === 0 || languageList.length === 0) {
             Alert.alert('Error', 'Please fill in all the details!');
             return;
         }
@@ -526,7 +507,7 @@ const ProfileInfoScreen = (props) => {
             await addProject(title, description, startYear, endYear, link);
         }
 
-        for (const languageEntry of languageList) {
+        for (const languageEntry of languageArray) {
             const [name, level] = languageEntry.split(', ');
             await addLanguage(name, level);
         }
@@ -546,14 +527,6 @@ const ProfileInfoScreen = (props) => {
             <View style={styles.pic}>
                 <TouchableOpacity onPress={handleSelectProfilePicture}>
                     <Image source={profilePicture ? { uri: profilePicture.uri } : require('../assets/profile.png')} style={styles.profilePicture} />
-
-                    {profilePicture && (
-                        <View style={styles.deleteButtonContainer}>
-                            <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteProfilePicture}>
-                                <Image source={require('../assets/bin-1.png')} style={styles.bin} />
-                            </TouchableOpacity>
-                        </View>
-                    )}
                 </TouchableOpacity>
             </View>
             <View style={styles.paybox2}>
