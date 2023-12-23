@@ -1,22 +1,70 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useContext } from 'react';
 import { View, ScrollView, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import RNPickerSelect from "react-native-picker-select";
+import { Picker as RNPicker } from '@react-native-picker/picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Toast from 'react-native-toast-message';
 import { Color } from "../GlobalStyles";
-import userContext from "../context/User/userContext";
+import UserContext from '../context/User/userContext';
+import StudentContext from '../context/StudentProfile/studentProfileContext';
+import TeacherContext from '../context/TeacherProfile/teacherProfileContext';
+import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
+    const navigation = useNavigation();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const context1 = useContext(UserContext);
+    const {
+        handleUserLogin,
+    } = context1;
 
-    const handleLogin = () => {
+    const context2 = useContext(StudentContext);
+    const {
+        getStudent,
+    } = context2;
+
+    const context3 = useContext(TeacherContext);
+    const {
+        getTeacher,
+    } = context3;
+
+    const handleLogin = async () => {
         if (!validateRequiredFields([email, password])) {
             showError('Please fill in all the fields!');
             return;
         }
-        console.log('Login:', { email, password });
+        else{
+            const user = await handleUserLogin(email, password);
+            if(!user.success){
+                showError('Invalid Credentials!');
+                return;
+            }
+            else if(user.success){
+                if(user.role === "Student"){
+                    const userProfile = await getStudent();
+                    if(!userProfile.education.length){
+                        navigation.navigate("HomePage2") //change
+                    }
+                    else{
+                        navigation.navigate("StudentProfilePage") //change
+                    }
+                }
+                else if(user.role === "Teacher"){
+                    const teacherProfile = await getTeacher();
+                    if(!teacherProfile.education.length){
+                        navigation.navigate("HomePage2") //change
+                    }
+                    else{
+                        navigation.navigate("TeacherProfilePage") //change
+                    }
+                }
+            }
+        }
+    };
+
+    const handleForgotPasswordPress = async () => {
+        navigation.navigate("EmailVerification")
     };
 
     const validateRequiredFields = (fields) => {
@@ -50,7 +98,9 @@ const LoginScreen = () => {
                 value={password}
                 onChangeText={(text) => setPassword(text)}
             />
-            <Text style={styles.forgot}>Forgot Password?</Text>
+            <TouchableOpacity onPress={handleForgotPasswordPress}>
+                <Text style={styles.forgot}>Forgot Password?</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
@@ -62,11 +112,10 @@ const RegisterScreen = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [dob, setDob] = useState('');
-    const [gender, setGender] = useState('');
+    const [gender, setGender] = useState('Male');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [reEnterPassword, setReEnterPassword] = useState('');
-    const navigation = useNavigation();
     const [location, setLocation] = useState('');
     const countryList = [
         "Afghanistan",
@@ -320,11 +369,8 @@ const RegisterScreen = () => {
         "Åland Islands"
     ]
     const [countries, setCountries] = useState(countryList);
-    const context = useContext(userContext);
-    const { registerUser } = context;
 
-
-    const handleRegister = async () => {
+    const handleRegister = () => {
 
         if (!validateRequiredFields([firstName, lastName, dob, gender, email, location, password, reEnterPassword])) {
             showError('Please fill in all the fields!');
@@ -349,18 +395,9 @@ const RegisterScreen = () => {
             return;
         }
 
-        const response = await registerUser(firstName, lastName, password, email, gender, location, dob, selectedProfession);
-        if(!response.success){
-            showError(response.error);
-        }
-        else{
-            showSuccess('Registration successful!');
-
-            if(selectedProfession == 'Student')
-                navigation.navigate("StudentProfile", { name: firstName + ' ' + lastName, email: email });
-            if(selectedProfession == 'Teacher')
-                navigation.navigate("TeacherProfile", { name: firstName + ' ' + lastName, email: email });
-        }
+        // Implement your registration logic here
+        console.log('Register:', { firstName, lastName, dob, gender, email, password, location });
+        showSuccess('Registration successful!');
     };
 
     const validateRequiredFields = (fields) => {
@@ -388,14 +425,13 @@ const RegisterScreen = () => {
             type: 'success',
             text1: 'Success',
             text2: message,
-            position: 'top',
-            topOffset: 80,
+            position: 'bottom',
         });
     };
 
     const validatePassword = () => {
         // Password validation with at least one capital letter, one small letter, one number, and one special character
-        const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*.,?])[a-zA-Z0-9!@#$%^&*.,?]+$/;
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return passwordRegex.test(password);
     };
 
@@ -420,132 +456,89 @@ const RegisterScreen = () => {
         hideDatePicker();
     };
 
-    const [selectedProfession, setSelectedProfession] = useState(null);
-
-    const handleProfessionSelection = (profession) => {
-        setSelectedProfession(profession);
-    };
-
     return (
-        <>
-            {selectedProfession === null ? (
-                <View style={styles.payboxProfession}>
-                    <Text style={styles.header}>Choose Your Profession</Text>
-                    <View style={styles.professionContainer}>
-                        <TouchableOpacity
-                            onPress={() => handleProfessionSelection('Student')}
-                            style={styles.professionButton}
-                        >
-                            <Image source={require('../assets/imageizlyy1zfitransformed-12.png')} style={styles.professionIcon} />
-                            <Text style={styles.professionText}>Student</Text>
-                        </TouchableOpacity>
-                        <View style={styles.tiltedDivider} />
-                        <TouchableOpacity
-                            onPress={() => handleProfessionSelection('Teacher')}
-                            style={styles.professionButton}
-                        >
-                            <Image source={require('../assets/pngtreelecturersuitgirlillustrationpngimage-4608040transformedremovebgpreview-1.png')} style={styles.professionIcon2} />
-                            <Text style={styles.professionText}>Teacher</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            ) : (
-                <ScrollView style={styles.paybox} showsVerticalScrollIndicator={false}>
-                    <Text style={styles.header}>Create a New Account</Text>
+        <ScrollView style={styles.paybox} showsVerticalScrollIndicator={false}>
+            <Text style={styles.header}>Create a New Account</Text>
 
-                    <TextInput
-                        style={styles.input}
-                        placeholder="First Name"
-                        value={firstName}
-                        onChangeText={(text) => setFirstName(text)}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Last Name"
-                        value={lastName}
-                        onChangeText={(text) => setLastName(text)}
-                    />
+            <TextInput
+                style={styles.input}
+                placeholder="First Name"
+                value={firstName}
+                onChangeText={(text) => setFirstName(text)}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Last Name"
+                value={lastName}
+                onChangeText={(text) => setLastName(text)}
+            />
 
-                    <TouchableOpacity onPress={showDatePicker} style={styles.input}>
-                        {dob ? (
-                            <Text style={styles.datePickerButtonText}>{dob}</Text>
-                        ) : (
-                            <Text style={styles.placeholderText}>Select Birth Date</Text>
-                        )}
-                    </TouchableOpacity>
+            <TouchableOpacity onPress={showDatePicker} style={styles.input}>
+                {dob ? (
+                    <Text style={styles.datePickerButtonText}>{dob}</Text>
+                ) : (
+                    <Text style={styles.placeholderText}>Select Birth Date</Text>
+                )}
+            </TouchableOpacity>
 
-                    <DateTimePickerModal
-                        isVisible={isDatePickerVisible}
-                        mode="date"
-                        onConfirm={handleConfirm}
-                        onCancel={hideDatePicker}
-                    />
+            <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+            />
 
-                    <View>
-                        <RNPickerSelect
-                            onValueChange={(itemValue) => setGender(itemValue)}
-                            items={[
-                                { label: 'Male', value: 'Male' },
-                                { label: 'Female', value: 'Female' },
-                            ]}
-                            placeholder={{ label: "Gender", value: null }}
-                            value={gender}
-                            ColorValue='black'
-                            style={{
-                                inputAndroid: {
-                                    backgroundColor: '#f4f4f4',
-                                    color: 'black',
-                                    marginBottom: 20,
-                                },
-                            }}
-                        />
-                    </View>
+            <View style={styles.dropdownContainer}>
+                <Text style={styles.label}>Gender:</Text>
+                <RNPicker
+                    style={styles.dropdown}
+                    selectedValue={gender}
+                    onValueChange={(itemValue) => setGender(itemValue)}
+                >
+                    <RNPicker.Item label="Male" value="Male" />
+                    <RNPicker.Item label="Female" value="Female" />
+                </RNPicker>
+            </View>
 
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Email"
-                        value={email}
-                        onChangeText={(text) => setEmail(text)}
-                        keyboardType="email-address"
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Password"
-                        secureTextEntry
-                        value={password}
-                        onChangeText={(text) => setPassword(text)}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Re-enter Password"
-                        secureTextEntry
-                        value={reEnterPassword}
-                        onChangeText={(text) => setReEnterPassword(text)}
-                    />
+            <TextInput
+                style={styles.input}
+                placeholder="Email"
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+                keyboardType="email-address"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                secureTextEntry
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Re-enter Password"
+                secureTextEntry
+                value={reEnterPassword}
+                onChangeText={(text) => setReEnterPassword(text)}
+            />
 
-                    <View style={styles.dropdownContainer}>
-                        <RNPickerSelect
-                            onValueChange={(itemValue) => setLocation(itemValue)}
-                            items={countries.map((country) => ({ label: country, value: country }))}
-                            placeholder={{ label: "Country", value: null }}
-                            value={location}
-                            ColorValue='black'
-                            style={{
-                                inputAndroid: {
-                                    backgroundColor: '#f4f4f4',
-                                    color: 'black',
-                                    marginBottom: 20,
-                                },
-                            }}
-                        />
-                    </View>
+            <View style={styles.dropdownContainer}>
+                <Text style={styles.label}>Location:</Text>
+                <RNPicker
+                    style={styles.dropdown}
+                    selectedValue={location}
+                    onValueChange={(itemValue) => setLocation(itemValue)}
+                >
+                    {countries.map((country, index) => (
+                        <RNPicker.Item key={index} label={country} value={country} />
+                    ))}
+                </RNPicker>
+            </View>
 
-                    <TouchableOpacity style={styles.button} onPress={handleRegister}>
-                        <Text style={styles.buttonText}>Register</Text>
-                    </TouchableOpacity>
-                </ScrollView>
-            )}
-        </>
+            <TouchableOpacity style={styles.button} onPress={handleRegister}>
+                <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+        </ScrollView>
     );
 };
 
@@ -563,24 +556,24 @@ const AuthScreen = () => {
                 <Text style={styles.learnLanceHeader}>LEARNLANCE</Text>
             </View>
             <View style={styles.paybox2}>
-                {selectedHeading === 'Login' ?
-                    <>
-                        <TouchableOpacity
-                            onPress={() => handleHeadingPress('Register')}
+                {selectedHeading === 'Login' ? 
+                <>
+                    <TouchableOpacity
+                        onPress={() => handleHeadingPress('Register')}
                         >
-                            <Text style={styles.header2}>Create a New Account</Text>
-                        </TouchableOpacity>
-                        <LoginScreen />
-                    </>
-                    :
-                    <>
-                        <TouchableOpacity
-                            onPress={() => handleHeadingPress('Login')}
+                        <Text style={styles.header2}>Create a New Account</Text>
+                    </TouchableOpacity>
+                    <LoginScreen /> 
+                </>
+                : 
+                <>
+                    <TouchableOpacity
+                        onPress={() => handleHeadingPress('Login')}
                         >
-                            <Text style={styles.header2}>Login to your Account</Text>
-                        </TouchableOpacity>
-                        <RegisterScreen />
-                    </>
+                        <Text style={styles.header2}>Login to your Account</Text>
+                    </TouchableOpacity>
+                    <RegisterScreen />
+                </>
                 }
             </View>
 
@@ -593,57 +586,6 @@ const styles = StyleSheet.create({
         color: Color.colorSlateblue,
         textAlign: 'center',
         marginBottom: 30,
-    },
-    professionContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        height: '100%'
-    },
-    professionButton: {
-        flex: 1,
-        alignItems: 'center',
-    },
-    professionIcon: {
-        width: 200,
-        height: 200,
-        marginTop: 25,
-        resizeMode: 'contain',
-    },
-    professionIcon2: {
-        width: 200,
-        height: 200,
-        marginTop: 25,
-        marginRight: 20,
-        resizeMode: 'cover',
-    },
-    professionText: {
-        marginTop: 10,
-        fontSize: 18,
-        color: 'black',
-    },
-    tiltedDivider: {
-        width: 1.5,
-        margin: 30,
-        backgroundColor: Color.colorSlateblue,
-        marginBottom: 300,
-    },
-    payboxProfession: {
-        paddingTop: 30,
-        height: '100%',
-        width: '100%',
-        marginTop: '5%',
-        borderColor: Color.labelColorLightPrimary,
-        borderStyle: "solid",
-        borderRadius: 20,
-        backgroundColor: Color.colorGainsboro_200,
-        shadowOpacity: 1,
-        elevation: 4,
-        shadowRadius: 4,
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowColor: "rgba(0, 0, 0, 0.25)",
     },
     paybox: {
         padding: 20,
@@ -659,12 +601,12 @@ const styles = StyleSheet.create({
         elevation: 4,
         shadowRadius: 4,
         shadowOffset: {
-            width: 0,
-            height: 4,
+          width: 0,
+          height: 4,
         },
         shadowColor: "rgba(0, 0, 0, 0.25)",
-    },
-    paybox2: {
+      },
+      paybox2: {
         marginTop: 20,
         height: '80%',
         width: '100%',
@@ -676,11 +618,11 @@ const styles = StyleSheet.create({
         elevation: 4,
         shadowRadius: 4,
         shadowOffset: {
-            width: 0,
-            height: 4,
+          width: 0,
+          height: 4,
         },
         shadowColor: "rgba(0, 0, 0, 0.25)",
-    },
+      },
     placeholderText: {
         marginTop: 8,
         fontSize: 15.5,
@@ -773,8 +715,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     datePickerButtonText: {
-        marginTop: 8,
-        fontSize: 15.5,
         color: 'black',
     },
     header: {
@@ -792,6 +732,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     dropdownContainer: {
+        flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
         marginLeft: 4,
@@ -804,7 +745,6 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 40,
         borderColor: 'gray',
-        backgroundColor: Color.colorGainsboro_200,
         borderWidth: 1,
     },
 });

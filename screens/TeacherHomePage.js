@@ -11,7 +11,7 @@ const TeacherHomePage = () => {
     const Teachercontext = useContext(TeacherProfileContext);
     const { getTeacherProfilePicture } = Teachercontext;
     const [profilePictureUrl, setProfilePictureUrl] = useState('')
-    const host = "http://192.168.0.147:3000"
+    const host = "http://192.168.121.42:3000"
 
     useEffect(() => {
         const fetchProfilePicture = async () => {

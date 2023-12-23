@@ -11,7 +11,7 @@ const MyCourses = (props) => {
   const { getMyCourses, myCourses } = useContext(CourseContext);
   const { getCourseCompletion, percentage } = useContext(CourseContext);
   const navigation = useNavigation();
-  const host = 'http://192.168.0.147:3000';
+  const host = 'http://192.168.121.42:3000';
 
   useEffect(() => {
     getMyCourses();

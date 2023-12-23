@@ -31,7 +31,7 @@ const MySessions = () => {
     const hideDatePicker = () => setDatePickerVisible(false);
     const showTimePicker = () => setTimePickerVisible(true);
     const hideTimePicker = () => setTimePickerVisible(false);
-    const host = 'http://192.168.0.147:3000';
+    const host = 'http://192.168.121.42:3000';
 
     useEffect(() => {
         const getMySessionsData = async () => {

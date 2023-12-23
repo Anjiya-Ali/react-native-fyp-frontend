@@ -1,8 +1,9 @@
 import CourseContext from "./courseContext";
 import React, { useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CourseState = (props) => {
-  const host = "http://192.168.0.147:3000"
+  const host = "http://192.168.121.42:3000"
   const [course, setCourse] = useState(null)
   const [user, setUser] = useState(null)
   const [myCourses, setMyCourses] = useState(null);
@@ -13,11 +14,12 @@ const CourseState = (props) => {
 
   const getMyCourses = async () => {
     try {
+      const token = await AsyncStorage.getItem('tokenn');
         const response = await fetch(`${host}/api/CourseProgression/GetMyCourses`, {
         method: 'GET',
         headers: {
               'Content-Type': 'application/json',
-              "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+              "auth-token": token
             },
         });
         const json = await response.json()
@@ -30,11 +32,12 @@ const CourseState = (props) => {
 
   const getCourses = async () => {
       try {
+        const token = await AsyncStorage.getItem('tokenn');
           const response = await fetch(`${host}/api/CourseEnrollment/GetCourses`, {
           method: 'GET',
           headers: {
                 'Content-Type': 'application/json',
-                "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+                "auth-token": token
               },
           });
           const json = await response.json()
@@ -46,11 +49,12 @@ const CourseState = (props) => {
 
   const getCourseCompletion = async (id) => {
       try {
+        const token = await AsyncStorage.getItem('tokenn');
           const response = await fetch(`${host}/api/CourseProgression/CalculateCourseCompletion/${id}`, {
           method: 'GET',
           headers: {
                 'Content-Type': 'application/json',
-                "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+                "auth-token": token
               },
           });
           const json = await response.json()
@@ -62,12 +66,12 @@ const CourseState = (props) => {
   }
 
   const getSingleCourse = async (id) => {
-    
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseEnrollment/GetCourse/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
     });
     const json = await response.json()
@@ -76,11 +80,12 @@ const CourseState = (props) => {
   }
 
   const payCourse = async (total, courseids) => {
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseEnrollment/PayCourse`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
       body: JSON.stringify({
         'amount': total,
@@ -91,11 +96,12 @@ const CourseState = (props) => {
   }
 
   const updateQuizGraduation = async (quizId, courseId, graduation) => {
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseProgression/UpdateQuizGraduation`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
       body: JSON.stringify({
         'quiz_id': quizId,
@@ -107,44 +113,48 @@ const CourseState = (props) => {
   }
 
   const markTopicCompleted = async (id) => {
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseProgression/MarkTopicCompleted/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
     });
     await response.json();
   }
 
   const addTopicInProgress = async (id) => {
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseProgression/AddTopicInProgress/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
     });
     await response.json();
   }
 
   const addQuizInProgress = async (id) => {
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseProgression/AddQuizInProgress/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
     });
     await response.json();
   }
 
   const addCourseRating = async (id, stars) => {
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseProgression/AddCourseRating/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
       body: JSON.stringify({
         'rating': stars,
@@ -154,12 +164,12 @@ const CourseState = (props) => {
   }
 
   const getOrderCourseStatus = async (id) => {
-    
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseEnrollment/GetOrderCourseStatus/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
     });
     const json = await response.json()
@@ -168,12 +178,12 @@ const CourseState = (props) => {
   }
 
   const getLessonsOfCourse = async (id) => {
-    
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseProgression/GetLessonsOfCourse/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
     });
     const json = await response.json()
@@ -182,36 +192,36 @@ const CourseState = (props) => {
   }
 
   const getCerificateDetails = async (id) => {
-    
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseProgression/GetCerificateDetails/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
     });
     return await response.json();
   }
 
   const getLessonItems = async (id) => {
-    
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseProgression/GetLessonItems/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
     });
     return await response.json();
   }
 
   const getQuizQuestions = async (id) => {
-    
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/CourseProgression/GetQuestions/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
     });
     return await response.json();
@@ -220,12 +230,12 @@ const CourseState = (props) => {
   // will copy this in insha user
 
   const getUser = async (id) => {
-    
+    const token = await AsyncStorage.getItem('tokenn');
     const response = await fetch(`${host}/api/User/GetUser/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        "auth-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzZjM3MzQ2OGQyYmRkMDc2NmNhNzZmIn0sImlhdCI6MTY5ODY0MTcxNn0.5b2g9o9TcDLFXU-0aTgJ5O3gL6xXQOPrUzIVwVibzQ8'
+        "auth-token": token
       },
     });
     const json = await response.json()
