@@ -241,7 +241,7 @@ const ProfileInfoScreen = (props) => {
             await addInterest(title, description);
         }
 
-        navigation.navigate('HomePage1');
+        navigation.navigate('StudentProfilePage');
     };
 
     return (

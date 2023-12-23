@@ -3,10 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import CourseState from "./context/Courses/courseState";
 import CartState from "./context/Cart/cartState";
-import UserState from "./context/User/userState";
 import SessionState from "./context/Sessions/sessionState";
-import TeacherProfileState from "./context/TeacherProfile/teacherProfileState";
-import StudentProfileState from "./context/StudentProfile/studentProfileState";
 import * as React from "react";
 
 import Certificate from "./screens/Certificate";
@@ -21,6 +18,7 @@ import Feedback from "./screens/Feedback";
 import Quiz from "./screens/Quiz";
 import SingleCourse from "./screens/SingleCourse";
 import HomePage1 from "./screens/HomePage1";
+import TeacherHomePage from "./screens/TeacherHomePage";
 import StudentProfileState from "./context/StudentProfile/studentProfileState";
 import TeacherProfileState from "./context/TeacherProfile/teacherProfileState";
 import UserState from "./context/User/userState";
@@ -68,6 +66,7 @@ import AddSkillScreenT from "./screens/AddSkillScreenT";
 import EditLanguageScreenT from "./screens/EditLanguageScreenT";
 import EditSkillScreenT from "./screens/EditSkillScreenT";
 import Register from "./screens/Register";
+import Register1 from "./screens/Register1";
 import EmailVerification from "./screens/EmailVerification";
 import CodeVerification from "./screens/CodeVerification";
 import PasswordVerification from "./screens/PasswordVerification";
@@ -144,6 +143,11 @@ const App = () => {
                                                                 <Stack.Screen
                                                                     name="Register"
                                                                     component={Register}
+                                                                    options={{ headerShown: false }}
+                                                                />
+                                                                <Stack.Screen
+                                                                    name="Register1"
+                                                                    component={Register1}
                                                                     options={{ headerShown: false }}
                                                                 />
                                                                 <Stack.Screen
@@ -433,6 +437,7 @@ const App = () => {
                                                                     component={ViewAllInterests}
                                                                 />
                                                                 <Stack.Screen name="HomePage1" component={HomePage1} options={{ headerShown: false }} />
+                                                                <Stack.Screen name="TeacherHomePage" component={TeacherHomePage} options={{ headerShown: false }} />
                                                                 <Stack.Screen name="MySessions" component={MySessions} options={{ headerShown: false }} />
                                                                 <Stack.Screen name={SCREEN_NAMES.Home} component={Home} />
                                                                 <Stack.Screen name="StudentProfile" component={StudentProfile} options={{ headerShown: false }} />

@@ -10,7 +10,7 @@ import { getToken } from '../src/api/api';
 import { SCREEN_NAMES } from '../src/navigators/screenNames';
 
 
-const host = "http://192.168.121.42:3000"
+const host = "http://192.168.43.43:3000"
 
 const LiveSessionItem = ({ item, onPress }) => {
   return (

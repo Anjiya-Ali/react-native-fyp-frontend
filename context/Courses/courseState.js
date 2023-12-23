@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CourseState = (props) => {
-  const host = "http://192.168.121.42:3000"
+  const host = "http://192.168.43.43:3000"
   const [course, setCourse] = useState(null)
   const [user, setUser] = useState(null)
   const [myCourses, setMyCourses] = useState(null);

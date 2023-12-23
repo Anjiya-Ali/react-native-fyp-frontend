@@ -39,7 +39,7 @@ const Section3Screen = () => {
         <View style={styles.headerChild1}>
           <TouchableOpacity
             style={styles.getStartedButton}
-            onPress={() => navigation.navigate('Register')}
+            onPress={() => navigation.navigate('Register1')}
           >
             <Text style={styles.getStartedButtonText}>Get Started</Text>
           </TouchableOpacity>

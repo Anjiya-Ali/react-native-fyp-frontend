@@ -115,7 +115,7 @@ const StudentProfilePage = () => {
   const navigation = useNavigation();
 
   const flexD = "column";
-  const host = "http://192.168.0.107:3000";
+  const host = "http://192.168.43.43:3000";
 
   return (
     <ScrollView

@@ -1,8 +1,9 @@
 import UserContext from "./userContext";
 import React, { useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const UserState = (props) => {
-    const host = "http://192.168.121.42:3000"
+    const host = "http://192.168.43.43:3000"
 
     const registerUser = async (first_name, last_name, password, email, gender, country, dob, privilege) => {
         try {
@@ -43,7 +44,10 @@ const UserState = (props) => {
           const json = await response.json()
           if(json.success){
               await AsyncStorage.setItem('tokenn', json.authtoken);
+              await AsyncStorage.setItem('role', json.role);
+              await AsyncStorage.setItem('id', json.id);
           }
+          console.log(json)
           return json;
         }
         catch (error) {

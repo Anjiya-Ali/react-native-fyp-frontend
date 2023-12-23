@@ -516,7 +516,7 @@ const ProfileInfoScreen = (props) => {
             await addSkill(skillEntry);
         }
 
-        navigation.navigate('HomePage1');
+        navigation.navigate('TeacherProfilePage');
     };
 
     return (
