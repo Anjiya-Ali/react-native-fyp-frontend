@@ -1,24 +1,47 @@
 import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Animatable from "react-native-animatable";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Section1Screen from './Section1Screen';
 import Section2Screen from './Section2Screen';
 import Section3Screen from './Section3Screen';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
 const Main = () => {
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Simulate loading for 3 seconds
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 5000);
+  const navigation = useNavigation();
 
-    return () => clearTimeout(timer); 
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(true);
+
+      const timer = setTimeout(() => {
+        setLoading(false);
+        checkTokenAndNavigate();
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }, [])
+  );
+
+  const checkTokenAndNavigate = async () => {
+    const token = await AsyncStorage.getItem('tokenn');
+    const role = await AsyncStorage.getItem('role');
+
+    if (token) {
+      if(role == 'Student'){
+        navigation.navigate('HomePage1');
+      }
+      if(role == 'Teacher'){
+        navigation.navigate('TeacherHomePage');
+      }
+    }
+  };
 
   if (loading) {
     return (

@@ -10,9 +10,9 @@ const Section3Screen = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad", marginTop: "50%" }}>
+      <View style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad", justifyContent: "center", marginBottom: "30%" }}>
         <Image
-          source={require("../assets/image-18.png")}
+          source={require("../assets/image3.png")}
           style={styles.imageStyle}
           
         />
@@ -34,7 +34,7 @@ const Section3Screen = () => {
             style={styles.ellipseImage}
           />
         </View>
-      </ScrollView>
+      </View>
       <View style={styles.headerPosition1}>
         <View style={styles.headerChild1}>
           <TouchableOpacity
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
       },
     imageStyle: {
         width: "100%",
-        height: 100,
+        height: 250,
         borderRadius: 10,
       },
       heading: {

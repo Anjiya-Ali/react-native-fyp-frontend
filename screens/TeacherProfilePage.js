@@ -131,7 +131,7 @@ const TeacherProfilePage = () => {
   const navigation = useNavigation();
 
   const flexD = "column";
-  const host = "http://192.168.43.43:3000";
+  const host = "http://192.168.0.147:3000";
 
   return (
     <ScrollView
@@ -147,7 +147,7 @@ const TeacherProfilePage = () => {
         <Text style={styles.myCourses1}>MY PROFILE</Text>
         <TouchableOpacity
           style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
-          onPress={() => navigation.navigate("HomePage2")}
+          onPress={() => navigation.navigate("TeacherHomePage")}
         >
           <Image
             style={styles.icon}

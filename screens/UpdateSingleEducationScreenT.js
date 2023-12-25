@@ -35,8 +35,8 @@ const UpdateSingleEducationScreenT = ({ route }) => {
   const [error, setError] = useState(null);
   const { editEducation } = context;
 
-  const [value, setValue] = useState(null);
-  const [value1, setValue1] = useState(null);
+  const [value, setValue] = useState(additionalData.start_date.toString());
+  const [value1, setValue1] = useState(additionalData.end_date.toString());
 
   const handleDropdownChange = (value) => {
     setValue(value);

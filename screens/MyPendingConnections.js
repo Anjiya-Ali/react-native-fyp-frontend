@@ -10,6 +10,7 @@ import {
   Modal
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontFamily, FontSize, Color, Border } from "../GlobalStyles";
 import socialHubContext from "../context/SocialHub/SocialHubContext";
 import { useRoute, useFocusEffect } from "@react-navigation/native";
@@ -92,7 +93,7 @@ const MyPendingConnections = () => {
   const navigation = useNavigation();
 
   const flexD = "column";
-  const host = "http://192.168.43.43:3000";
+  const host = "http://192.168.0.147:3000";
 
   return (
     <View style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}>
@@ -109,7 +110,15 @@ const MyPendingConnections = () => {
           <Text style={styles.myCourses1}>MY PENDING CONNECTIONS</Text>
           <TouchableOpacity
             style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
-            onPress={() => navigation.navigate("HomePage2")}
+            onPress={async () => {
+              const role = await AsyncStorage.getItem('role');
+          
+              if (role === 'Student') {
+                navigation.navigate('HomePage1'); 
+              } else {
+                navigation.navigate('TeacherHomePage');
+              }
+            }}
           >
             <Image
               style={styles.icon}
@@ -233,6 +242,15 @@ const MyPendingConnections = () => {
           </View>
         </Modal>
           </ScrollView>
+        )}
+        {localRequests.length === 0 && (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Image
+              source={require("../assets/image-18.png")}
+              style={styles.imageStyle}
+            />
+            <Text style={{ color: 'blue', fontSize: 25, fontWeight: "bold" }}>NO PENDING REQUESTS</Text>
+          </View>
         )}
       </ScrollView>
       <View style={[styles.headerPosition1, { position: "relative" }]}>

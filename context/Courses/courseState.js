@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CourseState = (props) => {
-  const host = "http://192.168.43.43:3000"
+  const host = "http://192.168.0.147:3000"
   const [course, setCourse] = useState(null)
   const [user, setUser] = useState(null)
   const [myCourses, setMyCourses] = useState(null);
@@ -24,7 +24,7 @@ const CourseState = (props) => {
         });
         const json = await response.json()
         if(json.success)
-            setMyCourses(json.coursesWithLearningPosts);
+        setMyCourses(json.coursesWithLearningPosts);
     } catch (error) {
         console.error('Error during fetch:', error);
     }
@@ -239,8 +239,10 @@ const CourseState = (props) => {
       },
     });
     const json = await response.json()
-    if(json.success)
+    if(json.success){
       setUser(json.user_data)
+      return json.user_data;
+    }
     return json;
   }
 

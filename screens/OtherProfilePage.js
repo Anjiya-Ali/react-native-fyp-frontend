@@ -11,6 +11,7 @@ import {
   Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontFamily, FontSize, Color, Border } from "../GlobalStyles";
 import socialHubContext from "../context/SocialHub/SocialHubContext";
 import StarRating from "../components/StarRating";
@@ -19,9 +20,8 @@ import * as Animatable from "react-native-animatable";
 const windowWidth = Dimensions.get("window").width;
 const { height, width } = Dimensions.get("window");
 
-const OtherProfilePage = () => {
-  // {route}
-  // const { additionalData } = route.params;
+const OtherProfilePage = ( {route} ) => {
+  const { additionalData } = route.params;
 
   const context1 = useContext(socialHubContext);
   const {
@@ -55,8 +55,7 @@ const OtherProfilePage = () => {
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
-        // await getOtherProfile(additionalData);
-        await getOtherProfile("65353ef7a91cddd06271cd8c");
+        await getOtherProfile(additionalData);
         setAllInterests(otherUserProfile.interests || []);
         setAllEducations(otherUserProfile.education || []);
         setAllCertifications(otherUserProfile.certifications || []);
@@ -81,50 +80,50 @@ const OtherProfilePage = () => {
   const navigation = useNavigation();
 
   const flexD = "column";
-  const host = "http://192.168.43.43:3000";
+  const host = "http://192.168.0.147:3000";
 
   const handleUnfollow = async () => {
     setLoading(true);
     setShowRejectModal(false);
-    await cancelFollowing(otherUserProfile.id);
-    await getOtherProfile("65353ef7a91cddd06271cd8c");
+    await cancelFollowing(additionalData);
+    await getOtherProfile(additionalData);
     setLoading(false);
   };
 
   const handleFollow = async () => {
     setLoading(true);
-    await createConnection(otherUserProfile.id);
-    await getOtherProfile("65353ef7a91cddd06271cd8c");
+    await createConnection(additionalData);
+    await getOtherProfile(additionalData);
     setLoading(false);
   };
 
   const handleConnect = async () => {
     setLoading(true);
-    await createConnection(otherUserProfile.id);
-    await getOtherProfile("653510cb02f1f4014d2b7a0d");
+    await createConnection(additionalData);
+    await getOtherProfile(additionalData);
     setLoading(false);
   };
 
   const handleWithdraw = async () => {
     setLoading(true);
     setShowWithdrawModal(false);
-    await cancelRequest(otherUserProfile.id);
-    await getOtherProfile("653510cb02f1f4014d2b7a0d");
+    await cancelRequest(additionalData);
+    await getOtherProfile(additionalData);
     setLoading(false);
   };
 
   const handleUnfriend = async () => {
     setLoading(true);
     setShowFriendModal(false);
-    await removeConnection(otherUserProfile.id);
-    await getOtherProfile("653510cb02f1f4014d2b7a0d");
+    await removeConnection(additionalData);
+    await getOtherProfile(additionalData);
     setLoading(false);
   };
 
   const handleAccept = async () => {
     setLoading(true);
-    await acceptConnection(otherUserProfile.id);
-    await getOtherProfile("653510cb02f1f4014d2b7a0d");
+    await acceptConnection(additionalData);
+    await getOtherProfile(additionalData);
     setLoading(false);
   };
 
@@ -164,7 +163,15 @@ const OtherProfilePage = () => {
             />
             <TouchableOpacity
               style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
-              onPress={() => navigation.navigate("HomePage2")}
+              onPress={async () => {
+                const role = await AsyncStorage.getItem('role');
+            
+                if (role === 'Student') {
+                  navigation.navigate('HomePage1'); 
+                } else {
+                  navigation.navigate('TeacherHomePage');
+                }
+              }}
             >
               <Image
                 style={styles.icon}

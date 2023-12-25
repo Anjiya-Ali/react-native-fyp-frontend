@@ -3,7 +3,6 @@ import { useNavigation } from "@react-navigation/native";
 import { View, ScrollView, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import RNPickerSelect from "react-native-picker-select";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import Toast from 'react-native-toast-message';
 import { Color } from "../GlobalStyles";
 import userContext from "../context/User/userContext";
 import StudentContext from '../context/StudentProfile/studentProfileContext';
@@ -14,6 +13,7 @@ const LoginScreen = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
     const context1 = useContext(userContext);
     const {
         handleUserLogin,
@@ -31,14 +31,19 @@ const LoginScreen = () => {
 
     const handleLogin = async () => {
         if (!validateRequiredFields([email, password])) {
-            showError('Please fill in all the fields!');
-            return;
+            setError('Please fill in all the fields!');
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
+              return;
         }
         else{
             const user = await handleUserLogin(email, password);
-            console.log(user)
             if(!user.success){
-                showError('Invalid Credentials!');
+                setError('Invalid Credentials!');
+                setTimeout(() => {
+                    setError(null);
+                  }, 3000);
                 return;
             }
             else if(user.success){
@@ -72,19 +77,14 @@ const LoginScreen = () => {
         return fields.every((field) => field.trim() !== '');
     };
 
-    const showError = (message) => {
-        Toast.show({
-            type: 'error',
-            text1: 'Error',
-            text2: message,
-            position: 'top',
-            topOffset: 80,
-        });
-    };
-
     return (
         <ScrollView style={styles.paybox}>
             <Text style={styles.header}>Login to your Account</Text>
+            {error && (
+                <View style={styles.errorContainer}>
+                    <Text style={styles.errorText}>{error}</Text>
+                </View>
+            )}
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -119,6 +119,7 @@ const RegisterScreen = () => {
     const [reEnterPassword, setReEnterPassword] = useState('');
     const navigation = useNavigation();
     const [location, setLocation] = useState('');
+    const [error, setError] = useState(null);
     const countryList = [
         "Afghanistan",
         "Albania",
@@ -378,35 +379,49 @@ const RegisterScreen = () => {
     const handleRegister = async () => {
 
         if (!validateRequiredFields([firstName, lastName, dob, gender, email, location, password, reEnterPassword])) {
-            showError('Please fill in all the fields!');
+            setError('Please fill in all the fields!');
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
             return;
         }
 
         // Validation checks
         if (!validateEmail()) {
-            showError('Please enter a valid email address!');
+            setError('Please enter a valid email address!');
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
             return;
         }
 
         if (!validatePassword()) {
-            showError(
+            setError(
                 'Password needs an uppercase letter and a special character!'
             );
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
             return;
         }
 
         if (!validatePasswordMatch()) {
-            showError('Passwords do not match!');
+            setError('Passwords do not match!');
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
             return;
         }
 
         const response = await registerUser(firstName, lastName, password, email, gender, location, dob, selectedProfession);
         if(!response.success){
-            showError(response.error);
+            setError(response.error);
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
         }
         else{
             await handleUserLogin(email, password);
-            showSuccess('Registration successful!');
 
             if(selectedProfession == 'Student')
                 navigation.navigate("StudentProfile", { name: firstName + ' ' + lastName, email: email });
@@ -423,26 +438,6 @@ const RegisterScreen = () => {
         // Basic email format validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-    };
-
-    const showError = (message) => {
-        Toast.show({
-            type: 'error',
-            text1: 'Error',
-            text2: message,
-            position: 'top',
-            topOffset: 80,
-        });
-    };
-
-    const showSuccess = (message) => {
-        Toast.show({
-            type: 'success',
-            text1: 'Success',
-            text2: message,
-            position: 'top',
-            topOffset: 80,
-        });
     };
 
     const validatePassword = () => {
@@ -504,7 +499,11 @@ const RegisterScreen = () => {
             ) : (
                 <ScrollView style={styles.paybox} showsVerticalScrollIndicator={false}>
                     <Text style={styles.header}>Create a New Account</Text>
-
+                    {error && (
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.errorText}>{error}</Text>
+                    </View>
+                    )}
                     <TextInput
                         style={styles.input}
                         placeholder="First Name"
@@ -641,6 +640,16 @@ const AuthScreen = () => {
 };
 
 const styles = StyleSheet.create({
+    errorContainer: {
+        backgroundColor: 'red',
+        padding: 10,
+        borderRadius: 5,
+        marginVertical: 10,
+      },
+      errorText: {
+        color: 'white',
+        textAlign: 'center',
+      },
     forgot: {
         color: Color.colorSlateblue,
         textAlign: 'center',

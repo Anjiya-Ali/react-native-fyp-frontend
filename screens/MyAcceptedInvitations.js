@@ -37,7 +37,7 @@ const MyAcceptedInvitations = ({route}) => {
   const navigation = useNavigation();
 
   const flexD = "column";
-  const host = "http://192.168.43.43:3000";
+  const host = "http://192.168.0.147:3000";
 
   const handleWithdrawConnection = async (connectionId) => {
     await withdrawInvitation(connectionId, additionalData);
@@ -56,7 +56,7 @@ const MyAcceptedInvitations = ({route}) => {
           <Text style={styles.myCourses1}>COURSE PARTNERS</Text>
           <TouchableOpacity
             style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
-            onPress={() => navigation.navigate("HomePage2")} //set it
+            onPress={() => navigation.navigate("TeacherHomePage")} //set it
           >
             <Image
               style={styles.icon}
@@ -100,6 +100,15 @@ const MyAcceptedInvitations = ({route}) => {
               </View>
             ))}
           </ScrollView>
+        )}
+        {localRequests.length === 0 && (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Image
+              source={require("../assets/image-18.png")}
+              style={styles.imageStyle}
+            />
+            <Text style={{ color: 'blue', fontSize: 25, fontWeight: "bold" }}>NO COURSE PARTNERS</Text>
+          </View>
         )}
       </ScrollView>
       <View style={[styles.headerPosition1, { position: "relative" }]}>

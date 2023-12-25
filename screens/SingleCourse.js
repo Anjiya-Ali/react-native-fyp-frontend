@@ -17,7 +17,7 @@ const SingleCourse = (props) => {
   const [instructor, setInstructor] = useState('')
   const [lessons, setLessons] = useState(null);
   const [fullScreen, setFullScreen] = useState(false);
-  const host = 'http://192.168.43.43:3000';
+  const host = 'http://192.168.0.147:3000';
   const playerRef = useRef(null);
   const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
   const [currentTopicIndex, setCurrentTopicIndex] = useState(0);

@@ -126,6 +126,22 @@ const App = () => {
                                                                     options={{ headerShown: false }}
                                                                 />
                                                                 <Stack.Screen
+                                                                    name="MyConnections"
+                                                                    component={MyConnections}
+                                                                    options={{ headerShown: false }}
+                                                                />
+                                                                <Stack.Screen
+                                                                    name="ViewMemberForJointAccount"
+                                                                    component={ViewMemberForJointAccount}
+                                                                    options={{ headerShown: false }}
+                                                                    initialParams={{ additionalData: "653c16d7de4f4f52b4ac58c0" }}
+                                                                />
+                                                                <Stack.Screen
+                                                                    name="ViewJointAccountRequests"
+                                                                    component={ViewJointAccountRequests}
+                                                                    options={{ headerShown: false }}
+                                                                />
+                                                                <Stack.Screen
                                                                     name="Section1Screen"
                                                                     component={Section1Screen}
                                                                     options={{ headerShown: false }}
@@ -178,22 +194,6 @@ const App = () => {
                                                                 <Stack.Screen
                                                                     name="StudentProfilePage"
                                                                     component={StudentProfilePage}
-                                                                    options={{ headerShown: false }}
-                                                                />
-                                                                <Stack.Screen
-                                                                    name="ViewJointAccountRequests"
-                                                                    component={ViewJointAccountRequests}
-                                                                    options={{ headerShown: false }}
-                                                                />
-                                                                <Stack.Screen
-                                                                    name="ViewMemberForJointAccount"
-                                                                    component={ViewMemberForJointAccount}
-                                                                    options={{ headerShown: false }}
-                                                                    initialParams={{ additionalData: "653a8e93ad9fba31687ebffe" }}
-                                                                />
-                                                                <Stack.Screen
-                                                                    name="MyConnections"
-                                                                    component={MyConnections}
                                                                     options={{ headerShown: false }}
                                                                 />
                                                                 <Stack.Screen

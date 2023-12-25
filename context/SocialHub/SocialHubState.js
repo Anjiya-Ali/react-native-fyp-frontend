@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SocialHubState = (props) => {
-    const host = "http://192.168.43.43:3000"
+    const host = "http://192.168.0.147:3000"
     const userProfileInitial = []
     const [connectionCreation, setConnectionCreation] = useState(false)
     const [connectionAcception, setConnectionAcception] = useState(false)
@@ -41,6 +41,7 @@ const SocialHubState = (props) => {
   
     const createConnection = async (id) => {      
       try{
+        console.warn(id)
         const token = await AsyncStorage.getItem('tokenn');
         const response = await fetch(`${host}/api/SocialHub/CreateConnection/${id}`, {
           method: 'PUT',
@@ -206,8 +207,7 @@ const SocialHubState = (props) => {
             return;
           }
           const json = await response.json()
-          setConnections(json.connections)
-          setPrivilege(json.privilege)
+          return json;
         }
         catch (error) {
           console.error('Error fetching connections:', error.message);

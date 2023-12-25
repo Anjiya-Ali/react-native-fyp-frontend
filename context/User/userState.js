@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const UserState = (props) => {
-    const host = "http://192.168.43.43:3000"
+    const host = "http://192.168.0.147:3000"
 
     const registerUser = async (first_name, last_name, password, email, gender, country, dob, privilege) => {
         try {
@@ -24,12 +24,6 @@ const UserState = (props) => {
 
     const handleUserLogin = async (email, password) => {      
         try{
-          const existingToken = await AsyncStorage.getItem('tokenn');
-      
-          if (existingToken) {
-              await AsyncStorage.removeItem('tokenn');
-          }
-  
           const response = await fetch(`${host}/api/User/LoginUser`, {
             method: 'POST',
             headers: {
@@ -47,7 +41,6 @@ const UserState = (props) => {
               await AsyncStorage.setItem('role', json.role);
               await AsyncStorage.setItem('id', json.id);
           }
-          console.log(json)
           return json;
         }
         catch (error) {

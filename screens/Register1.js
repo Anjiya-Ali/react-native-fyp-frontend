@@ -14,6 +14,7 @@ const LoginScreen = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
     const context1 = useContext(userContext);
     const {
         handleUserLogin,
@@ -31,13 +32,19 @@ const LoginScreen = () => {
 
     const handleLogin = async () => {
         if (!validateRequiredFields([email, password])) {
-            showError('Please fill in all the fields!');
+            setError('Please fill in all the fields!');
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
             return;
         }
         else{
             const user = await handleUserLogin(email, password);
             if(!user.success){
-                showError('Invalid Credentials!');
+                setError('Invalid Credentials!');
+                setTimeout(() => {
+                    setError(null);
+                  }, 3000);
                 return;
             }
             else if(user.success){
@@ -69,16 +76,6 @@ const LoginScreen = () => {
 
     const validateRequiredFields = (fields) => {
         return fields.every((field) => field.trim() !== '');
-    };
-
-    const showError = (message) => {
-        Toast.show({
-            type: 'error',
-            text1: 'Error',
-            text2: message,
-            position: 'top',
-            topOffset: 80,
-        });
     };
 
     return (
@@ -113,11 +110,16 @@ const RegisterScreen = () => {
     const [lastName, setLastName] = useState('');
     const [dob, setDob] = useState('');
     const [gender, setGender] = useState('');
+    const [error, setError] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [reEnterPassword, setReEnterPassword] = useState('');
     const navigation = useNavigation();
     const [location, setLocation] = useState('');
+    const context1 = useContext(userContext);
+    const {
+        handleUserLogin,
+    } = context1;
     const countryList = [
         "Afghanistan",
         "Albania",
@@ -375,37 +377,50 @@ const RegisterScreen = () => {
 
 
     const handleRegister = async () => {
-
         if (!validateRequiredFields([firstName, lastName, dob, gender, email, location, password, reEnterPassword])) {
-            showError('Please fill in all the fields!');
+            setError('Please fill in all the fields!');
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
             return;
         }
 
         // Validation checks
         if (!validateEmail()) {
-            showError('Please enter a valid email address!');
+            setError('Please enter a valid email address!');
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
             return;
         }
 
         if (!validatePassword()) {
-            showError(
+            setError(
                 'Password needs an uppercase letter and a special character!'
             );
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
             return;
         }
 
         if (!validatePasswordMatch()) {
-            showError('Passwords do not match!');
+            setError('Passwords do not match!');
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
             return;
         }
 
         const response = await registerUser(firstName, lastName, password, email, gender, location, dob, selectedProfession);
         if(!response.success){
-            showError(response.error);
+            setError(response.error);
+            setTimeout(() => {
+                setError(null);
+              }, 3000);
         }
         else{
             await handleUserLogin(email, password);
-            showSuccess('Registration successful!');
 
             if(selectedProfession == 'Student')
                 navigation.navigate("StudentProfile", { name: firstName + ' ' + lastName, email: email });
@@ -422,26 +437,6 @@ const RegisterScreen = () => {
         // Basic email format validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-    };
-
-    const showError = (message) => {
-        Toast.show({
-            type: 'error',
-            text1: 'Error',
-            text2: message,
-            position: 'top',
-            topOffset: 80,
-        });
-    };
-
-    const showSuccess = (message) => {
-        Toast.show({
-            type: 'success',
-            text1: 'Success',
-            text2: message,
-            position: 'top',
-            topOffset: 80,
-        });
     };
 
     const validatePassword = () => {

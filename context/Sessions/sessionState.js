@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const UserState = (props) => {
-    const host = "http://192.168.43.43:3000"
+    const host = "http://192.168.0.147:3000"
     const [currentSession, setCurrentSession] = useState('');
 
     const createSession = async (formData) => {

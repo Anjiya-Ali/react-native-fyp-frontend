@@ -8,6 +8,7 @@ import {
   Dimensions,
   Modal
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Border } from "../GlobalStyles";
 import socialHubContext from "../context/SocialHub/SocialHubContext";
@@ -21,30 +22,33 @@ const MyConnections = () => {
   const route = useRoute();
 
   const context = useContext(socialHubContext);
-  const {getConnections, connections, privilege, removeConnection } = context;
+  const {getConnections, removeConnection } = context;
   const [allConnections, setAllConnections] = useState([]);
   const [userPrivilege, setUserPrivilege] = useState("");
   const [localRequests, setLocalRequests] = useState([]);
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [requestId, setRequestId] = useState();
+  const [flag, setFlag] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
-        await getConnections();
-        setAllConnections(connections || []);
-        setLocalRequests(connections || []);
-        setUserPrivilege(privilege)
+        setFlag(false)
+        const json = await getConnections();
+        setAllConnections(json.connections || []);
+        setLocalRequests(json.connections || []);
+        setUserPrivilege(json.privilege)
+        setFlag(true)
       };
 
       fetchData();
-    }, [getConnections, connections, privilege])
+    }, [])
   );
 
   const navigation = useNavigation();
 
   const flexD = "column";
-  const host = "http://192.168.43.43:3000";
+  const host = "http://192.168.0.147:3000";
 
   const handleRejectRequest = (id) => {
     setRequestId(id)
@@ -67,32 +71,43 @@ const MyConnections = () => {
   // };
 
   return (
-    <View style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}>
+    <>
+    {flag && (
+      <>
+      <View style={[styles.headerPosition, { position: "relative" }]}>
+      <View style={[styles.headerChild, { flex: 1, width: windowWidth }]} />
+      <Image
+        style={styles.hamburgerIcon}
+        resizeMode="cover"
+        source={require("../assets/hamburger1.png")}
+      />
+      <Text style={styles.myCourses1}>MY CONNECTIONS</Text>
+      <TouchableOpacity
+        style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
+        onPress={async () => {
+          const role = await AsyncStorage.getItem('role');
+      
+          if (role === 'Student') {
+            navigation.navigate('HomePage1'); 
+          } else {
+            navigation.navigate('TeacherHomePage');
+          }
+        }}
+      >
+        <Image
+          style={styles.icon}
+          resizeMode="cover"
+          source={require("../assets/icons8arrow24-1.png")}
+        />
+      </TouchableOpacity>
+      <Text style={styles.userName1}>
+        You have {allConnections.length} connections
+      </Text>
+    </View>
+      <View style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}>
       <ScrollView
         style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}
       >
-        <View style={[styles.headerPosition, { position: "relative" }]}>
-          <View style={[styles.headerChild, { flex: 1, width: windowWidth }]} />
-          <Image
-            style={styles.hamburgerIcon}
-            resizeMode="cover"
-            source={require("../assets/hamburger1.png")}
-          />
-          <Text style={styles.myCourses1}>MY CONNECTIONS</Text>
-          <TouchableOpacity
-            style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
-            onPress={() => navigation.navigate("HomePage2")}
-          >
-            <Image
-              style={styles.icon}
-              resizeMode="cover"
-              source={require("../assets/icons8arrow24-1.png")}
-            />
-          </TouchableOpacity>
-          <Text style={styles.userName1}>
-            You have {allConnections.length} connections
-          </Text>
-        </View>
         {localRequests.length > 0 && (
           <ScrollView>
             {localRequests.map((connection, index) => (
@@ -162,6 +177,15 @@ const MyConnections = () => {
         </Modal>
           </ScrollView>
         )}
+        {localRequests.length === 0 && (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Image
+              source={require("../assets/image-18.png")}
+              style={styles.imageStyle}
+            />
+            <Text style={{ color: 'blue', fontSize: 25, fontWeight: "bold" }}>NO CONNECTIONS</Text>
+          </View>
+        )}
       </ScrollView>
       <View style={[styles.headerPosition1, { position: "relative" }]}>
         <View style={[styles.headerChild1, { flex: 1, width: windowWidth }]} />
@@ -190,6 +214,9 @@ const MyConnections = () => {
         )}
       </View>
     </View>
+      </>
+    )}
+    </>
   );
 };
 

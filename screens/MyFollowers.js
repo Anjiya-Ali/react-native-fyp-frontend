@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Border } from "../GlobalStyles";
 import socialHubContext from "../context/SocialHub/SocialHubContext";
 import { useFocusEffect } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableOpacity } from "react-native";
 
 const windowWidth = Dimensions.get("window").width;
@@ -41,7 +42,7 @@ const MyFollowers = () => {
   const navigation = useNavigation();
 
   const flexD = "column";
-  const host = "http://192.168.43.43:3000";
+  const host = "http://192.168.0.147:3000";
 
   const handleRejectRequest = (id) => {
     setRequestId(id)
@@ -78,7 +79,15 @@ const MyFollowers = () => {
           <Text style={styles.myCourses1}>MY FOLLOWERS</Text>
           <TouchableOpacity
             style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
-            onPress={() => navigation.navigate("HomePage2")}
+            onPress={async () => {
+              const role = await AsyncStorage.getItem('role');
+          
+              if (role === 'Student') {
+                navigation.navigate('HomePage1'); 
+              } else {
+                navigation.navigate('TeacherHomePage');
+              }
+            }}
           >
             <Image
               style={styles.icon}
@@ -128,6 +137,15 @@ const MyFollowers = () => {
               </View>
             ))}
           </ScrollView>
+        )}
+        {localRequests.length === 0 && (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Image
+              source={require("../assets/image-18.png")}
+              style={styles.imageStyle}
+            />
+            <Text style={{ color: 'blue', fontSize: 25, fontWeight: "bold" }}>NO FOLLOWERS</Text>
+          </View>
         )}
         <Modal
           animationType="slide"

@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Border } from "../GlobalStyles";
 import jointAccountContext from "../context/JointAccounts/JointAccountContext";
 import { useRoute, useFocusEffect } from "@react-navigation/native";
+import Header from "../components/Header";
 
 const windowWidth = Dimensions.get("window").width;
 const { height, width } = Dimensions.get("window");
@@ -42,7 +43,7 @@ const ViewJointAccountRequests = () => {
   const navigation = useNavigation();
 
   const flexD = "column";
-  const host = "http://192.168.43.43:3000";
+  const host = "http://192.168.0.147:3000";
 
   const handleAcceptInvitation = async (jointAccountRequestId) => {
     navigation.navigate("ViewSingleJointAccountRequest", {
@@ -54,12 +55,12 @@ const ViewJointAccountRequests = () => {
   const [showRejectModal, setShowRejectModal] = useState(false);
 
   const handleAcceptRequest = (id) => {
-    setRequestId(id)
+    setRequestId(id);
     setShowAcceptModal(true);
   };
 
   const handleRejectRequest = (id) => {
-    setRequestId(id)
+    setRequestId(id);
     setShowRejectModal(true);
   };
 
@@ -77,23 +78,10 @@ const ViewJointAccountRequests = () => {
 
   return (
     <View style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}>
+      <Header heading="Joint Account Requests" navigate="TeacherHomePage" />
       <ScrollView
         style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}
       >
-        <View style={[styles.headerPosition, { position: "relative" }]}>
-          <View style={[styles.headerChild, { flex: 1, width: windowWidth }]} />
-          <Text style={styles.myCourses1}>JOINT ACCOUNT REQUESTS</Text>
-          <TouchableOpacity
-            style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
-            onPress={() => navigation.navigate("HomePage2")} //set it
-          >
-            <Image
-              style={styles.icon}
-              resizeMode="cover"
-              source={require("../assets/icons8arrow24-1.png")}
-            />
-          </TouchableOpacity>
-        </View>
         {localRequests.length > 0 && (
           <ScrollView>
             {localRequests.map((connection, index) => (
@@ -144,12 +132,16 @@ const ViewJointAccountRequests = () => {
                     }}
                   >
                     <TouchableOpacity
-                      onPress={() => handleAcceptRequest(connection.jointAccountRequestId)}
+                      onPress={() =>
+                        handleAcceptRequest(connection.jointAccountRequestId)
+                      }
                     >
                       <Text style={styles.acceptButtonText}>Accept</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      onPress={() => handleRejectRequest(connection.jointAccountRequestId)}
+                      onPress={() =>
+                        handleRejectRequest(connection.jointAccountRequestId)
+                      }
                     >
                       <Text style={styles.acceptButtonText}>Reject</Text>
                     </TouchableOpacity>
@@ -158,6 +150,19 @@ const ViewJointAccountRequests = () => {
               </View>
             ))}
           </ScrollView>
+        )}
+        {localRequests.length === 0 && (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <Image
+              source={require("../assets/image-18.png")}
+              style={styles.imageStyle}
+            />
+            <Text style={{ color: "blue", fontSize: 25, fontWeight: "bold" }}>
+              NO JOINT ACCOUNT REQUESTS
+            </Text>
+          </View>
         )}
         <Modal
           animationType="slide"

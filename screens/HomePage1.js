@@ -1,16 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Text, StyleSheet, TouchableOpacity, View, Image, FlatList } from "react-native";
+import { Text, StyleSheet, TouchableOpacity, View, Image, FlatList, ScrollView, TouchableHighlight, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import ProjectManagementContainer from "../components/ProjectManagementContainer";
 import SearchForm from "../components/SearchForm";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 import StudentProfileContext from "../context/StudentProfile/studentProfileContext";
 import SessionContext from "../context/Sessions/sessionContext";
 import { getToken } from '../src/api/api';
 import { SCREEN_NAMES } from '../src/navigators/screenNames';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Menu from '../components/Menu'
 
-
-const host = "http://192.168.43.43:3000"
+const host = "http://192.168.0.147:3000"
 
 const LiveSessionItem = ({ item, onPress }) => {
   return (
@@ -32,6 +32,21 @@ const LiveSessionItem = ({ item, onPress }) => {
 
 const HomePage1 = () => {
   const navigation = useNavigation();
+
+  const handleNavigation = async (screen) => {
+    if (screen === 'Main') {
+      try {
+        await AsyncStorage.removeItem('tokenn');
+        await AsyncStorage.removeItem('role');
+        await AsyncStorage.removeItem('id');
+      } catch (error) {
+        console.error('Error removing items from AsyncStorage:', error);
+      }
+    }
+    navigation.navigate(screen);
+    setDisplay(false);
+  };
+
   const context = useContext(StudentProfileContext);
   const { getProfilePicture } = context;
   const session_context = useContext(SessionContext);
@@ -39,6 +54,28 @@ const HomePage1 = () => {
   const [profilePictureUrl, setProfilePictureUrl] = useState('')
   const [liveSessions, setLiveSessions] = useState([]);
   const [token, setToken] = useState('');
+  const [filteredOrganizations, setFilteredOrganizations] = useState([
+    {
+      _id: 14,
+      name: "Home",
+      url: require("../assets/icons8-home-50.png"),
+      screen: "HomePage1",
+    },
+    { _id: 1, name: 'My Courses', url: require("../assets/icons8course50-1-11.png"), screen : "HomePage1" },
+    { _id: 2, name: 'My Chats', url: require("../assets/icons8chats24-21.png"), screen : "HomePage1" },
+    { _id: 3, name: 'My Posts', url: require("../assets/icons8topic24-11.png"), screen : "HomePage1" },
+    { _id: 4, name: 'My Connections', url: require("../assets/icons8connection80-11.png"), screen : "MyConnections" },
+    { _id: 5, name: 'My Communities', url: require("../assets/icons8myspace350-11.png"), screen : "HomePage1" },
+    { _id: 6, name: 'eLearning Page', url: require("../assets/icons8elearning64-11.png"), screen : "HomePage1" },
+    { _id: 7, name: 'Scheduled Meetings', url: require("../assets/icons8schedule50-11.png"), screen : "HomePage1" },
+    { _id: 8, name: 'Upcoming Sessions', url: require("../assets/icons8sessions32-11.png"), screen : "HomePage1" },
+    { _id: 9, name: 'Cart', url: require("../assets/icons8cart24-11.png"), screen : "HomePage1" },
+    { _id: 10, name: 'Notifications', url: require("../assets/icons8notifications64-1.png"), screen : "HomePage1" },
+    { _id: 11, name: 'Privacy Policy', url: require("../assets/icons8privacypolicy50-1.png"), screen : "HomePage1" },
+    { _id: 12, name: 'FAQs', url: require("../assets/icons8faq50-1.png"), screen : "HomePage1" },
+    { _id: 13, name: 'Logout', url: require("../assets/icons8logoutroundedleft50-1.png"), screen : "Main" },
+  ]);
+  const [display, setDisplay] = useState(false);
 
   useEffect(() => {
     const fetchProfilePicture = async () => {
@@ -65,42 +102,36 @@ const HomePage1 = () => {
   }
 
   return (
-    <View>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity
-          style={styles.arrowContainer}
-          onPress={() => navigation.navigate('StudentProfile')}
-        >
-          {
-            profilePictureUrl ? (
-              <Image
-                style={styles.arrowIcon}
-                resizeMode="cover"
-                source={{ uri: profilePictureUrl }}
-              />
-            ) : null
-          }
-        </TouchableOpacity>
-        <SearchForm />
-        <TouchableOpacity
-          onPress={() => navigation.toggleDrawer()}
-        >
-          <Image
-            style={styles.hamburgerIcon}
-            resizeMode="cover"
-            source={require("../assets/hamburger1.png")}
+    <View style={{ flex: 1, flexDirection: 'row' }}>
+      {display && (
+        <Menu filteredOrganizations = {filteredOrganizations} profilePictureUrl = {profilePictureUrl} display={setDisplay}/>
+      )}
+
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity
+            style={styles.arrowContainer}
+            onPress={() => navigation.navigate('StudentProfilePage')}
+          >
+            {profilePictureUrl ? (
+              <Image style={styles.arrowIcon} resizeMode="cover" source={{ uri: profilePictureUrl }} />
+            ) : null}
+          </TouchableOpacity>
+          <SearchForm />
+          <TouchableOpacity onPress={() => setDisplay(!display)}>
+            <Image style={styles.hamburgerIcon} resizeMode="cover" source={require("../assets/hamburger1.png")} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.liveSessionsContainer}>
+          <Text style={styles.liveSessionsTitle}>Live Sessions</Text>
+          <FlatList
+            data={liveSessions}
+            keyExtractor={(item) => item.meetingId.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => <LiveSessionItem item={item} onPress={handleLiveSessionPress} />}
           />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.liveSessionsContainer}>
-        <Text style={styles.liveSessionsTitle}>Live Sessions</Text>
-        <FlatList
-          data={liveSessions}
-          keyExtractor={(item) => item.meetingId.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => <LiveSessionItem item={item} onPress={handleLiveSessionPress} />}
-        />
+        </View>
       </View>
     </View>
   );

@@ -1,62 +1,288 @@
-import React from 'react';
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import StudentProfileContext from "../context/StudentProfile/studentProfileContext";
+import TeacherProfileContext from "../context/TeacherProfile/teacherProfileContext";
+import Menu from "./Menu";
 
-const Header = ({ heading, navigate }) => {
-    const navigation = useNavigation();
+const host = "http://192.168.0.147:3000";
 
-    return (
-        <View style={styles.headerContainer}>
-            <Pressable
-                style={styles.arrowContainer}
-                onPress={() => navigation.navigate(navigate)}
-            >
-                <Image
-                    style={styles.arrowIcon}
-                    resizeMode="cover"
-                    source={require("../assets/icons8arrow24-1.png")}
-                />
-            </Pressable>
-            <Text style={styles.heading}>{heading}</Text>
-            <Pressable
-                onPress={() => navigation.toggleDrawer()}
-            >
-                <Image
-                    style={styles.hamburgerIcon}
-                    resizeMode="cover"
-                    source={require("../assets/hamburger1.png")}
-                />
-            </Pressable>
-        </View>
-    );
+const Header = ({ heading, navigate, flag = true }) => {
+  const navigation = useNavigation();
+  const [display, setDisplay] = useState(false);
+
+  const [filteredOrganizations, setFilteredOrganizations] = useState([
+    {
+        _id: 14,
+        name: "Home",
+        url: require("../assets/icons8-home-50.png"),
+        screen: "HomePage1",
+      },
+    {
+      _id: 1,
+      name: "My Courses",
+      url: require("../assets/icons8course50-1-11.png"),
+      screen: "HomePage1",
+    },
+    {
+      _id: 2,
+      name: "My Chats",
+      url: require("../assets/icons8chats24-21.png"),
+      screen: "HomePage1",
+    },
+    {
+      _id: 3,
+      name: "My Posts",
+      url: require("../assets/icons8topic24-11.png"),
+      screen: "HomePage1",
+    },
+    {
+      _id: 4,
+      name: "My Connections",
+      url: require("../assets/icons8connection80-11.png"),
+      screen: "MyConnections",
+    },
+    {
+      _id: 5,
+      name: "My Communities",
+      url: require("../assets/icons8myspace350-11.png"),
+      screen: "HomePage1",
+    },
+    {
+      _id: 6,
+      name: "eLearning Page",
+      url: require("../assets/icons8elearning64-11.png"),
+      screen: "HomePage1",
+    },
+    {
+      _id: 7,
+      name: "Scheduled Meetings",
+      url: require("../assets/icons8schedule50-11.png"),
+      screen: "HomePage1",
+    },
+    {
+      _id: 8,
+      name: "Upcoming Sessions",
+      url: require("../assets/icons8sessions32-11.png"),
+      screen: "HomePage1",
+    },
+    {
+      _id: 9,
+      name: "Cart",
+      url: require("../assets/icons8cart24-11.png"),
+      screen: "HomePage1",
+    },
+    {
+      _id: 10,
+      name: "Notifications",
+      url: require("../assets/icons8notifications64-1.png"),
+      screen: "HomePage1",
+    },
+    {
+      _id: 11,
+      name: "Privacy Policy",
+      url: require("../assets/icons8privacypolicy50-1.png"),
+      screen: "HomePage1",
+    },
+    {
+      _id: 12,
+      name: "FAQs",
+      url: require("../assets/icons8faq50-1.png"),
+      screen: "HomePage1",
+    },
+    {
+      _id: 13,
+      name: "Logout",
+      url: require("../assets/icons8logoutroundedleft50-1.png"),
+      screen: "Main",
+    },
+  ]);
+
+  const [TeacherFilteredOrganizations, SetTeacherFilteredOrganizations] =
+    useState([
+        {
+            _id: 14,
+            name: "Home",
+            url: require("../assets/icons8-home-50.png"),
+            screen: "TeacherProfilePage",
+          },
+      {
+        _id: 1,
+        name: "Administrative Tools",
+        url: require("../assets/icons8course50-1-11.png"),
+        screen: "HomePage1",
+      },
+      {
+        _id: 2,
+        name: "My Chats",
+        url: require("../assets/icons8chats24-21.png"),
+        screen: "HomePage1",
+      },
+      {
+        _id: 3,
+        name: "Job Posts",
+        url: require("../assets/icons8topic24-11.png"),
+        screen: "HomePage1",
+      },
+      {
+        _id: 4,
+        name: "My Connections",
+        url: require("../assets/icons8connection80-11.png"),
+        screen: "MyConnections",
+      },
+      {
+        _id: 5,
+        name: "My Communities",
+        url: require("../assets/icons8myspace350-11.png"),
+        screen: "HomePage1",
+      },
+      {
+        _id: 6,
+        name: "My Courses",
+        url: require("../assets/icons8course50-1-1.png"),
+        screen: "HomePage1",
+      },
+      {
+        _id: 7,
+        name: "Scheduled Meetings",
+        url: require("../assets/icons8schedule50-11.png"),
+        screen: "HomePage1",
+      },
+      {
+        _id: 8,
+        name: "My Sessions",
+        url: require("../assets/icons8sessions32-11.png"),
+        screen: "HomePage1",
+      },
+      {
+        _id: 9,
+        name: "Joint Account Requests",
+        url: require("../assets/icons8-user-account-50.png"),
+        screen: "ViewJointAccountRequests",
+      },
+      {
+        _id: 14,
+        name: "Teachers for JA",
+        url: require("../assets/icons8cart24-11.png"),
+        screen: "ViewMemberForJointAccount",
+      },
+      {
+        _id: 10,
+        name: "Notifications",
+        url: require("../assets/icons8notifications64-1.png"),
+        screen: "HomePage1",
+      },
+      {
+        _id: 11,
+        name: "Privacy Policy",
+        url: require("../assets/icons8privacypolicy50-1.png"),
+        screen: "HomePage1",
+      },
+      {
+        _id: 12,
+        name: "FAQs",
+        url: require("../assets/icons8faq50-1.png"),
+        screen: "HomePage1",
+      },
+      {
+        _id: 13,
+        name: "Logout",
+        url: require("../assets/icons8logoutroundedleft50-1.png"),
+        screen: "Main",
+      },
+    ]);
+
+  const context = useContext(StudentProfileContext);
+  const { getProfilePicture } = context;
+  const context1 = useContext(TeacherProfileContext);
+  const { getTeacherProfilePicture } = context1;
+  const [profilePictureUrl, setProfilePictureUrl] = useState("");
+  const [teacherProfilePictureUrl, setTeacherProfilePictureUrl] = useState("");
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+      const role = await AsyncStorage.getItem("role");
+      setRole(role);
+      const response = await getProfilePicture();
+      setProfilePictureUrl(`${host}/${response.profilePictureUrl}`);
+
+      const response1 = await getTeacherProfilePicture();
+      setTeacherProfilePictureUrl(`${host}/${response1.profilePictureUrl}`);
+    };
+
+    fetchProfilePicture();
+  }, []);
+
+  return (
+    <>
+      {display && role == "Student" && (
+        <Menu
+          filteredOrganizations={filteredOrganizations}
+          profilePictureUrl={profilePictureUrl}
+          display={setDisplay}
+        />
+      )}
+      {display && role == "Teacher" && (
+        <Menu
+          filteredOrganizations={TeacherFilteredOrganizations}
+          profilePictureUrl={teacherProfilePictureUrl}
+          display={setDisplay}
+        />
+      )}
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          style={styles.arrowContainer}
+          onPress={() => navigation.navigate(navigate)}
+        >
+          <Image
+            style={styles.arrowIcon}
+            resizeMode="cover"
+            source={require("../assets/icons8arrow24-1.png")}
+          />
+        </TouchableOpacity>
+        <Text style={styles.heading}>{heading}</Text>
+        {flag && (
+          <TouchableOpacity onPress={() => setDisplay(!display)}>
+            <Image
+              style={styles.hamburgerIcon}
+              resizeMode="cover"
+              source={require("../assets/hamburger1.png")}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
-    headerContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        height: 81,
-        backgroundColor: Color.colorSlateblue,
-        paddingHorizontal: 16,
-        borderBottomRightRadius: Border.br_11xl,
-        borderBottomLeftRadius: Border.br_11xl,
-    },
-    hamburgerIcon: {
-        width: 25,
-        height: 16,
-    },
-    heading: {
-        fontSize: FontSize.size_xl,
-        fontWeight: "500",
-        fontFamily: FontFamily.interMedium,
-        color: Color.colorWhite,
-    },
-    arrowIcon: {
-        width: 26,
-        height: 24,
-    },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 81,
+    backgroundColor: Color.colorSlateblue,
+    paddingHorizontal: 16,
+    borderBottomRightRadius: Border.br_11xl,
+    borderBottomLeftRadius: Border.br_11xl,
+  },
+  hamburgerIcon: {
+    width: 25,
+    height: 16,
+  },
+  heading: {
+    fontSize: FontSize.size_xl,
+    fontWeight: "500",
+    fontFamily: FontFamily.interMedium,
+    color: Color.colorWhite,
+  },
+  arrowIcon: {
+    width: 26,
+    height: 24,
+  },
 });
 
 export default Header;
