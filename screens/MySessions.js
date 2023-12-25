@@ -38,7 +38,6 @@ const MySessions = () => {
             const token = await getToken();
             setToken(token);
             const response = await getMySessions();
-
             if (response.liveSessionsByTeacher) {
                 setSessionsData(response.liveSessionsByTeacher);
             }
@@ -67,15 +66,19 @@ const MySessions = () => {
     };
 
     const extractTime = (dateTimeString) => {
-        const dateTime = new Date(dateTimeString);
-        const hours = dateTime.getHours();
-        const minutes = dateTime.getMinutes();
+        const timestamp = "2023-12-26T02:00:00.000+00:00";
+        const userTimezone = 'Asia/Karachi';
+        const dateObject = new Date(dateTimeString);
 
-        const amOrPm = hours >= 12 ? 'PM' : 'AM';
-        const formattedHours = hours % 12 || 12;
-        const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        dateObject.setMinutes(dateObject.getMinutes() + dateObject.getTimezoneOffset() + (Intl.DateTimeFormat().resolvedOptions().timeZone === userTimezone ? 0 : new Date().getTimezoneOffset()));
 
-        return `${formattedHours}:${formattedMinutes} ${amOrPm}`;
+        const formattedTime = new Intl.DateTimeFormat('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        }).format(dateObject);
+
+        return formattedTime;
     };
 
     const handleConfirm = (selectedDate) => {
@@ -89,17 +92,27 @@ const MySessions = () => {
         if (foundSession) {
             const sessionid = foundSession._id;
             const teacherId = foundSession.teacher_id;
-            const json = await getUser(teacherId);
+            const userData = await getUser(teacherId);
             setCurrentSession(sessionid);
-            const userData = json.user_data;
             const name = userData.first_name + ' ' + userData.last_name;
-            navigation.navigate(SCREEN_NAMES.Home , { name: name, token: token, meetingId: meetingId })
+            navigation.navigate(SCREEN_NAMES.Home, { name: name, token: token, meetingId: meetingId })
         }
     };
 
     const handleTimeConfirm = (selectedTime) => {
-        const isoFormattedTime = selectedTime.toISOString().split('T')[1].split('.')[0];
-        setTime(isoFormattedTime);
+        const userTimezone = 'Asia/Karachi';
+
+        const userTimeFormat = new Intl.DateTimeFormat('en-US', {
+            timeZone: userTimezone,
+            hour12: false,
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+        });
+
+        const formattedTime = userTimeFormat.format(selectedTime);
+
+        setTime(formattedTime);
         hideTimePicker();
     };
 
@@ -118,7 +131,7 @@ const MySessions = () => {
         formData.append('title', title);
         formData.append('date', date);
         formData.append('time', time);
-        formData.append('meetingId', _meetingId);
+        formData.append('meeting_id', _meetingId);
 
         if (coverPicture) {
             formData.append('featured_image', {
@@ -133,6 +146,16 @@ const MySessions = () => {
         setDate('');
         setTime('');
         setCoverPicture('');
+
+        const getMySessionsData = async () => {
+            const token = await getToken();
+            setToken(token);
+            const response = await getMySessions();
+            if (response.liveSessionsByTeacher) {
+                setSessionsData(response.liveSessionsByTeacher);
+            }
+        };
+        getMySessionsData();
 
         setAddSessionModalVisible(false);
 
@@ -200,7 +223,7 @@ const MySessions = () => {
         <View style={styles.container}>
             <Header
                 heading={'My Sessions'}
-                navigate="HomePage1"
+                navigate="TeacherHomePage"
             />
             <TouchableOpacity
                 onPress={handleAddSession}
@@ -211,7 +234,7 @@ const MySessions = () => {
 
             <ScrollView showsVerticalScrollIndicator={false}>
                 {sessionsData && sessionsData.map((session) => (
-                    <TouchableOpacity key={session.meeting_id} style={styles.sessionBox}>
+                    <View key={session.meeting_id} style={styles.sessionBox}>
                         <Image source={{ uri: `${host}/${session.featured_image}` }} style={styles.sessionImage} />
                         <View style={styles.sessionDetails}>
                             <View>
@@ -228,7 +251,7 @@ const MySessions = () => {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableOpacity>
+                    </View>
                 ))
                 }
             </ScrollView>
@@ -261,6 +284,7 @@ const MySessions = () => {
                             mode="date"
                             onConfirm={handleConfirm}
                             onCancel={hideDatePicker}
+                            minimumDate={new Date()}
                         />
 
                         <TouchableOpacity onPress={showTimePicker} style={styles.modalInput}>

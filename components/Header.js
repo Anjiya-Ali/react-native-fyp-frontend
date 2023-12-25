@@ -9,7 +9,7 @@ import Menu from "./Menu";
 
 const host = "http://192.168.0.147:3000";
 
-const Header = ({ heading, navigate, flag = true }) => {
+const Header = ({ heading, navigate, flag = true, data={} }) => {
   const navigation = useNavigation();
   const [display, setDisplay] = useState(false);
 
@@ -24,7 +24,7 @@ const Header = ({ heading, navigate, flag = true }) => {
       _id: 1,
       name: "My Courses",
       url: require("../assets/icons8course50-1-11.png"),
-      screen: "HomePage1",
+      screen: "MyCourses",
     },
     {
       _id: 2,
@@ -139,12 +139,6 @@ const Header = ({ heading, navigate, flag = true }) => {
         screen: "HomePage1",
       },
       {
-        _id: 6,
-        name: "My Courses",
-        url: require("../assets/icons8course50-1-1.png"),
-        screen: "HomePage1",
-      },
-      {
         _id: 7,
         name: "Scheduled Meetings",
         url: require("../assets/icons8schedule50-11.png"),
@@ -154,7 +148,7 @@ const Header = ({ heading, navigate, flag = true }) => {
         _id: 8,
         name: "My Sessions",
         url: require("../assets/icons8sessions32-11.png"),
-        screen: "HomePage1",
+        screen: "MySessions",
       },
       {
         _id: 9,
@@ -223,6 +217,7 @@ const Header = ({ heading, navigate, flag = true }) => {
           filteredOrganizations={filteredOrganizations}
           profilePictureUrl={profilePictureUrl}
           display={setDisplay}
+          navigate='StudentProfilePage'
         />
       )}
       {display && role == "Teacher" && (
@@ -230,12 +225,13 @@ const Header = ({ heading, navigate, flag = true }) => {
           filteredOrganizations={TeacherFilteredOrganizations}
           profilePictureUrl={teacherProfilePictureUrl}
           display={setDisplay}
+          navigate='TeacherProfilePage'
         />
       )}
       <View style={styles.headerContainer}>
         <TouchableOpacity
           style={styles.arrowContainer}
-          onPress={() => navigation.navigate(navigate)}
+          onPress={() => navigation.navigate(navigate,data)}
         >
           <Image
             style={styles.arrowIcon}
@@ -252,6 +248,9 @@ const Header = ({ heading, navigate, flag = true }) => {
               source={require("../assets/hamburger1.png")}
             />
           </TouchableOpacity>
+        )}
+        {!flag && (
+          <Text></Text>
         )}
       </View>
     </>

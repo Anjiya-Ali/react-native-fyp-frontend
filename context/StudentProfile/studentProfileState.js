@@ -281,7 +281,7 @@ const studentProfileState = (props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNGY3ODBmY2VmYmE1ZDRjYTRkOGNmIn0sImlhdCI6MTY5Nzk5MzM1NH0.jrMireCI5-yS156WC7cZp4TA9asTZIBhGuhfQEz59lE"
+            "auth-token": token
           },
           body: JSON.stringify({bio})
         });
@@ -303,7 +303,7 @@ const studentProfileState = (props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'multipart/form-data',
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNGY3ODBmY2VmYmE1ZDRjYTRkOGNmIn0sImlhdCI6MTY5Nzk5MzM1NH0.jrMireCI5-yS156WC7cZp4TA9asTZIBhGuhfQEz59lE"
+            "auth-token": token
           },
           body:formData
         });

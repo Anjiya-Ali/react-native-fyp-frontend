@@ -1,14 +1,15 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Text, StyleSheet, TouchableOpacity, View, Image, FlatList, ScrollView, TouchableHighlight, Dimensions } from "react-native";
+import React, { useState, useContext, useEffect, useCallback } from "react";
+import { Text, StyleSheet, TouchableOpacity, View, Image, FlatList, ScrollView, TouchableHighlight, Dimensions, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SearchForm from "../components/SearchForm";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 import StudentProfileContext from "../context/StudentProfile/studentProfileContext";
 import SessionContext from "../context/Sessions/sessionContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getToken } from '../src/api/api';
 import { SCREEN_NAMES } from '../src/navigators/screenNames';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Menu from '../components/Menu'
+import CourseContext from "../context/Courses/courseContext";
 
 const host = "http://192.168.0.147:3000"
 
@@ -47,6 +48,37 @@ const HomePage1 = () => {
     setDisplay(false);
   };
 
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    const fetchLiveSessions = async () => {
+      const response = await getLiveSessions();
+      const id = await AsyncStorage.getItem("id");
+      const userData = await getUser(id);
+      const name = userData.first_name + ' ' + userData.last_name;
+      setName(name);
+      if (response.liveSessions) {
+        setLiveSessions(response.liveSessions);
+      }
+      else{
+        setLiveSessions([]);
+      }
+      const token = await getToken();
+      setToken(token);
+    };
+
+    try {
+      setRefreshing(true);
+      await fetchLiveSessions();
+    } catch (error) {
+      console.error('Error refreshing data:', error);
+    } finally {
+      setRefreshing(false);
+    }
+  }, []);
+
+  const course_context = useContext(CourseContext);
+  const { getUser } = course_context;
   const context = useContext(StudentProfileContext);
   const { getProfilePicture } = context;
   const session_context = useContext(SessionContext);
@@ -61,21 +93,22 @@ const HomePage1 = () => {
       url: require("../assets/icons8-home-50.png"),
       screen: "HomePage1",
     },
-    { _id: 1, name: 'My Courses', url: require("../assets/icons8course50-1-11.png"), screen : "HomePage1" },
-    { _id: 2, name: 'My Chats', url: require("../assets/icons8chats24-21.png"), screen : "HomePage1" },
-    { _id: 3, name: 'My Posts', url: require("../assets/icons8topic24-11.png"), screen : "HomePage1" },
-    { _id: 4, name: 'My Connections', url: require("../assets/icons8connection80-11.png"), screen : "MyConnections" },
-    { _id: 5, name: 'My Communities', url: require("../assets/icons8myspace350-11.png"), screen : "HomePage1" },
-    { _id: 6, name: 'eLearning Page', url: require("../assets/icons8elearning64-11.png"), screen : "HomePage1" },
-    { _id: 7, name: 'Scheduled Meetings', url: require("../assets/icons8schedule50-11.png"), screen : "HomePage1" },
-    { _id: 8, name: 'Upcoming Sessions', url: require("../assets/icons8sessions32-11.png"), screen : "HomePage1" },
-    { _id: 9, name: 'Cart', url: require("../assets/icons8cart24-11.png"), screen : "HomePage1" },
-    { _id: 10, name: 'Notifications', url: require("../assets/icons8notifications64-1.png"), screen : "HomePage1" },
-    { _id: 11, name: 'Privacy Policy', url: require("../assets/icons8privacypolicy50-1.png"), screen : "HomePage1" },
-    { _id: 12, name: 'FAQs', url: require("../assets/icons8faq50-1.png"), screen : "HomePage1" },
-    { _id: 13, name: 'Logout', url: require("../assets/icons8logoutroundedleft50-1.png"), screen : "Main" },
+    { _id: 1, name: 'My Courses', url: require("../assets/icons8course50-1-11.png"), screen: "MyCourses" },
+    { _id: 2, name: 'My Chats', url: require("../assets/icons8chats24-21.png"), screen: "HomePage1" },
+    { _id: 3, name: 'My Posts', url: require("../assets/icons8topic24-11.png"), screen: "HomePage1" },
+    { _id: 4, name: 'My Connections', url: require("../assets/icons8connection80-11.png"), screen: "MyConnections" },
+    { _id: 5, name: 'My Communities', url: require("../assets/icons8myspace350-11.png"), screen: "HomePage1" },
+    { _id: 6, name: 'eLearning Page', url: require("../assets/icons8elearning64-11.png"), screen: "HomePage1" },
+    { _id: 7, name: 'Scheduled Meetings', url: require("../assets/icons8schedule50-11.png"), screen: "HomePage1" },
+    { _id: 8, name: 'Upcoming Sessions', url: require("../assets/icons8sessions32-11.png"), screen: "HomePage1" },
+    { _id: 9, name: 'Cart', url: require("../assets/icons8cart24-11.png"), screen: "HomePage1" },
+    { _id: 10, name: 'Notifications', url: require("../assets/icons8notifications64-1.png"), screen: "HomePage1" },
+    { _id: 11, name: 'Privacy Policy', url: require("../assets/icons8privacypolicy50-1.png"), screen: "HomePage1" },
+    { _id: 12, name: 'FAQs', url: require("../assets/icons8faq50-1.png"), screen: "HomePage1" },
+    { _id: 13, name: 'Logout', url: require("../assets/icons8logoutroundedleft50-1.png"), screen: "Main" },
   ]);
   const [display, setDisplay] = useState(false);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     const fetchProfilePicture = async () => {
@@ -85,6 +118,10 @@ const HomePage1 = () => {
 
     const fetchLiveSessions = async () => {
       const response = await getLiveSessions();
+      const id = await AsyncStorage.getItem("id");
+      const userData = await getUser(id);
+      const name = userData.first_name + ' ' + userData.last_name;
+      setName(name);
       if (response.liveSessions) {
         setLiveSessions(response.liveSessions);
       }
@@ -98,16 +135,18 @@ const HomePage1 = () => {
   }, []);
 
   const handleLiveSessionPress = (meetingId) => {
-    navigation.navigate(SCREEN_NAMES.Home, { name: 'salwa', token: token, meetingId: meetingId });   //name kahan se laun
+    navigation.navigate(SCREEN_NAMES.Home, { name: name, token: token, meetingId: meetingId });   //name kahan se laun
   }
 
   return (
     <View style={{ flex: 1, flexDirection: 'row' }}>
       {display && (
-        <Menu filteredOrganizations = {filteredOrganizations} profilePictureUrl = {profilePictureUrl} display={setDisplay}/>
+        <Menu filteredOrganizations={filteredOrganizations} profilePictureUrl={profilePictureUrl} display={setDisplay} navigate='StudentProfilePage' />
       )}
 
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <ScrollView style={{ flex: 1, backgroundColor: "white" }} refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
         <View style={styles.headerContainer}>
           <TouchableOpacity
             style={styles.arrowContainer}
@@ -132,7 +171,7 @@ const HomePage1 = () => {
             renderItem={({ item }) => <LiveSessionItem item={item} onPress={handleLiveSessionPress} />}
           />
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };

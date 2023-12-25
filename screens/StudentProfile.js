@@ -5,6 +5,7 @@ import { Color } from "../GlobalStyles";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
 import StudentProfileContext from '../context/StudentProfile/studentProfileContext';
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileInfoScreen = (props) => {
     const [bio, setBio] = useState('');
@@ -23,6 +24,7 @@ const ProfileInfoScreen = (props) => {
     const [interestArray, setInterestArray] = useState([]);
     const context = useContext(StudentProfileContext);
     const { addEducation, addProfilePic, addLanguage, addBio, addInterest} = context;
+    const navigation = useNavigation();
 
     const [interestForm, setInterestForm] = useState({
         title: '',

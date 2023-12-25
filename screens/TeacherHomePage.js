@@ -59,12 +59,6 @@ const TeacherHomePage = () => {
       screen: "HomePage1",
     },
     {
-      _id: 6,
-      name: "My Courses",
-      url: require("../assets/icons8course50-1-1.png"),
-      screen: "HomePage1",
-    },
-    {
       _id: 7,
       name: "Scheduled Meetings",
       url: require("../assets/icons8schedule50-11.png"),
@@ -74,7 +68,7 @@ const TeacherHomePage = () => {
       _id: 8,
       name: "My Sessions",
       url: require("../assets/icons8sessions32-11.png"),
-      screen: "HomePage1",
+      screen: "MySessions",
     },
     {
       _id: 9,
@@ -144,7 +138,7 @@ const TeacherHomePage = () => {
 
   return (
     <View style={{ flex: 1, flexDirection: "row" }}>
-      {display && <Menu filteredOrganizations = {filteredOrganizations} profilePictureUrl = {profilePictureUrl} display={setDisplay}/>}
+      {display && <Menu filteredOrganizations = {filteredOrganizations} profilePictureUrl = {profilePictureUrl} display={setDisplay} navigate='TeacherProfilePage'/>}
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <View style={styles.headerContainer}>
           <TouchableOpacity

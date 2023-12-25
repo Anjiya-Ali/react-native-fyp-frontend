@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import CourseContext from "../context/Courses/courseContext";
 
-const Menu = ({ filteredOrganizations, profilePictureUrl, display }) => {
+const Menu = ({ filteredOrganizations, profilePictureUrl, display, navigate }) => {
   const context = useContext(CourseContext);
   const { getUser } = context;
   const navigation = useNavigation();
@@ -71,7 +71,7 @@ const Menu = ({ filteredOrganizations, profilePictureUrl, display }) => {
         >
           <TouchableOpacity
             style={styles.arrowContainer}
-            onPress={() => navigation.navigate("StudentProfilePage")}
+            onPress={() => navigation.navigate(navigate)}
           >
             {profilePictureUrl ? (
               <Image

@@ -189,6 +189,7 @@ const Certificate = (props) => {
           <Header
             heading='YOU DID IT!!'
             navigate="MyCourses"
+            flag={false}
           />
           <View style={styles.container}>
             {isFeedbackOpen && (

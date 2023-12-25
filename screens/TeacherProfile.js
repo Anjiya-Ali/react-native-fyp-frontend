@@ -5,6 +5,7 @@ import { Color } from "../GlobalStyles";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
 import teacherProfileContext from "../context/TeacherProfile/teacherProfileContext";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileInfoScreen = (props) => {
     const [bio, setBio] = useState('');
@@ -39,20 +40,21 @@ const ProfileInfoScreen = (props) => {
         { label: 'Skill 3', value: 'Skill 3' },
     ]);
     const { getSkill, skills, addSkill, addEducation, addExperience, addProfilePic, addCertification, addHaw, addLanguage, addProject, addBio } = context;
+    const navigation = useNavigation();
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         await getSkill();
-    //         const skillData = [];
-    //         for (let i = 0; i < skills.length; i++) {
-    //             const skillName = skills[i];
-    //             skillData.push({ label: skillName, value: skillName });
-    //         }
-    //         setSkillItems(skillData);
-    //     };
+    useEffect(() => {
+        const fetchData = async () => {
+            await getSkill();
+            const skillData = [];
+            for (let i = 0; i < skills.length; i++) {
+                const skillName = skills[i];
+                skillData.push({ label: skillName, value: skillName });
+            }
+            setSkillItems(skillData);
+        };
 
-    //     fetchData();
-    // }, [getSkill, skills]);
+        fetchData();
+    }, [getSkill, skills]);
 
     const [educationForm, setEducationForm] = useState({
         school: '',

@@ -96,6 +96,7 @@ const Quiz = (props) => {
       <Header
         heading='Certification Awaits!'
         navigate="MyCourses"
+        flag={false}
       />
       {questions && answers && (
         <View style={{ flex: 1, marginTop: 20 }}>

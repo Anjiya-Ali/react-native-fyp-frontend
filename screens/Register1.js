@@ -81,6 +81,11 @@ const LoginScreen = () => {
     return (
         <ScrollView style={styles.paybox}>
             <Text style={styles.header}>Login to your Account</Text>
+            {error && (
+                <View style={styles.errorContainer}>
+                    <Text style={styles.errorText}>{error}</Text>
+                </View>
+            )}
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -498,7 +503,11 @@ const RegisterScreen = () => {
             ) : (
                 <ScrollView style={styles.paybox} showsVerticalScrollIndicator={false}>
                     <Text style={styles.header}>Create a New Account</Text>
-
+                    {error && (
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.errorText}>{error}</Text>
+                    </View>
+                    )}
                     <TextInput
                         style={styles.input}
                         placeholder="First Name"

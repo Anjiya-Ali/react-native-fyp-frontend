@@ -138,6 +138,7 @@ const SingleCourse = (props) => {
         <Header
           heading={singlecourse.title}
           navigate="MyCourses"
+          flag={false}
         />
       )}
       {uri && (

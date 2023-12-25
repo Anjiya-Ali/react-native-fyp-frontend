@@ -1,7 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import Button from '../../components/Button';
 import { SCREEN_NAMES } from '../../navigators/screenNames';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from '../../styles/colors';
 import { Color } from '../../../GlobalStyles';
 import SessionContext from '../../../context/Sessions/sessionContext';
@@ -10,8 +11,20 @@ export default function Home({ navigation, route }) {
   const { name, token, meetingId } = route.params;
   const context = useContext(SessionContext);
   const { currentSession, UpdateLiveSessionHls } = context;
-  UpdateLiveSessionHls(currentSession, 'Todo');
-  const Privilege = 'Student';
+  const [Privilege,setPrivilege] = useState('')
+
+  if(Privilege === 'Teacher'){
+    UpdateLiveSessionHls(currentSession, 'Todo');
+  }
+
+  useEffect(() => {
+    const fetchRole = async () => {
+      const Privilege = await AsyncStorage.getItem("role");
+      setPrivilege(Privilege);
+    };
+
+    fetchRole();
+  }, []);
 
   return (
     <SafeAreaView

@@ -5,6 +5,7 @@ import ProgressCircle from 'react-native-progress-circle'
 import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
 const windowWidth = Dimensions.get('window').width;
 import CourseContext from "../context/Courses/courseContext";
+import Header from '../components/Header';
 
 const { height, width } = Dimensions.get('window');
 const MyCourses = (props) => {
@@ -20,25 +21,10 @@ const MyCourses = (props) => {
   if (!myCourses) {
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
-        <View style={[styles.headerPosition, { position: 'relative' }]}>
-          <View style={[styles.headerChild, { flex: 1, width: windowWidth }]} />
-          <Image
-            style={styles.hamburgerIcon}
-            resizeMode="cover"
-            source={require("../assets/hamburger1.png")}
-          />
-          <Text style={styles.myCourses1}>MY COURSES</Text>
-          <TouchableOpacity
-            style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
-            onPress={() => navigation.navigate("HomePage2")}
-          >
-            <Image
-              style={styles.icon}
-              resizeMode="cover"
-              source={require("../assets/icons8arrow24-1.png")}
-            />
-          </TouchableOpacity>
-        </View>
+        <Header
+          heading='MY COURSES'
+          navigate="HomePage1"
+        />
         <View>
           <Text>No Enrolled Courses Yet!</Text>
         </View>
@@ -47,25 +33,10 @@ const MyCourses = (props) => {
   }
   return (
     <ScrollView style={{ flex: 1, flexDirection: 'column' }}>
-      <View style={[styles.headerPosition, { position: 'relative' }]}>
-        <View style={[styles.headerChild, { flex: 1, width: windowWidth }]} />
-        <Image
-          style={styles.hamburgerIcon}
-          resizeMode="cover"
-          source={require("../assets/hamburger1.png")}
-        />
-        <Text style={styles.myCourses1}>MY COURSES</Text>
-        <TouchableOpacity
-          style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}
-          onPress={() => navigation.navigate("HomePage2")}
-        >
-          <Image
-            style={styles.icon}
-            resizeMode="cover"
-            source={require("../assets/icons8arrow24-1.png")}
-          />
-        </TouchableOpacity>
-      </View>
+      <Header
+          heading='MY COURSES'
+          navigate="HomePage1"
+      />
       <View style={styles.parent}>
         {myCourses.map((course) => {
           getCourseCompletion(course._id);
@@ -169,13 +140,17 @@ const styles = StyleSheet.create({
   excelInAgileTypo: {
     height: 46,
     width: 283,
-    color: Color.colorSlateblue,
+    color: 'white',
     fontFamily: FontFamily.interExtraBold,
-    fontWeight: "800",
-    fontSize: 18,
+    fontWeight: "900",
+    fontSize: 20,
     textAlign: "left",
     position: "absolute",
-  },
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+    elevation: 2, // This adds a shadow on Android
+  },  
   myCourses1: {
     fontSize: FontSize.size_xl,
     fontWeight: "500",
