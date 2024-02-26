@@ -24,7 +24,7 @@ const InviteSuccessful = ({ route }) => {
   };
 
   return (
-    <View style={{ flex: 1, flexDirection: 'column', backgroundColor: "#adadad" }}>
+    <View style={{ flex: 1, flexDirection: 'column', backgroundColor: "#d9d9d9" }}>
     <View style={[styles.headerPosition, { position: "relative" }]}>
       <View style={[styles.headerChild, { flex: 1, width: windowWidth }]} />
       <Text style={styles.myCourses1}>INVITED SUCCESSFULLY</Text>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#adadad",
+    backgroundColor: "#d9d9d9",
   },
   image: {
     width: windowWidth * 0.5,

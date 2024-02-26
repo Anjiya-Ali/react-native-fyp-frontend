@@ -77,10 +77,10 @@ const ViewJointAccountRequests = () => {
   };
 
   return (
-    <View style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}>
+    <View style={{ flex: 1, flexDirection: flexD, backgroundColor: "#d9d9d9" }}>
       <Header heading="Joint Account Requests" navigate="TeacherHomePage" />
       <ScrollView
-        style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}
+        style={{ flex: 1, flexDirection: flexD, backgroundColor: "#d9d9d9" }}
       >
         {localRequests.length > 0 && (
           <ScrollView>

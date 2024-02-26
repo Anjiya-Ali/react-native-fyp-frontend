@@ -88,24 +88,24 @@ const HomePage1 = () => {
   const [token, setToken] = useState('');
   const [filteredOrganizations, setFilteredOrganizations] = useState([
     {
-      _id: 14,
+      _id: 1,
       name: "Home",
       url: require("../assets/icons8-home-50.png"),
       screen: "HomePage1",
     },
-    { _id: 1, name: 'My Courses', url: require("../assets/icons8course50-1-11.png"), screen: "MyCourses" },
-    { _id: 2, name: 'My Chats', url: require("../assets/icons8chats24-21.png"), screen: "HomePage1" },
-    { _id: 3, name: 'My Posts', url: require("../assets/icons8topic24-11.png"), screen: "HomePage1" },
-    { _id: 4, name: 'My Connections', url: require("../assets/icons8connection80-11.png"), screen: "MyConnections" },
-    { _id: 5, name: 'My Communities', url: require("../assets/icons8myspace350-11.png"), screen: "HomePage1" },
-    { _id: 6, name: 'eLearning Page', url: require("../assets/icons8elearning64-11.png"), screen: "HomePage1" },
-    { _id: 7, name: 'Scheduled Meetings', url: require("../assets/icons8schedule50-11.png"), screen: "HomePage1" },
-    { _id: 8, name: 'Upcoming Sessions', url: require("../assets/icons8sessions32-11.png"), screen: "HomePage1" },
-    { _id: 9, name: 'Cart', url: require("../assets/icons8cart24-11.png"), screen: "HomePage1" },
-    { _id: 10, name: 'Notifications', url: require("../assets/icons8notifications64-1.png"), screen: "HomePage1" },
-    { _id: 11, name: 'Privacy Policy', url: require("../assets/icons8privacypolicy50-1.png"), screen: "HomePage1" },
-    { _id: 12, name: 'FAQs', url: require("../assets/icons8faq50-1.png"), screen: "HomePage1" },
-    { _id: 13, name: 'Logout', url: require("../assets/icons8logoutroundedleft50-1.png"), screen: "Main" },
+    { _id: 2, name: 'My Courses', url: require("../assets/icons8course50-1-11.png"), screen: "MyCourses" },
+    { _id: 3, name: 'My Chats', url: require("../assets/icons8chats24-21.png"), screen: "MyChats" },
+    { _id: 4, name: 'My Posts', url: require("../assets/icons8topic24-11.png"), screen: "HomePage1" },
+    { _id: 5, name: 'My Connections', url: require("../assets/icons8connection80-11.png"), screen: "MyConnections" },
+    { _id: 6, name: 'My Communities', url: require("../assets/icons8myspace350-11.png"), screen: "HomePage1" },
+    { _id: 7, name: 'eLearning Page', url: require("../assets/icons8elearning64-11.png"), screen: "HomePage1" },
+    { _id: 8, name: 'Scheduled Meetings', url: require("../assets/icons8schedule50-11.png"), screen: "HomePage1" },
+    { _id: 9, name: 'Upcoming Sessions', url: require("../assets/icons8sessions32-11.png"), screen: "HomePage1" },
+    { _id: 10, name: 'Cart', url: require("../assets/icons8cart24-11.png"), screen: "HomePage1" },
+    { _id: 11, name: 'Notifications', url: require("../assets/icons8notifications64-1.png"), screen: "HomePage1" },
+    { _id: 12, name: 'Privacy Policy', url: require("../assets/icons8privacypolicy50-1.png"), screen: "HomePage1" },
+    { _id: 13, name: 'FAQs', url: require("../assets/icons8faq50-1.png"), screen: "HomePage1" },
+    { _id: 14, name: 'Logout', url: require("../assets/icons8logoutroundedleft50-1.png"), screen: "Main" },
   ]);
   const [display, setDisplay] = useState(false);
   const [name, setName] = useState('');
@@ -132,7 +132,7 @@ const HomePage1 = () => {
     fetchProfilePicture();
     fetchLiveSessions();
 
-  }, []);
+  });
 
   const handleLiveSessionPress = (meetingId) => {
     navigation.navigate(SCREEN_NAMES.Home, { name: name, token: token, meetingId: meetingId });   //name kahan se laun

@@ -38,7 +38,7 @@ const TeacherHomePage = () => {
       _id: 2,
       name: "My Chats",
       url: require("../assets/icons8chats24-21.png"),
-      screen: "HomePage1",
+      screen: "CometChatCallLogParticipants",
     },
     {
       _id: 3,
@@ -116,7 +116,7 @@ const TeacherHomePage = () => {
     };
 
     fetchProfilePicture();
-  }, []);
+  });
 
   const onClickHandler = () => {
     setDisplay(false);

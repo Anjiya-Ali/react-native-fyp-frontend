@@ -74,7 +74,7 @@ const UpdateSingleHawScreenT = ({ route }) => {
   const flexD = "column";
 
   return (
-    <ScrollView style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}>
+    <ScrollView style={{ flex: 1, flexDirection: flexD, backgroundColor: "#d9d9d9" }}>
       <View style={[styles.headerPosition, { position: "relative" }]}>
         <View style={[styles.headerChild, { flex: 1, width: windowWidth }]} />
         <TouchableOpacity
@@ -112,11 +112,11 @@ const UpdateSingleHawScreenT = ({ route }) => {
               value={value}
               style={{
                 inputAndroid: {
-                  backgroundColor: '#adadad',
+                  backgroundColor: '#d9d9d9',
                   color: 'black',
                 },
                 inputIOS: {
-                  backgroundColor: '#adadad',
+                  backgroundColor: '#d9d9d9',
                   color: 'black',
                 },
               }}

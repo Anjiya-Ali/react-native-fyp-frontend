@@ -104,9 +104,9 @@ const MyConnections = () => {
         You have {allConnections.length} connections
       </Text>
     </View>
-      <View style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}>
+      <View style={{ flex: 1, flexDirection: flexD, backgroundColor: "#d9d9d9" }}>
       <ScrollView
-        style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}
+        style={{ flex: 1, flexDirection: flexD, backgroundColor: "#d9d9d9" }}
       >
         {localRequests.length > 0 && (
           <ScrollView>

@@ -11,9 +11,9 @@ const Section1Screen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad", justifyContent: "center", marginBottom: "30%" }}>
+      <View style={{ flex: 1, flexDirection: flexD, backgroundColor: Color.colorGainsboro_200, justifyContent: "center", marginBottom: '30%' }}>
         <Image
-          source={require("../assets/image1.jpg")}
+          source={require("../assets/image1.png")}
           style={styles.imageStyle}
           
         />
@@ -23,15 +23,15 @@ const Section1Screen = () => {
         </Text>
         <View style={styles.ellipsesContainer}>
           <Image
-            source={require("../assets/ellipse-17.png")}
+            source={require("../assets/eclipse1.png")}
             style={styles.ellipseImage}
           />
           <Image
-            source={require("../assets/ellipse-21.png")}
+            source={require("../assets/eclipse2.png")}
             style={styles.ellipseImage}
           />
           <Image
-            source={require("../assets/ellipse-21.png")}
+            source={require("../assets/eclipse2.png")}
             style={styles.ellipseImage}
           />
         </View>
@@ -63,26 +63,26 @@ const styles = StyleSheet.create({
         marginTop: 20,
       },
       ellipseImage: {
-        width: 17,
-        height: 20,
+        width: 13,
+        height: 13,
         marginHorizontal: 8,
       },
     imageStyle: {
         width: "100%",
-        height: 250,
+        height: 300,
         borderRadius: 10,
       },
       heading: {
-        fontSize: 35,
+        fontSize: 25,
         fontWeight: 'bold',
         marginBottom: 10,
-        marginTop: 10,
         textAlign: "center",
         color: "black",
         fontFamily: FontFamily.javaneseText,
       },
       description: {
-        fontSize: 20,
+        fontSize: 15,
+        margin: 8,
         textAlign: 'center',
         color: 'black',
         fontFamily: FontFamily.javaneseText,
@@ -90,12 +90,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#adadad",
+    backgroundColor: "#d9d9d9",
   },
   scrollViewContainer: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#adadad",
+    backgroundColor: "#d9d9d9",
   },
   headerPosition: {
     height: 100,

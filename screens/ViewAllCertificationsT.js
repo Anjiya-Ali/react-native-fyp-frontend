@@ -30,7 +30,7 @@ const ViewAllCertificationsT = ({ route }) => {
   }
 
   return (
-    <ScrollView style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}>
+    <ScrollView style={{ flex: 1, flexDirection: flexD, backgroundColor: "#d9d9d9" }}>
       <View style={[styles.headerPosition, { position: "relative" }]}>
         <TouchableOpacity
           style={[styles.icons8Arrow241, { left: windowWidth * 0.035 }]}

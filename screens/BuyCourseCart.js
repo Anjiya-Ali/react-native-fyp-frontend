@@ -5,22 +5,23 @@ import { Color, Border, FontFamily, FontSize } from "../GlobalStyles";
 import CourseContext from "../context/Courses/courseContext";
 import CartContext from "../context/Cart/cartContext";
 
-const BuyCourseCart = () => {
+const BuyCourseCart = (props) => {
   const navigation = useNavigation();
   const cartContext = useContext(CartContext);
   const context = useContext(CourseContext);
   const { cart, addToCart, removeFromCart } = cartContext;
   const { getSingleCourse, course, user, getUser } = context;
-  const host = 'http://192.168.1.112:3000';
+  const host = 'http://192.168.0.147:3000';
   const [courseDetails, setCourseDetails] = useState(null);
   const [total, setTotal] = useState(0);
   const [instructors, setInstructors] = useState([]);
+  const { navigate } = props.route.params || { navigate: 'HomePage1' };
 
   useEffect(() => {
     const fetchCourses = async () => {
       const courseDetailsPromises = cart.map(async (courseId) => {
-        await getSingleCourse(courseId);
-        return course;
+        const courseee = await getSingleCourse(courseId);
+        return courseee;
       });
   
       try {
@@ -59,7 +60,7 @@ const BuyCourseCart = () => {
     <View style={[styles.buyCourseCart, styles.buyChildShadowBox1]}>
       <TouchableOpacity
         style={[styles.icons8Back481, styles.icons8Back481Position]}
-        onPress={() => navigation.navigate("CoursesE1")}
+        onPress={() => navigation.navigate(navigate)}
       >
         <Image
           style={styles.icon}
@@ -83,7 +84,7 @@ const BuyCourseCart = () => {
                 <Text style={[styles.text, styles.textText]}>{total}$</Text>
               </View>
             )}
-            {!cart && !courseDetails && (
+            {(!cart || Array.isArray(cart) && cart.length === 0) && !courseDetails && (
               <View>
                 <Text style={styles.emptycart}>YOUR CART IS EMPTY!!</Text>
                 <Text style={styles.emptyottom}>Add Courses in the cart from ELearning Page :)</Text>
@@ -370,7 +371,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
   },
   emptyottom: {
-    marginTop: '30%',
+    marginTop: '10%',
     fontSize: FontSize.size_sm,
     textAlign: "center",
     color: Color.colorSlateblue,

@@ -153,7 +153,7 @@ const OtherProfilePage = ( {route} ) => {
 
   return (
     <ScrollView
-      style={{ flex: 1, flexDirection: flexD, backgroundColor: "#adadad" }}
+      style={{ flex: 1, flexDirection: flexD, backgroundColor: "#d9d9d9" }}
     >
       {privilege === "Student" && (
         <>

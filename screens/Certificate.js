@@ -183,46 +183,48 @@ const Certificate = (props) => {
   };
 
   return (
-    <View style={styles.container}>
-      {certificatePath && (
-        <>
-          <Header
-            heading='YOU DID IT!!'
-            navigate="MyCourses"
-            flag={false}
-          />
-          <View style={styles.container}>
-            {isFeedbackOpen && (
-              <FeedbackPopup
-                onClose={handleCloseFeedback}
-                onSubmit={handleFeedbackSubmit}
-              />
-            )}
-            <View style={styles.congrats}>
-              <Text style={[styles.congratulations]}>
-                CONGRATULATIONS
-              </Text>
-              <Text style={[styles.youHaveSuccessfully]}>
-                YOU HAVE SUCCESSFULLY COMPLETED YOUR TEST
-              </Text>
-            </View>
+    <>
+      <Header
+        heading='YOU DID IT!!'
+        navigate="MyCourses"
+        flag={false}
+      />
+      <View style={styles.container}>
+        {certificatePath && (
+          <>
+            <View style={styles.container}>
+              {isFeedbackOpen && (
+                <FeedbackPopup
+                  onClose={handleCloseFeedback}
+                  onSubmit={handleFeedbackSubmit}
+                />
+              )}
+              <View style={styles.congrats}>
+                <Text style={[styles.congratulations]}>
+                  CONGRATULATIONS
+                </Text>
+                <Text style={[styles.youHaveSuccessfully]}>
+                  YOU HAVE SUCCESSFULLY COMPLETED YOUR TEST
+                </Text>
+              </View>
 
-            <View style={styles.certificate}>
-              <RenderHtml
-                contentWidth={width}
-                source={source}
-                renderersProps={renderersProps}
-              />
+              <View style={styles.certificate}>
+                <RenderHtml
+                  contentWidth={width}
+                  source={source}
+                  renderersProps={renderersProps}
+                />
+              </View>
+              <View>
+                <TouchableOpacity onPress={handleDownloadCertificate} style={styles.button}>
+                  <Text style={styles.buttonText}>Download Certificate</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View>
-              <TouchableOpacity onPress={handleDownloadCertificate} style={styles.button}>
-                <Text style={styles.buttonText}>Download Certificate</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </>
-      )}
-    </View>
+          </>
+        )}
+      </View>
+    </>
   );
 };
 

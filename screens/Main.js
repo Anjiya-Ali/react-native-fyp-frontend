@@ -34,10 +34,10 @@ const Main = () => {
     const role = await AsyncStorage.getItem('role');
 
     if (token) {
-      if(role == 'Student'){
+      if (role == 'Student') {
         navigation.navigate('HomePage1');
       }
-      if(role == 'Teacher'){
+      if (role == 'Teacher') {
         navigation.navigate('TeacherHomePage');
       }
     }
@@ -64,31 +64,42 @@ const Main = () => {
 
   // Once loading is done, render the main content
   return (
-      <Tab.Navigator screenOptions={{
+    <Tab.Navigator
+      screenOptions={{
         swipeEnabled: true,
-      }}>
-        <Tab.Screen name="Section1Screen" component={Section1Screen} options={{
+      }}
+      tabBarOptions={{
+        style: {
+          display: 'none', // Hide the tab bar
+        },
+      }}
+    >
+      <Tab.Screen
+        name="Section1Screen"
+        component={Section1Screen}
+        options={{
           title: 'COURSE HUB',
-          headerStyle: {
-            backgroundColor: 'blue',
-          },
-          headerTintColor: '#fff',
-        }} />
-        <Tab.Screen name="Section2Screen" component={Section2Screen} options={{
+          headerShown: false, // Hide the top navigator bar for this screen
+        }}
+      />
+      <Tab.Screen
+        name="Section2Screen"
+        component={Section2Screen}
+        options={{
           title: 'TALENT MATCH',
-          headerStyle: {
-            backgroundColor: 'blue',
-          },
-          headerTintColor: '#fff',
-        }} />
-        <Tab.Screen name="Section3Screen" component={Section3Screen} options={{
+          headerShown: false, // Hide the top navigator bar for this screen
+        }}
+      />
+      <Tab.Screen
+        name="Section3Screen"
+        component={Section3Screen}
+        options={{
           title: 'LIVE CONNECT',
-          headerStyle: {
-            backgroundColor: 'blue',
-          },
-          headerTintColor: '#fff',
-        }} />
-      </Tab.Navigator>
+          headerShown: false, // Hide the top navigator bar for this screen
+        }}
+      />
+    </Tab.Navigator>
+
   );
 };
 
